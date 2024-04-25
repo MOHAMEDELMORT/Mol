@@ -4,6 +4,14 @@ from pyrogram import filters
 from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message
 from youtubesearchpython.__future__ import VideosSearch
+from PIL import Image, ImageDraw, ImageFont
+import asyncio, os, time, aiohttp
+from pathlib import Path
+from PIL import Image, ImageDraw, ImageFont
+from asyncio import sleep
+from pyrogram import filters, Client, enums
+from pyrogram.enums import ParseMode
+from typing import Union, Optional
 
 import config
 from AarohiX import app
@@ -34,6 +42,7 @@ async def start_pm(client, message: Message, _):
         if name[0:4] == "help":
             keyboard = first_page(_)
             return await message.reply_photo(
+                bg_path=bg_path,
                 photo=config.START_IMG_URL,
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
@@ -103,12 +112,53 @@ async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     await message.reply_photo(
+        bg_path=bg_path,
         photo=config.START_IMG_URL,
         caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
         reply_markup=InlineKeyboardMarkup(out),
     )
     return await add_served_chat(message.chat.id)
 
+async def get_userinfo_img(
+    bg_path: str,
+    font_path: str,
+    user_id: Union[int, str],    
+    profile_path: Optional[str] = None
+):
+    bg = Image.open(bg_path)
+
+    if profile_path:
+        img = Image.open(profile_path)
+        mask = Image.new("L", img.size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.pieslice([(0, 0), img.size], 0, 360, fill=255)
+
+        circular_img = Image.new("RGBA", img.size, (0, 0, 0, 0))
+        circular_img.paste(img, (0, 0), mask)
+        resized = circular_img.resize((514, 514))
+        bg.paste(resized, (94, 102), resized)
+
+    img_draw = ImageDraw.Draw(bg)
+
+    img_draw.text(
+        (260, 645),
+        text=str(user_id).upper(),
+        font=get_font(46, font_path),
+        fill=(255, 255, 255),
+    )
+
+
+    path = f"./userinfo_img_{user_id}.png"
+    bg.save(path)
+    return path
+   
+
+# --------------------------------------------------------------------------------- #
+
+bg_path = "AnonXMusic/assets/adipic.png"
+font_path = "AnonXMusic/assets/adisa.ttf"
+
+# --------------------------------------------------------------------------------- #
 
 @app.on_message(filters.new_chat_members, group=-1)
 async def welcome(client, message: Message):
@@ -138,6 +188,7 @@ async def welcome(client, message: Message):
 
                 out = start_panel(_)
                 await message.reply_photo(
+                    bg_path=bg_path,
                     photo=config.START_IMG_URL,
                     caption=_["start_3"].format(
                         message.from_user.first_name,

@@ -11,7 +11,7 @@
 </h3>
 
 <p align="center">
-<a href="https://telegram.me/AlmortagelTech"><img src="https://img.shields.io/badge/-DEV%20SuoRce-blue.svg?style=for-the-badge&logo=Telegram"></a>
+<a href="https://telegram.me/Almortagel_12"><img src="https://img.shields.io/badge/-DEV%20SuoRce-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p>
 
 <p align="center">
@@ -19,5 +19,5 @@
 </p>
 
 <p align="center">
-<a href="https://telegram.me/Almortagel_12"><img src="https://img.shields.io/badge/-Support%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
+<a href="https://telegram.me/AlmortagelTech2"><img src="https://img.shields.io/badge/-Support%20Channel-blue.svg?style=for-the-badge&logo=Telegram"></a>
 </p

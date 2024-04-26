@@ -1,6 +1,6 @@
 from pyrogram import filters
 from pyrogram.types import *
-from AarohiX import app
+from Almortagel import app
 from gpytranslate import Translator
 
 #.......

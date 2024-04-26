@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-from AarohiX import app
+from Almortagel import app
 from config import BOT_USERNAME
 
 

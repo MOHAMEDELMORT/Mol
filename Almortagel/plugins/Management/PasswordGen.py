@@ -1,6 +1,6 @@
 import random, os
 from pyrogram import Client, filters, enums 
-from AarohiX import app
+from Almortagel import app
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 

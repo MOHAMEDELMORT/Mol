@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from gtts import gTTS
-from AarohiX import app
+from Almortagel import app
 
 
 @app.on_message(filters.command('tts'))

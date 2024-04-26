@@ -1,10 +1,10 @@
-from AarohiX import app
+from Almortagel import app
 from config import BOT_USERNAME
 from pyrogram import filters
-from AarohiX.utils.admin_check import admin_filter
-from AarohiX.utils.Databases.notesdb import *
-from AarohiX.utils.function.notes_func import GetNoteMessage, exceNoteMessageSender, privateNote_and_admin_checker
-from AarohiX.utils.Databases.adisadb import user_admin
+from Almortagel.utils.admin_check import admin_filter
+from Almortagel.utils.Databases.notesdb import *
+from Almortagel.utils.function.notes_func import GetNoteMessage, exceNoteMessageSender, privateNote_and_admin_checker
+from Almortagel.utils.Databases.adisadb import user_admin
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup , Message , CallbackQuery
 from pyrogram.enums import ChatMemberStatus
 

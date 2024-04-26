@@ -1,8 +1,8 @@
 import asyncio
 from pyrogram.enums import ChatType, ChatMemberStatus
-from AarohiX import app
+from Almortagel import app
 from pyrogram import filters
-from AarohiX.utils.admin_check import admin_filter
+from Almortagel.utils.admin_check import admin_filter
 
 
 

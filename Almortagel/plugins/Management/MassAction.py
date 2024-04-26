@@ -1,9 +1,9 @@
-from AarohiX import app
+from Almortagel import app
 from config import OWNER_ID
 from pyrogram import filters, enums
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-from AarohiX.utils.admin_check import admin_filter
-from AarohiX.misc import SUDOERS
+from Almortagel.utils.admin_check import admin_filter
+from Almortagel.misc import SUDOERS
 
 BOT_ID = app.me.id 
 

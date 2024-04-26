@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 import requests
-from AarohiX import app 
+from Almortagel import app 
 
 @app.on_message(filters.command("meme"))
 def meme_command(client, message):

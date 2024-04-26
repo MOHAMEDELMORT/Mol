@@ -1,8 +1,8 @@
 from pyrogram import Client, filters
-from AarohiX.core.userbot import Userbot
+from Almortagel.core.userbot import Userbot
 from pyrogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from config import LOGGER_ID as LOG_ID
-from AarohiX import app
+from Almortagel import app
 
 
 userbot = Userbot()

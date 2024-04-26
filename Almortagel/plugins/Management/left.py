@@ -1,4 +1,4 @@
-from AarohiX import app
+from Almortagel import app
 from pyrogram import Client, filters
 from pyrogram.errors import RPCError
 from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
@@ -52,8 +52,8 @@ async def get_userinfo_img(
 
 # --------------------------------------------------------------------------------- #
 
-bg_path = "AarohiX/assets/userinfo.png"
-font_path = "AarohiX/assets/hiroko.ttf"
+bg_path = "Almortagel/assets/userinfo.png"
+font_path = "Almortagel/assets/hiroko.ttf"
 
 # --------------------------------------------------------------------------------- #
 

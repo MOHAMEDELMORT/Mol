@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 import random
-from AarohiX import app
+from Almortagel import app
 
 VALID_PREFIXES = [4, 5, 6, 3]
 

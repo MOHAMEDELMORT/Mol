@@ -63,7 +63,7 @@ REPLY_MESSAGE_BUTTONS = [
 ]
 
 @app.on_message(filters.regex(["^/start"]) group=39)
-async def start_gp(client, message: Message, _):             
+async def start_gp(_,client, message):             
         text = REPLY_MESSAGE
         reply_markup = ReplyKeyboardMarkup(REPLY_MESSAGE_BUTTONS, resize_keyboard=True, selective=True)
         await message.reply(

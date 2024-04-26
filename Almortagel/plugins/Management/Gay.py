@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 import random
-from AarohiX import app
+from Almortagel import app
 
 def calculate_gay_percentage():
     return random.randint(1, 100)

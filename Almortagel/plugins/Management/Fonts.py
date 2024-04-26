@@ -1,6 +1,6 @@
 import os
-from AarohiX import app
-from AarohiX.utils.decorators.font_string import Fonts
+from Almortagel import app
+from Almortagel.utils.decorators.font_string import Fonts
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 

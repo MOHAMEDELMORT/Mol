@@ -1,6 +1,7 @@
 import math
 import config
 from config import SUPPORT_CHAT, OWNER_ID
+from config import OWNER_NAME
 from pyrogram.types import InlineKeyboardButton
 
 from Almortagel.utils.formatters import time_to_seconds

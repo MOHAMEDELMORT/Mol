@@ -6,7 +6,7 @@ from Almortagel import app
 # Replace the following line with your actual OWNER_ID
 OWNER_ID = 123456789
 
-@app.on_message(filters.command(['بوت'], prefixes=""))
+@app.on_message(filters.command(['بوت'], ""))
 async def Italymusic(client: Client, message: Message):
     me = await client.get_me()
     bot_username = me.username

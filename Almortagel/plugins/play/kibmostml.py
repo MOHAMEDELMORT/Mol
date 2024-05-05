@@ -11,7 +11,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 
 from Almortagel import app
 from random import  choice, randint
-
+بب
 @app.on_message(
     command(["صوره", "🕷", "صورهه", "صور"])
 )

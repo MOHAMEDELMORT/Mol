@@ -11,9 +11,9 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 
 from Almortagel import app
 from random import  choice, randint
-بب
+
 @app.on_message(
-    command(["صوره", "🕷", "صورهه", "صور"])
+    command(["صورهه", "صور"])
 )
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,75)
@@ -200,8 +200,6 @@ async def ihd(client: Client, message: Message):
             ]
         )
     )
-  
-@app.on_message(
     command(["استوري", "استوريهات. 🥹"]) 
 )
 async def ihd(client: Client, message: Message):

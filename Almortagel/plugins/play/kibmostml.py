@@ -12,7 +12,7 @@ from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, 
 from Almortagel import app
 from random import  choice, randint
 
-@app.on_message(filters.command(["صوره", "🕷", "صورهه", "صور"], ""))
+@app.on_message(command(["صوره", "🕷", "صورهه", "صور"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,75)
     url = f"https://t.me/vnnkli/{rl}"
@@ -28,7 +28,7 @@ async def ihd(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command(["انميي", "انمي"], ""))
+@app.on_message(command(["انميي", "انمي"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(3,153)
     url = f"https://t.me/LoreBots7/{rl}"
@@ -44,7 +44,7 @@ async def ihd(client: Client, message: Message):
     )
 
 
-@app.on_message(filters.command(["متحركه. 🎬", "متحركه"], ""))
+@app.on_message(command(["متحركه. 🎬", "متحركه"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,926)
     url = f"https://t.me/GifWaTaN/{rl}"
@@ -59,7 +59,7 @@ async def ihd(client: Client, message: Message):
         )
     )
 
-@app.on_message(filters.command(["تلاوات", "تلاوة"], ""))
+@app.on_message(command(["تلاوات", "تلاوة"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(24,618)
     url = f"https://t.me/EIEI06/{rl}"
@@ -74,7 +74,7 @@ async def ihd(client: Client, message: Message):
         )
     )
     
-@app.on_message(filters.command(["اقتباسات", "اقتباس"], ""))
+@app.on_message(command(["اقتباسات", "اقتباس"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(3,102)
     url = f"https://t.me/LoreBots9/{rl}"
@@ -89,7 +89,7 @@ async def ihd(client: Client, message: Message):
         )
     )
 
-@app.on_message(filters.command(["هيدرا", "هيدرات"], ""))
+@app.on_message(command(["هيدرا", "هيدرات"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,153)
     url = f"https://t.me/flflfldld/{rl}"
@@ -104,7 +104,7 @@ async def ihd(client: Client, message: Message):
         )
     )
 
-@app.on_message(filters.command(["صور", "افاتار بنات"], ""))
+@app.on_message(command(["صور", "افاتار بنات"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,216)
     url = f"https://t.me/vvyuol/{rl}"
@@ -119,7 +119,7 @@ async def ihd(client: Client, message: Message):
         )
     )
 
-@app.on_message(filters.command(["صور شباب", "افاتار شباب"], ""))
+@app.on_message(command(["صور شباب", "افاتار شباب"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,148)
     url = f"https://t.me/vgbmm/{rl}"
@@ -134,7 +134,7 @@ async def ihd(client: Client, message: Message):
         )
     )
 
-@app.on_message(filters.command(["سورة"], ""))
+@app.on_message(command(["سورة"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,82)
     url = f"https://t.me/opuml/{rl}"
@@ -149,7 +149,7 @@ async def ihd(client: Client, message: Message):
         )
     )
 
-@app.on_message(filters.command(["الشيخ", "النقشبندي", "نقشبندي"], ""))
+@app.on_message(command(["الشيخ", "النقشبندي", "نقشبندي"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,114)
     url = f"https://t.me/ggcnjj/{rl}"
@@ -164,7 +164,7 @@ async def ihd(client: Client, message: Message):
         )
     )
     
-@app.on_message(filters.command(["عبدالباسط", "عبدالباسط عبدالصمد"], ""))
+@app.on_message(command(["عبدالباسط", "عبدالباسط عبدالصمد"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(7,265)
     url = f"https://t.me/telawatnader/{rl}"
@@ -179,7 +179,7 @@ async def ihd(client: Client, message: Message):
         )
     )
     
-@app.on_message(filters.command(["استوري", "استوريهات. 🥹"], ""))
+@app.on_message(command(["استوري", "استوريهات. 🥹"], ""))
 async def ihd(client: Client, message: Message):
     rl = random.randint(2,148)
     url = f"https://t.me/yoipopl/{rl}"

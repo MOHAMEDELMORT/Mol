@@ -9,7 +9,7 @@ from Almortagel.core.call import Dil
 
 @app.on_message(filters.command(["قران"],""))
 async def quran(c,msg):
-    quran = json.loads(open("./Almortagel/assets/quran.json").read())["s"]
+    quran = json.loads(open("Almortagel/assets/quran.json").read())["s"] # ملف القران الي بستخدمه بتاع @devzaid 
     keyboard = []
     list = []
     for i in range(1,11):
@@ -27,7 +27,7 @@ async def quran(c,msg):
 async def next_quran(c,cq):
     data = (cq.data.strip()).split("-")
     number = int(data[1])
-    quran = json.loads(open("./Almortagel/assets/quran.json").read())["s"]
+    quran = json.loads(open("Almortagel/assets/quran.json").read())["s"] # ملف القران الي بستخدمه بتاع @devzaid 
     keyboard = []
     list = []
     if (number*10) == 110:
@@ -66,7 +66,7 @@ async def next_quran(c,cq):
 async def show_quran(c,cq):
     data = (cq.data.strip()).split("-")
     number = int(data[1])
-    quran = json.loads(open("./Almortagel/assets/quran.json").read())["s"]
+    quran = json.loads(open("Almortagel/assets/quran.json").read())["s"] # ملف القران الي بستخدمه بتاع @devzaid 
     keyboard = []
     list = []
     for i in range(0,10):
@@ -91,12 +91,12 @@ async def show_quran(c,cq):
     data = (cq.data.strip()).split("-")
     number = int(data[1])
     i = int(data[2])
-    quran = json.loads(open("./Almortagel/assets/quran.json").read())["s"] # ملف القران الي بستخدمه بتاع @devzaid 
+    quran = json.loads(open("Almortagel/assets/quran.json").read())["s"] # ملف القران الي بستخدمه بتاع @devzaid 
     name = quran[number]["surah"]
     per_name = quran[number]["sounds"][i]["name"]
     file = requests.get(quran[number]["sounds"][i]["url"]).content
     open(f"{name}.mp3","wb").write(file)
-    await app.send_audio(cq.message.chat.id,f"{name}.mp3",f"- سورة {name} بصوت الشيخ {per_name}","\n- powered by: @Almortagel_12 ",reply_markup = ikm([[ikb(". تشغيل .", callback_data=f"done-{number}-{i}")]]))
+    await app.send_audio(cq.message.chat.id,f"{name}.mp3",f"- سورة {name} بصوت الشيخ {per_name}\n- powered by : @Almortagel_12 ",reply_markup = ikm([[ikb(". تشغيل .", callback_data=f"done-{number}-{i}")]]))
 
 
 @app.on_callback_query(filters.regex("done") & ~BANNED_USERS)
@@ -104,7 +104,7 @@ async def show_quran(c,cq):
     data = (cq.data.strip()).split("-")
     number = int(data[1])
     i = int(data[2])
-    quran = json.loads(open("./Almortagel/assets/quran.json").read())["s"]
+    quran = json.loads(open("Almortagel/assets/quran.json").read())["s"] # ملف القران الي بستخدمه بتاع @devzaid 
     try:
         await Dil.join_call(cq.message.chat.id, cq.message.chat.id, quran[number]["sounds"][i]["url"], video=None)
         await cq.edit_message_reply_markup(ikm([[ikb(". ايقاف مؤقت .", callback_data = f"ADMIN Pause|{cq.message.chat.id}"),ikb(". استئناف .", callback_data=f"ADMIN Resume|{cq.message.chat.id}")],[ikb(". ايقاف .", callback_data = f"ADMIN Stop|{cq.message.chat.id}")]]))

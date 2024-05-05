@@ -1,7 +1,6 @@
 import math
 import config
 from config import SUPPORT_CHAT, OWNER_ID
-from config import OWNER_NAME
 from pyrogram.types import InlineKeyboardButton
 
 from Almortagel.utils.formatters import time_to_seconds
@@ -21,7 +20,7 @@ def track_markup(_, videoid, user_id, channel, fplay):
         ],
         [
             InlineKeyboardButton(
-                text="", url=f"tg://openmessage?user_id={OWNER_ID}",
+                text="المطور", url=f"tg://openmessage?user_id={OWNER_ID}",
             ),
             InlineKeyboardButton(
                 text="「 الدعم 」", url=SUPPORT_CHAT,

@@ -200,6 +200,7 @@ async def ihd(client: Client, message: Message):
             ]
         )
     )
+@app.on_message(
     command(["استوري", "استوريهات. 🥹"]) 
 )
 async def ihd(client: Client, message: Message):

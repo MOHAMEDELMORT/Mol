@@ -22,16 +22,12 @@ async def huhh(client: Client, message: Message):
             [
                 [
                     InlineKeyboardButton(
-                text="𝚂𝙾𝚄𝚁𝙲𝙴⁩", url=f"https://t.me/AlmortagelTech"
-                        ),
-           InlineKeyboardButton(
-                text="𝙶𝚁𝙾𝚄𝙿", url=f"https://t.me/AlmortagelTech2"
-            ),
-        ],
-        [
-            InlineKeyboardButton(
-                text="✯ᴍʀ ᴇʟᴍᴏʀᴛᴀɢᴇʟ✯", url=f"https://t.me/Almortagel_12"
-            ),
+                text="𝚂𝙾𝚄𝚁𝙲𝙴⁩", url=f"https://t.me/AlmortagelTech"),
+                    InlineKeyboardButton(
+                text="𝙶𝚁𝙾𝚄𝙿", url=f"https://t.me/AlmortagelTech2"),
+                 ],[
+                    InlineKeyboardButton(
+                text="✯ᴍʀ ᴇʟᴍᴏʀᴛᴀɢᴇʟ✯", url=f"https://t.me/Almortagel_12"),
   
                 ],
 
@@ -54,5 +50,6 @@ async def ihd(client: Client, message: Message):
                         message.from_user.first_name, url=f"https://t.me/{message.from_user.username}")
                 ],
             ]
-        )
-                           )
+        ),
+
+    )

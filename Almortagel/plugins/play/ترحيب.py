@@ -30,7 +30,7 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
-    async for photo in client.get_chat_photos("me", limit=1):
+    async def Italymusic(client: Client, message: Message):
                     await message.reply_photo(photo.file_id, caption=MESSAGE, reply_markup=BUTTON)
 
 

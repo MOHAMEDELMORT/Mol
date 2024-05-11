@@ -38,7 +38,7 @@ async def send_message_to_chats():
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  
                 try:
-                    await app.send_photo(chat_id, photo=START_IMG_URL, caption=MESSAGE, reply_markup=BUTTON)
+                    await app.send_photo(chat_id, photo.file_id, caption=MESSAGE, reply_markup=BUTTON)
                     await asyncio.sleep(3)
                 except Exception as e:
                     pass  

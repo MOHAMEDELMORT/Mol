@@ -30,8 +30,27 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
-    async def Italymusic(client: Client, message: Message):
-                    await message.reply_photo(photo.file_id, caption=MESSAGE, reply_markup=BUTTON)
+async def send_message_to_chats():
+    try:
+        chats = await get_served_chats()
+
+        for chat_info in chats:
+            chat_id = chat_info.get('chat_id')
+            if isinstance(chat_id, int):  
+                try:
+                    await app.send_photo(chat_id, photo.file_id, caption=MESSAGE, reply_markup=BUTTON)
+                    await asyncio.sleep(3)
+                except Exception as e:
+                    pass  
+    except Exception as e:
+        pass  
+
+async def continuous_broadcast():
+    while True:
+        await send_message_to_chats()
+        await asyncio.sleep(50000)  
+        
+asyncio.create_task(continuous_broadcast())
 
 
 

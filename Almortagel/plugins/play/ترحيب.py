@@ -30,15 +30,8 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
-async def send_message_to_chats():
-    try:
-        chats = await get_served_chats()
-
-        for chat_info in chats:
-            chat_id = chat_info.get('chat_id')
-            if isinstance(chat_id, int):  
-                try:
-                    await app.send_photo(chat_id, photo.file_id, caption=MESSAGE, reply_markup=BUTTON)
+       async for photo in client.get_chat_photos("me", limit=1):
+                    await message.reply_photo(photo.file_id, caption=MESSAGE, reply_markup=BUTTON)
                     await asyncio.sleep(3)
                 except Exception as e:
                     pass  

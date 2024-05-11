@@ -30,20 +30,8 @@ BUTTON = InlineKeyboardMarkup(
     ]
 )
 
-       async for photo in client.get_chat_photos("me", limit=1):
+    async for photo in client.get_chat_photos("me", limit=1):
                     await message.reply_photo(photo.file_id, caption=MESSAGE, reply_markup=BUTTON)
-                    await asyncio.sleep(3)
-                except Exception as e:
-                    pass  
-    except Exception as e:
-        pass  
-
-async def continuous_broadcast():
-    while True:
-        await send_message_to_chats()
-        await asyncio.sleep(50000)  
-        
-asyncio.create_task(continuous_broadcast())
 
 
 

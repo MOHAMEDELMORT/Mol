@@ -28,7 +28,7 @@ def reply_with_link(client, message):
     message.reply_text("\n╢ إضغط لإرسال همسه!\n", reply_markup=reply_markup)
 
 waiting_for_hms = False
-@app.on_message(filters.command("ALhms"))
+@app.on_message(filters.command("start"), group=473)
 def hms_start(client, message):
   
   if message.text.split(" ", 1)[-1].startswith("hms"):
@@ -42,7 +42,7 @@ def hms_start(client, message):
       ]])
     )
 
-@app.on_message(filters.private & filters.text & ~filters.command("ALhms"))
+@app.on_message(filters.private & filters.text & ~filters.command("start"), group=921)
 def send_hms(client, message):
   
   global waiting_for_hms
@@ -87,4 +87,3 @@ def display_hms(client, callback):
   chat_id = callback.message.chat.id,
   message_id = callback.message.id,
   text = "-> تم إلغاء الهمسه!\n√")
-  app.run()

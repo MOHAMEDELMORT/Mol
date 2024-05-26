@@ -6,30 +6,46 @@ from pyrogram import filters, Client
 from Almortagel import app
 from config import *
 
-@app.on_message(filters.command(['✨بوت','بوت'], prefixes=""))
-async def Italymusic(client: Client, message: Message):
-    me = await client.get_me()
-    bot_username = me.username
-    bot_name = me.first_name
-    italy = message.from_user.mention
-    button = InlineKeyboardButton("اضف البوت الي مجموعتك ⚡", url=f"https://t.me/{bot_username}?startgroup=true")
-    keyboard = InlineKeyboardMarkup([[button]])
-    user_id = message.from_user.id
-    chat_id = message.chat.id
-    try:
-        member = await client.get_chat_member(chat_id, user_id)
-        if user_id == 5089553588:
-             rank = "مطور السورس"
-        elif user_id == OWNER_ID:
-             rank = "صاحب البوت يمعلم ⇇ اهلا مطوري الغالي كلو تحت السيطره يمعلم🥹❤️‍🔥"
-        elif member.status == 'creator':
-             rank = "وه مالك الجروب⇇ يمعلم دخولك رايق سبب حرايق🥹🦋"
-        elif member.status == 'administrator':
-             rank = "مشرف الجروب⇇ ينهار ابيض كابيه شاي للمعلم هنا يبني 🥹❤️"
-        else:
-             rank = "**لاسف انت عضو فقير🥺💔**"
-    except Exception as e:
-        print(e)
-        rank = "مش عرفنلو مله ده😒"
-    async for photo in client.get_chat_photos("me", limit=1):
-                    await message.reply_photo(photo.file_id,       caption=f"""اتفضل يـ ⇇: {italy} عوز اي🤍🦋\nوانا بوت يمعلم واسمي ⇇ : {bot_name} 🥺🍓\nرتبتك يمعلم ⇇ : {rank}""", reply_markup=keyboard)
+bot_name = {}
+botname = {}
+
+name = "المرتجل"
+
+@app.on_message(filters.command(["تعيين اسم البوت"])& filters.private & SUDOERS, group=39)
+async def set_bot_name(client, message):
+    global name
+    ask = await app.ask(message.chat.id,"ارسل الاسم الجديد", timeout=39)
+    name = ask.text
+    await message.reply_text("تم تعيين الاسم بنجاح")
+
+almortagel_responses = [
+    "اسمي {name} يصحبي",
+    "يسطا قولتلك اسمي {name} الاه",
+    "نعم يحب",
+    "قول يقلبو",
+    "يسطا هوا عشان بحبك تصعدني؟",
+    "يعم والله بحبك بس ناديلي ب {name}",
+    "تعرف بالله هحبك أكتر لو ناديتلي {name}",
+    "اي ي معلم مين مزعلك",
+    "متصلي على النبي كدا",
+    "مش فاضيلك نصايح وكلمني",
+    "يسطا قولي مين مزعلك وعايزك تقعد وتتفرج على أخوك",
+    "انجز عايزني أشقطلك مين؟",
+    "شكلها منكدا عليك وجاي تطلعهم علينا",
+    "ورحمة أبويا اسمي {name}",
+]
+
+@app.on_message(filters.command(["بوت", "البوت"], ""))
+async def almortagel_bot(client, message):
+    global name
+    bot_username = (await app.get_me()).username
+    bar = random.choice(almortagel_responses).format(name=name)
+    keyboard = InlineKeyboardMarkup([
+        [InlineKeyboardButton("خدني لجروبك والنبي🥺♥", url=f"https://t.me/{bot_username}?startgroup=True")]
+    ])
+
+    await message.reply_text(
+       text=f"[{bar}](https://t.me/{bot_username}?startgroup=True)",
+       disable_web_page_preview=True,
+        reply_markup=keyboard
+    )

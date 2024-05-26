@@ -19,7 +19,7 @@ def reply_with_link(client, message):
     user_id = message.reply_to_message.from_user.id
     my_id = message.from_user.id
     bar_id = message.chat.id
-    start_link = f"https://t.me/{(app.get_me()).username}?start=hms{my_id}to{user_id}in{bar_id}"
+    start_link = f"https://t.me/{(app.get_me()).username}?start=hmsa"
     reply_markup = InlineKeyboardMarkup(
         [
             [InlineKeyboardButton("- اضغط لإرسال الهمسه!", url=start_link)]

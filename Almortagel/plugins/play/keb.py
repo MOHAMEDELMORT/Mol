@@ -3,12 +3,13 @@ from pyrogram import Client, filters
 from random import choice
 from pyrogram import filters
 from config import BANNED_USERS
-from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from AarohiX import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
 from typing import Union
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, Message, ChatJoinRequest
 
-REPLY_MESSAGE = "**🧑🏻‍✈️︙اهلا بك بك عزيزي العضو ♥️**\n**⤵️︙ اليـكـ كيب الاعضاء الخاص بسورس المرتجل**"
+#كسمك تحياتي😂
+REPLY_MESSAGE = "**🧑🏻‍✈️︙اهلا بك بك عزيزي العضو ♥️**\n**⤵️︙ اليـكـ كيب الاعضاء الخاص بسورس فير**"
 REPLY_MESSAGE_BUTTONS = [
     [
              ("المبرمج"),                   
@@ -16,7 +17,6 @@ REPLY_MESSAGE_BUTTONS = [
 
           ],
           [
-             ("ذكاء الاصطناعي"),
               ("اصدار"),
               ("افلام")
           ],
@@ -61,7 +61,7 @@ REPLY_MESSAGE_BUTTONS = [
     ]
 ]
 
-@app.on_message(filters.regex("^/start"), group=39)
+@app.on_message(filters.regex("^/start"),  group=39)
 async def cpanel(_, message: Message):             
         text = REPLY_MESSAGE
         reply_markup = ReplyKeyboardMarkup(REPLY_MESSAGE_BUTTONS, resize_keyboard=True, selective=True)
@@ -182,17 +182,4 @@ async def upbkgt(client: Client, message: Message):
         ),
     )
 
-@app.on_message(filters.command(["ذكاء الاصطناعي"], ""))
-async def upbkgt(client: Client, message: Message):
-    await message.reply_photo(
-        photo=f"https://telegra.ph/file/c544b771eeed7dbdc51a9.jpg",
-        caption=f"""• اليك طريقه معرفه سرعه البوت .\n\n• قم بـ استخدام الامر هكذا : /gpt\n\n• ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ » @AlmortagelTech .\n•⊶⊶★─⊶『[Almortagel](https://t.me/AlmortagelTech)』⊶⊶★─⊶•""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "• ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ .", url=f"https://t.me/AlmortagelTech"),
-            ],
-            ]
-        ),
-)
+

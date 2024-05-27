@@ -3,7 +3,7 @@ from Almortagel import app
 import asyncio
 from pytgcalls import PyTgCalls, StreamType
 from pytgcalls.types.input_stream import AudioPiped, AudioVideoPiped
-from Almortagel.coer.call import Dil
+from Almortagel.core.call import Dil
 from Almortagel.utils.database import *
 from pytgcalls.exceptions import NoActiveGroupCall, TelegramServerError
 #HHC3C4

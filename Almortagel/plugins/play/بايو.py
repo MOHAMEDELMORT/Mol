@@ -1,12 +1,12 @@
 import asyncio
 import config
 from pyrogram import Client, filters
-from MatrixMusic import app
+from Almortagel import app
 from config import OWNER_ID
-from MatrixMusic.misc import SUDOERS
+from Almortagel.misc import SUDOERS
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, ReplyKeyboardMarkup
 from pyrogram.types import (InlineKeyboardButton,CallbackQuery,InlineKeyboardMarkup, Message)
-from MatrixMusic import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
 
 
 @app.on_message(filters.command(["بايو مزخرف","اسم مزخرف","✨زخارف"], ""))

@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 import requests 
-from MatrixMusic import app
+from Almortagel import app
 
 muted = []
 @app.on_message(filters.command("كتم", "") & filters.group)

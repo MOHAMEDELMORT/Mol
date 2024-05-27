@@ -8,7 +8,6 @@ from pyrogram import Client
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 from strings.filters import command
 from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
-from Almortagel import app
 from telegraph import upload_file
 from asyncio import gather
 from pyrogram.errors import FloodWait

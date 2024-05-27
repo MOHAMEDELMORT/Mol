@@ -1,16 +1,17 @@
 import asyncio
-import os
-import time
-import requests
-import aiohttp
-from pyrogram import filters
-from pyrogram import Client
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+
+import random
+
+from Almortagel import app
+
+from pyrogram.types import (InlineKeyboardButton,
+
+                            InlineKeyboardMarkup, Message)
+
 from strings.filters import command
-from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
-from telegraph import upload_file
-from asyncio import gather
-from pyrogram.errors import FloodWait
+
+from pyrogram import filters, Client
+
 
 
 hmses = {}

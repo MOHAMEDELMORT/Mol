@@ -6,8 +6,8 @@
 
 from pyrogram import Client, filters
 from pyrogram.types import Message
-from MatrixMusic import app
-from MatrixMusic.utils.database import get_served_chats
+from Almortagel import app
+from Almortagel.utils.database import get_served_chats
 from config import LOGGER_ID
 
 

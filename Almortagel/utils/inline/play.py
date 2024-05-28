@@ -5,8 +5,6 @@ from pyrogram.types import InlineKeyboardButton
 
 from Almortagel.utils.formatters import time_to_seconds
 
-    name = usr.first_name
-    usrnam = usr.username
 
 def track_markup(_, videoid, user_id, channel, fplay):
     buttons = [
@@ -60,7 +58,7 @@ def stream_markup_timer(_, chat_id, played, dur):
             InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_CHAT)
         ],
         [           
-            InlineKeyboardButton(name, url=f"https://t.me/{usrnam}"),
+            InlineKeyboardButton(usr.first_name, url=f"https://t.me/{usr.username}"),
         ],
         [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
     ]
@@ -83,7 +81,7 @@ def stream_markup(_, chat_id):
             InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_CHAT)
         ],
         [
-            InlineKeyboardButton(name, url=f"https://t.me/{usrnam}"),
+            InlineKeyboardButton(usr.first_name, url=f"https://t.me/{usr.username}"),
         ],
         [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
     ]

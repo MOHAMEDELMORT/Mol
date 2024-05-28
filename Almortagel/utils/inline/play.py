@@ -58,7 +58,8 @@ def stream_markup_timer(_, chat_id, played, dur):
             InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_CHAT)
         ],
         [
-            InlineKeyboardButton(name, url=f"https://t.me/{usrnam}"),
+            
+InlineKeyboardButton(name, url=f"https://t.me/{usrnam}"),
         )
         ],
         [InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data="close")],
@@ -82,6 +83,7 @@ def stream_markup(_, chat_id):
             InlineKeyboardButton(text=_["S_B_2"], url=config.SUPPORT_CHAT)
         ],
         [
+
 InlineKeyboardButton(name, url=f"https://t.me/{usrnam}"),
         )
         ],

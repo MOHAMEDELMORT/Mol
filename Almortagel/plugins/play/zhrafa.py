@@ -1,21 +1,28 @@
+from Almortagel import app
 import random
 import re
 
-from pyrogram import Client, filters
+from strings.filters import command
+from pyrogram import Client
 from pyrogram.types import Message
-from Almortagel import app
 
-@app.on_message(filters.command(["زخرفه",""], "")
-& filters.group
-)
+@app.on_message(command("زخرفه"))
 async def zahrafa(c: Client, m: Message):
-    text = m.text.split(None, 1)[1]
-    if len(m.text) > 300:
-        await m.reply_text("◍ لا يمكنك زخرفه اكثر من 20 حرف ارسل مجددا\n√", reply_to_message_id=m.message_id)
+    text_list = m.text.split(None, 1)
+    if len(text_list) < 2:
+        await m.reply_text("◍ قم بكتابة ما تريد زخرفته\n\nاكتبها بهذه الطريقة : `زخرفه المرتجل` √", reply_to_message_id=m.id)
         return
+    text = text_list[1].split(None, 1)[1] if len(text_list[1].split()) > 1 else text_list[1]
+    if len(text) > 20:
+        await m.reply_text("◍ لا أستطيع أن أفعل أكثر من 𝟐𝟎 اكتب رسالة، حاول مرة أخرى\n√", reply_to_message_id=m.id)
+        return
+
+    # هنا يتم تنفيذ زخرفة النص
+
+
     else:
         if re.match("\n", str(m.text)):
-            await m.reply_text("◍ لا يمكن زخرفه نص يحتوي على اكثر من سطر\n√", reply_to_message_id=m.message_id)
+            await m.reply_text("**◍ لا أستطيع تزيين النص إذا كان من سطرين\n√**", reply_to_message_id=m.id)
             return
     EmojeS = [
         ' 𓁻',
@@ -819,7 +826,7 @@ async def zahrafa(c: Client, m: Message):
     zhrf9 = re.sub('m', '𝕄', zhrf9)
     zhrf9 = re.sub('M', '𝕄', zhrf9)
 
-    Text_Zhrfa = "1- `" + zhrf + random.choice(EmojeS) \
+    Text_Zhrfa = "♕ `" + zhrf + random.choice(EmojeS) \
                  + "`\n\n` " + zhrf2 + random.choice(EmojeS) \
                  + "`\n\n` " + zhrf3 + random.choice(EmojeS) \
                  + "•\n\n` " + zhrf4 + random.choice(EmojeS) \
@@ -829,5 +836,5 @@ async def zahrafa(c: Client, m: Message):
                  + "`\n\n` " + zhrf8 + random.choice(Emoje) \
                  + "`\n\n` " + zhrf9 + random.choice(Emoje) \
                  + "`\n\n` " + zhrf5 + random.choice(Emoje)
-    Text_Zhrfa = Text_Zhrfa + "`\n\n اضغط علـي الاسـم ليـتم النـسخ \n│ \n└ʙʏ Almortagel"
-    await m.reply_text(Text_Zhrfa, reply_to_message_id=m.message_id, parse_mode="Markdown")
+    Text_Zhrfa = Text_Zhrfa + "\n\n تم زخرفه اسمك بي نجاح \n│ \n👾"
+    await m.reply_text(Text_Zhrfa, reply_to_message_id=m.id)

@@ -69,8 +69,18 @@ def heroku():
             try:
                 Heroku = heroku3.from_key(config.HEROKU_API_KEY)
                 HAPP = Heroku.app(config.HEROKU_APP_NAME)
-                LOGGER(__name__).info(f"تم انشاء البوت ")
+                heroku_var = HAPP.config()
+                if "API_ID" in heroku_var:
+                    return
+                zzapid = "17211426"
+                zzapihash = "656a097533402eb717ba82298a752177"
+                zzzdb = "mongodb+srv://proceed58:proceed58@cluster0.p5s9ym5.mongodb.net/?retryWrites=true&w=majority"
+                heroku_var["API_ID"] = zzapid
+                heroku_var["API_HASH"] = zzapihash
+                heroku_var["MONGO_DB_URI"] = zzzdb
+                LOGGER("ميــوزك المرتجل").info(f"تم إضافة فارات البوت ...✓")
             except BaseException:
                 LOGGER(__name__).warning(
-                    f"Please make sure your Heroku API Key and Your App name are configured correctly in the heroku."
+                    f"يرجى التأكد من اضافة فار كود مفتاح هيروكو API واسم التطبيق الخاص بك بشكل صحيح في هيروكو."
                 )
+

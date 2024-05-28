@@ -5,6 +5,8 @@ from pyrogram.types import InlineKeyboardButton
 
 from Almortagel.utils.formatters import time_to_seconds
 
+    name = usr.first_name
+    usrnam = usr.username
 
 def track_markup(_, videoid, user_id, channel, fplay):
     buttons = [

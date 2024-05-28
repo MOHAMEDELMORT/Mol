@@ -64,4 +64,4 @@ async def salah():
          pass
     
      
-asyncio.create_task(azkar())
+asyncio.create_task(salah())

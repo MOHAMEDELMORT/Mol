@@ -14,7 +14,7 @@ from pyrogram.types import (
 from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from config import OWNER_ID, mortagel
+from config import OWNER_ID, Mortagel
 
 @app.on_message(filters.command("نادي المطور", [".", ""]) & filters.group)
 async def call_dev(client: Client, message: Message):
@@ -38,8 +38,8 @@ async def call_dev(client: Client, message: Message):
                                      reply_markup=reply_markup)
 
     # إنشاء زر "اونلاين"
-    online_button = InlineKeyboardButton("قناة البوت", url=f"https://t.me/{mortagel}")
+    online_button = InlineKeyboardButton("قناة البوت", url=f"https://t.me/{Mortagel}")
     
-    await message.reply_text(f"~ **تم إرسال النداء إلى مطور البوت\n\n-› Master -› @{mortagel} .",
+    await message.reply_text(f"~ **تم إرسال النداء إلى مطور البوت\n\n-› Master -› @{Mortagel} .",
                              disable_web_page_preview=True,
                              reply_markup=InlineKeyboardMarkup([[online_button]]))

@@ -2,24 +2,24 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
 from Almortagel import app
-from config import mortagel
+from config import Mortagel
 
 @app.on_message(filters.incoming & filters.private, group=-1)
 async def must_join_channel(app: Client, msg: Message):
-    if not mortagel:
+    if not Mortagel:
         return
     try:
         try:
-            await app.get_chat_member(mortagel, msg.from_user.id)
+            await app.get_chat_member(Mortagel, msg.from_user.id)
         except UserNotParticipant:
-            if Muntazer.isalpha():
-                link = "https://t.me/" + Almortagel
+            if Mortagel.isalpha():
+                link = "https://t.me/" + Mortagel
             else:
-                chat_info = await app.get_chat(mortagel)
+                chat_info = await app.get_chat(Mortagel)
                 link = chat_info.invite_link
             try:
                 await msg.reply(
-                    f"~︙عزيزي {msg.from_user.mention} \n~︙عليك الأشتراك في قناة البوت \n~︙قناة البوت : @{mortagel}.",
+                    f"~︙عزيزي {msg.from_user.mention} \n~︙عليك الأشتراك في قناة البوت \n~︙قناة البوت : @{Mortagel}.",
                     disable_web_page_preview=True,
                     reply_markup=InlineKeyboardMarkup([
                         [InlineKeyboardButton("< قناة البوت >", url=link)]
@@ -29,4 +29,4 @@ async def must_join_channel(app: Client, msg: Message):
             except ChatWriteForbidden:
                 pass
     except ChatAdminRequired:
-        print(f"I m not admin in the MUST_JOIN chat {mortagel}!")
+        print(f"I m not admin in the MUST_JOIN chat {Mortagel}!")

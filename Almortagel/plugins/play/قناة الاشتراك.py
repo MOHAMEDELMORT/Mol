@@ -1,7 +1,8 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from Almortagel import app
-from config import Mortagel, OWNER_ID
+from config import OWNER_ID
+import config
 
 @app.on_message(filters.private & filters.user(OWNER_ID))
 async def must_join_channel(_, message):

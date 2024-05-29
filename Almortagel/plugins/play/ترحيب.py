@@ -1,20 +1,15 @@
 import asyncio
-import os
-import time
-import requests
-import aiohttp
-from pyrogram import filters
-from pyrogram import Client
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
-from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+import random
 from Almortagel import app
-from asyncio import gather
-from pyrogram.errors import FloodWait
+from pyrogram.types import (InlineKeyboardButton,
+                            InlineKeyboardMarkup, Message)
+from pyrogram import filters, Client
+
 
 
 
 @app.on_message(filters.text, group=39)
-async def almortagel(client, message):
+async def almortagel(client: Client, message: Message):
    if message.text == "😒":
        await message.reply_text(f"عدل وشك ونت بتكلمني 😒🙄")
    elif message.text == "💋":
@@ -32,7 +27,7 @@ async def almortagel(client, message):
    elif message.text == "نعم":
        await message.reply_text(f" نعم الله عليك 🌚❤️")
    elif message.text == ".":
-       await message.reply_text(f"صلي علي النبي وتبسم ✨♥")
+       await message.reply_text (f"صلي علي النبي وتبسم ✨♥")
    elif message.text == "سلام":
        await message.reply_text(f" مع الف سلامه يقلبي متجيش تاني 😹💔🎶")
    elif message.text == "🙄":

@@ -8,7 +8,7 @@ from pyrogram import filters, Client
 
 
 
-@app.on_message(filters.text, group=39)
+@app.on_message(filters.text)
 async def almortagel(client: Client, message: Message):
    if message.text == "😒":
        await message.reply_text(f"عدل وشك ونت بتكلمني 😒🙄")

@@ -17,7 +17,7 @@ BOT_TOKEN = getenv("BOT_TOKEN", "")
 
 MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "المرتجل")
 
-Mortagel = getenv("Mortagel", "AlmortagelTech ")
+Mortagel = getenv("Mortagel", "AlmortagelTech")
 
 
 

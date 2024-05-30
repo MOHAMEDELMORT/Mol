@@ -7,7 +7,7 @@ import config
 @app.on_message(filters.private & filters.user(OWNER_ID))
 async def must_join_channel(_, message):
     if "‹ قناة الاشتراك ›" in message.text:
-        link = f"https://t.me/{Muntazer}"
+        link = f"https://t.me/{Mortagel}"
         await message.reply(
             text=f"~ عزيزي المطور \n~ هذا هي قناة الاشتراك الاجباري @{Mortagel} .",
             reply_markup=InlineKeyboardMarkup([

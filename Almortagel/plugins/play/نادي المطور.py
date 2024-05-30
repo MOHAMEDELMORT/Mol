@@ -14,7 +14,7 @@ from pyrogram.types import (
 from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from config import OWNER_ID, Mortagel
+from config import OWNER_ID
 
 @app.on_message(filters.command("نادي المطور", [".", ""]) & filters.group)
 async def call_dev(client: Client, message: Message):

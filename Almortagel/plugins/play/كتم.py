@@ -1,660 +1,818 @@
 import asyncio
-from time import time
+import requests
+fromAlmortagel import app
+fromAlmortagel.plugins.play.filters import command
+fromAlmortagel.core.call import Dil
+fromAlmortagel.utils.database import set_loop
+fromAlmortagel.utils.decorators import AdminRightsCheck
+from datetime import datetime
+from config import BANNED_USERS, PING_IMG_URL, lyrical, START_IMG_URL, MONGO_DB_URI, OWNER_ID
+fromAlmortagel.utils import bot_sys_stats
+fromAlmortagel.utils.decorators.language import language
+import random
+import time
+from pyrogram.enums import ChatMembersFilter
+from pyrogram.enums import ChatMemberStatus
+from aiohttp import ClientSession
+from traceback import format_exc
+import config
 import re
-from pyrogram import Client
-import re
+import string
+import lyricsgenius as lg
+from pyrogram.types import (InlineKeyboardButton, ChatPermissions, InlineKeyboardMarkup, Message, User)
+from pyrogram import Client, filters
+fromAlmortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from typing import Union
 import sys
+import os
+from pyrogram.types import ChatPermissions, ChatPrivileges
+from pyrogram.errors import PeerIdInvalid
 from os import getenv
-from strings.filters import command
-import sys
-from config import BOT_USERNAME
-from Almortagel.misc import SUDOERS
-from os import getenv
-from pyrogram import filters
-from pyrogram.types import (
-    CallbackQuery,
-    ChatMemberUpdated,
-    ChatPermissions,
-    Message,
+fromAlmortagel.misc import SUDOERS
+from pyrogram import filters, Client
+from telegraph import upload_file
+from dotenv import load_dotenv
+fromAlmortagel.utils.database import (set_cmode,get_assistant) 
+fromAlmortagel.utils.decorators.admins import AdminActual
+fromAlmortagel import app
+unmute_permissions = ChatPermissions(
+    can_send_messages=True,
+    can_send_media_messages=True,
+    can_send_polls=True,
+    can_change_info=False,
+    can_invite_users=True,
+    can_pin_messages=False,
 )
 
-from Almortagel import app
-from Almortagel.core.errors import capture_err
-from Almortagel.core.keyboard import ikb
-from Almortagel.utils.dbfunctions import (
-    add_warn,
-    get_warn,
-    int_to_alpha,
-    remove_warns,
-    save_filter,
-)
-from Almortagel.utils.functions import (
-    extract_user,
-    extract_user_and_reason,
-    time_converter,
+mute_permission = ChatPermissions(
+    can_send_messages=False,
+    can_send_media_messages=False, 
+    can_send_other_messages=False,
+    can_send_polls=False,
+    can_add_web_page_previews=False,
+    can_change_info=False,
+    can_pin_messages=False,
+    can_invite_users=True,
 )
 
 
-async def member_permissions(chat_id: int, user_id: int):
-    perms = []
-    try:
-        member = await app.get_chat_member(chat_id, user_id)
-    except Exception:
-        return []
-    if member.can_post_messages:
-        perms.append("can_post_messages")
-    if member.can_edit_messages:
-        perms.append("can_edit_messages")
-    if member.can_delete_messages:
-        perms.append("can_delete_messages")
-    if member.can_restrict_members:
-        perms.append("can_restrict_members")
-    if member.can_promote_members:
-        perms.append("can_promote_members")
-    if member.can_change_info:
-        perms.append("can_change_info")
-    if member.can_invite_users:
-        perms.append("can_invite_users")
-    if member.can_pin_messages:
-        perms.append("can_pin_messages")
-    if member.can_manage_voice_chats:
-        perms.append("can_manage_voice_chats")
-    return perms
+muttof = []
+@app.on_message(command(["قفل التقيد", "تعطيل التقيد", "تعطيل الحمايه"]), group=419)
+async def muttlock(client, message):
+   get = await client.get_chat_member(message.chat.id, message.from_user.id)
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+      if message.chat.id in muttof:
+        return await message.reply_text("تم معطل من قبل🔒")
+      muttof.append(message.chat.id)
+      return await message.reply_text("تم تعطيل التقيد بنجاح ✅🔒")
+   else:
+      return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
+
+@app.on_message(command(["فتح التقيد", "تفعيل التقيد", "تفعيل الحمايه"]), group=424)
+async def muttopen(client, message):
+   get = await client.get_chat_member(message.chat.id, message.from_user.id)
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+      if not message.chat.id in muttof:
+        return await message.reply_text("التقيد مفعل من قبل ✅")
+      muttof.remove(message.chat.id)
+      return await message.reply_text("تم فتح التقيد بنجاح ✅🔓")
+   else:
+      return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
+        
+        
+@app.on_message(command(["الغاء تقيد","الغاء لتقيد"]), group=94) 
+async def mute(client: Client, message: Message):
+   global restricted_users
+   get = await client.get_chat_member(message.chat.id, message.from_user.id)
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
+    if message.chat.id in muttof:
+      return   	   	
+    await app.restrict_chat_member(
+                       chat_id=message.chat.id,
+                       user_id=message.reply_to_message.from_user.id,
+                       permissions=unmute_permissions,
+                   )
+    await app.send_message(message.chat.id, f"✅ ¦ تـم الغاء الكتـم بـنجـاح\n {message.reply_to_message.from_user.mention} ")
 
 
-from Almortagel.core.permissions import adminsOnly
-admins_in_chat = {}
-
-
-async def list_admins(chat_id: int):
-    global admins_in_chat
-    if chat_id in admins_in_chat:
-        interval = time() - admins_in_chat[chat_id]["last_updated_at"]
-        if interval < 3600:
-            return admins_in_chat[chat_id]["data"]
-
-    admins_in_chat[chat_id] = {
-        "last_updated_at": time(),
-        "data": [
-            member.user.id
-            async for member in app.iter_chat_members(
-                chat_id, filter="administrators"
+restricted_users = []
+@app.on_message(command(["تقيد"]), group=62)
+async def mute(client: Client, message: Message):
+    global restricted_users
+    get = await client.get_chat_member(message.chat.id, message.from_user.id)
+    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
+        if message.chat.id in muttof:
+            return
+        if message.reply_to_message.from_user.id == 5089553588:
+            await app.send_message(message.chat.id, "عذرا لا يمكنك تقيد المطور")
+        else:
+            mute_permission = ChatPermissions(can_send_messages=False)
+            await app.restrict_chat_member(
+                chat_id=message.chat.id,
+                user_id=message.reply_to_message.from_user.id,
+                permissions=mute_permission,
             )
-        ],
-    }
-    return admins_in_chat[chat_id]["data"]
+            restricted_user = message.reply_to_message.from_user
+            restricted_users.append(restricted_user)
+            await app.send_message(message.chat.id, f"✅ ¦ تـم الكتـم بـنجـاح\n {restricted_user.mention} ")
 
-
-# Admin cache reload
-
-
-@app.on_chat_member_updated()
-async def admin_cache_func(_, cmu: ChatMemberUpdated):
-    if cmu.old_chat_member and cmu.old_chat_member.promoted_by:
-        admins_in_chat[cmu.chat.id] = {
-            "last_updated_at": time(),
-            "data": [
-                member.user.id
-                async for member in app.iter_chat_members(
-                    cmu.chat.id, filter="administrators"
-                )
-            ],
-        }
-        log.info(f"Updated admin cache for {cmu.chat.id} [{cmu.chat.title}]")
-
-
-# Purge Messages
-
-
-@app.on_message(filters.command("purge") & ~filters.private)
-@adminsOnly("can_delete_messages")
-async def purgeFunc(_, message: Message):
-    repliedmsg = message.reply_to_message
-    await message.delete()
-
-    if not repliedmsg:
-        return await message.reply_text("Reply to a message to purge from.")
-
-    cmd = message.command
-    if len(cmd) > 1 and cmd[1].isdigit():
-        purge_to = repliedmsg.message_id + int(cmd[1])
-        if purge_to > message.message_id:
-            purge_to = message.message_id
-    else:
-        purge_to = message.message_id   
-
-    chat_id = message.chat.id
-    message_ids = []
-
-    for message_id in range(
-            repliedmsg.message_id,
-            purge_to,
-    ):
-        message_ids.append(message_id)
-
-        # Max message deletion limit is 100
-        if len(message_ids) == 100:
-            await app.delete_messages(
-                chat_id=chat_id,
-                message_ids=message_ids,
-                revoke=True,  # For both sides
-            )
-
-            # To delete more than 100 messages, start again
-            message_ids = []
-
-    # Delete if any messages left
-    if len(message_ids) > 0:
-        await app.delete_messages(
-            chat_id=chat_id,
-            message_ids=message_ids,
-            revoke=True,
+@app.on_message(command(["مسح المقيدين"]), group=40)
+async def unmute(client: Client, message: Message):
+    global restricted_users
+    user_id = message.from_user.id
+    count = len(restricted_users)
+    for user in restricted_users:
+        await client.restrict_chat_member(
+            chat_id=message.chat.id,
+            user_id=user,
+            permissions=unmute_permissions,
         )
+        restricted_users.remove(user)
+    await message.reply_text(f"↢ تم مسح {count} من المقيديد")
+    
+
+@app.on_message(command(["المقيدين"]))
+async def get_restr_users(client: Client, message: Message):
+   global restricted_users
+   count = len(restricted_users)
+   user_ids = [str(user.id) for user in restricted_users]
+   response = f"⌔ قائمة المقيدين وعددهم : {count}\n"
+   response += "\n"
+   response += "\n".join(user_ids)
+   await message.reply_text(response)
 
 
-# Kick members
 
+gaaof = []
+@app.on_message(command(["تعطيل الحظر", "تعطيل الطرد", "تعطيل الحمايه"]), group=504)
+async def gaalock(client, message):
+   get = await client.get_chat_member(message.chat.id, message.from_user.id)
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+      if message.chat.id in gaaof:
+        return await message.reply_text("تم معطل من قبل🔒")
+      gaaof.append(message.chat.id)
+      return await message.reply_text("تم تعطيل الطرد و الحظر بنجاح ✅🔒")
+   else:
+      return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
 
-@app.on_message(
-    command(["طرد", "dkick"]) & ~filters.private
-)
-@adminsOnly("can_restrict_members")
-async def kickFunc(_, message: Message):
-    user_id, reason = await extract_user_and_reason(message)
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    if user_id == BOT_USERNAME:
-        return await message.reply_text(
-            "I can't kick myself, i can leave if you want."
-        )
-    if user_id in SUDOERS:
-        return await message.reply_text("You Wanna Kick The Elevated One?")
-    if user_id in (await list_admins(message.chat.id)):
-        return await message.reply_text(
-            "I can't kick an admin, You know the rules, so do i."
-        )
-    mention = (await app.get_users(user_id)).mention
-    msg = f"""
-**Kicked User:** {mention}
-**Kicked By:** {message.from_user.mention if message.from_user else 'Anon'}
-**Reason:** {reason or 'No Reason Provided.'}"""
-    if message.command[0][0] == "d":
-        await message.reply_to_message.delete()
-    await message.chat.ban_member(user_id)
-    await message.reply_text(msg)
-    await asyncio.sleep(1)
-    await message.chat.unban_member(user_id)
-
-
-# Ban members
-
-
-@app.on_message(command(["حظر"]) & filters.group)
-@adminsOnly("can_restrict_members")
-async def banFunc(_, message: Message):
-    user_id, reason = await extract_user_and_reason(message, sender_chat=True)
-
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    if user_id == BOT_USERNAME:
-        return await message.reply_text(
-            "I can't ban myself, i can leave if you want."
-        )
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "You Wanna Ban The Elevated One?, RECONSIDER!"
-        )
-    if user_id in (await list_admins(message.chat.id)):
-        return await message.reply_text(
-            "I can't ban an admin, You know the rules, so do i."
-        )
-
-    try:
-        mention = (await app.get_users(user_id)).mention
-    except IndexError:
-        mention = (
-            message.reply_to_message.sender_chat.title
-            if message.reply_to_message
-            else "Anon"
-        )
-
-    msg = (
-        f"**Banned User:** {mention}\n"
-        f"**Banned By:** {message.from_user.mention if message.from_user else 'Anon'}\n"
-    )
-    if message.command[0][0] == "d":
-        await message.reply_to_message.delete()
-    if message.command[0] == "tban":
-        split = reason.split(None, 1)
-        time_value = split[0]
-        temp_reason = split[1] if len(split) > 1 else ""
-        temp_ban = await time_converter(message, time_value)
-        msg += f"**Banned For:** {time_value}\n"
-        if temp_reason:
-            msg += f"**Reason:** {temp_reason}"
-        try:
-            if len(time_value[:-1]) < 3:
-                await message.chat.ban_member(user_id, until_date=temp_ban)
-                await message.reply_text(msg)
-            else:
-                await message.reply_text("You can't use more than 99")
-        except AttributeError:
-            pass
+@app.on_message(command(["فتح الطرد", "تفعيل الطرد", "تفعيل الحظر", "تفعيل الحمايه"]), group=412)
+async def gaaopen(client, message):
+   get = await client.get_chat_member(message.chat.id, message.from_user.id)
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+      if not message.chat.id in gaaof:
+        return await message.reply_text("الطرد و الحظر مفعل من قبل ✅")
+      gaaof.remove(message.chat.id)
+      return await message.reply_text("تم فتح الطرد و الحظر بنجاح ✅🔓")
+   else:
+      return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
+        
+banned_users = []
+@app.on_message(command(["حظر", "طرد"]), group=39)
+async def mute(client: Client, message: Message):
+    global banned_users    
+    chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
         return
-    if reason:
-        msg += f"**Reason:** {reason}"
-    await message.chat.ban_member(user_id)
-    await message.reply_text(msg)
-
-
-# Unban members
-
-
-@app.on_message(filters.command(["الغاء حظر", "الغاء الحظر"]) & ~filters.private)
-@adminsOnly("can_restrict_members")
-async def unban_func(_, message: Message):
-    # we don't need reasons for unban, also, we
-    # don't need to get "text_mention" entity, because
-    # normal users won't get text_mention if the user
-    # they want to unban is not in the group.
-    reply = message.reply_to_message
-
-    if reply and reply.sender_chat and reply.sender_chat != message.chat.id:
-        return await message.reply_text("You cannot unban a channel")
-
-    if len(message.command) == 2:
-        user = message.text.split(None, 1)[1]
-    elif len(message.command) == 1 and reply:
-        user = message.reply_to_message.from_user.id
-    else:
-        return await message.reply_text(
-            "Provide a username or reply to a user's message to unban."
-        )
-    await message.chat.unban_member(user)
-    umention = (await app.get_users(user)).mention
-    await message.reply_text(f"Unbanned! {umention}")
-
-
-# Delete messages
-
-
-@app.on_message(filters.command("del") & ~filters.private)
-@adminsOnly("can_delete_messages")
-async def deleteFunc(_, message: Message):
-    if not message.reply_to_message:
-        return await message.reply_text("Reply To A Message To Delete It")
-    await message.reply_to_message.delete()
-    await message.delete()
-
-
-# Promote Members
-
-
-@app.on_message(
-    command(["رفع مشرف", "fullpromote"])
-   
-    & ~filters.private
-)
-@adminsOnly("can_promote_members")
-async def promoteFunc(_, message: Message):
-    user_id = await extract_user(message)
-    umention = (await app.get_users(user_id)).mention
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    bot = await app.get_chat_member(message.chat.id, BOT_USERNAME)
-    if user_id == BOT_USERNAME:
-        return await message.reply_text("I can't promote myself.")
-    if not bot.can_promote_members:
-        return await message.reply_text("I don't have enough permissions")
-    if message.command[0][0] == "f":
-        await message.chat.promote_member(
-            user_id=user_id,
-            can_change_info=bot.can_change_info,
-            can_invite_users=bot.can_invite_users,
-            can_delete_messages=bot.can_delete_messages,
-            can_restrict_members=bot.can_restrict_members,
-            can_pin_messages=bot.can_pin_messages,
-            can_promote_members=bot.can_promote_members,
-            can_manage_chat=bot.can_manage_chat,
-            can_manage_voice_chats=bot.can_manage_voice_chats,
-        )
-        return await message.reply_text(f"Fully Promoted! {umention}")
-
-    await message.chat.promote_member(
-        user_id=user_id,
-        can_change_info=False,
-        can_invite_users=bot.can_invite_users,
-        can_delete_messages=bot.can_delete_messages,
-        can_restrict_members=False,
-        can_pin_messages=False,
-        can_promote_members=False,
-        can_manage_chat=bot.can_manage_chat,
-        can_manage_voice_chats=bot.can_manage_voice_chats,
-    )
-    await message.reply_text(f"Promoted! {umention}")
-
-
-# Demote Member
-
-
-@app.on_message(command("تنزيل مشرف") & ~filters.private)
-@adminsOnly("can_promote_members")
-async def demote(_, message: Message):
-    user_id = await extract_user(message)
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    if user_id == BOT_USERNAME:
-        return await message.reply_text("I can't demote myself.")
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "You wanna demote the elevated one?, RECONSIDER!"
-        )
-    await message.chat.promote_member(
-        user_id=user_id,
-        can_change_info=False,
-        can_invite_users=False,
-        can_delete_messages=False,
-        can_restrict_members=False,
-        can_pin_messages=False,
-        can_promote_members=False,
-        can_manage_chat=False,
-        can_manage_voice_chats=False,
-    )
-    umention = (await app.get_users(user_id)).mention
-    await message.reply_text(f"Demoted! {umention}")
-
-
-# Pin Messages
-
-
-@app.on_message(
-    command(["تثبيت", "unpin"]) & ~filters.private
-)
-@adminsOnly("can_pin_messages")
-async def pin(_, message: Message):
-    if not message.reply_to_message:
-        return await message.reply_text("Reply to a message to pin/unpin it.")
-    r = message.reply_to_message
-    if message.command[0][0] == "u":
-        await r.unpin()
-        return await message.reply_text(
-            f"**Unpinned [this]({r.link}) message.**",
-            disable_web_page_preview=True,
-        )
-    await r.pin(disable_notification=True)
-    await message.reply(
-        f"**Pinned [this]({r.link}) message.**",
-        disable_web_page_preview=True,
-    )
-    msg = "Please check the pinned message: ~ " + f"[Check, {r.link}]"
-    filter_ = dict(type="text", data=msg)
-    await save_filter(message.chat.id, "~pinned", filter_)
-
-
-# Mute members
-
-
-@app.on_message(
-    command(["كتم", "tmute", "mute"]) & ~filters.private
-)
-@adminsOnly("can_restrict_members")
-async def mute(_, message: Message):
-    user_id, reason = await extract_user_and_reason(message)
-    if not user_id:
-        return await message.reply_text("فين الحساب يغبي !")
-    if user_id == BOT_USERNAME:
-        return await message.reply_text("عايز تكتم نفسك يحلاوه")
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "عايز تكتم المطور 😂😂"
-        )
-    if user_id in (await list_admins(message.chat.id)):
-        return await message.reply_text(
-            "للاسف الشخص دا واخد ادمن  فالمجموعه"
-        )
-    mention = (await app.get_users(user_id)).mention
-    keyboard = ikb({"🚨   الغاء كتم  🚨": f"unmute_{user_id}"})
-    msg = (
-        f"**Muted User:** {mention}\n"
-        f"**Muted By:** {message.from_user.mention if message.from_user else 'Anon'}\n"
-    )
-    photo = (f"https://telegra.ph/file/f0f3e316bebd894baa110.jpg")
-    if message.command[0] == "tmute":
-        split = reason.split(None, 1)
-        time_value = split[0]
-        temp_reason = split[1] if len(split) > 1 else ""
-        temp_mute = await time_converter(message, time_value)
-        msg += f"**Muted For:** {time_value}\n"
-        if temp_reason:
-            msg += f"**Reason:** {temp_reason}"
-        try:
-            if len(time_value[:-1]) < 3:
-                await message.chat.restrict_member(
-                    user_id,
-                    permissions=ChatPermissions(),
-                    until_date=temp_mute,
-                )
-                await message.reply_photo(photo,       caption=msg, reply_markup=keyboard)                  
-            else:
-                await message.reply_text("You can't use more than 99")
-        except AttributeError:
-            pass
+    if message.chat.id in gaaof:
         return
-    if reason:
-        msg += f"**Reason:** {reason}"
-    await message.chat.restrict_member(user_id, permissions=ChatPermissions())
-    await message.reply_photo(photo,       caption=msg, reply_markup=keyboard)
+    if message.reply_to_message.from_user.id == 5089553588:
+        await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
+    else:
+        banned_user = message.reply_to_message.from_user
+        banned_users.append(banned_user)
+        await app.ban_chat_member(message.chat.id, banned_user.id)
+        await app.send_message(message.chat.id, f"✅ ¦ تـم الحظر بـنجـاح\n {banned_user.mention} ")
 
-
-# Unmute members
-
-
-
-@app.on_message(command(["الغاء كتم", "unmute", "unmute_", "الغاء الكتم"]) & ~filters.private)
-@adminsOnly("can_restrict_members")
-async def unmute(_, message: Message):
-    user_id = await extract_user(message)
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    await message.chat.unban_member(user_id)
-    umention = (await app.get_users(user_id)).mention
-    await message.reply_text(f"Unmuted! {umention}")
-
-# Ban deleted accounts
-
-
-@app.on_message(
-    command("حظر خفي")
-    & ~filters.private
-   
-)
-@adminsOnly("can_restrict_members")
-async def ban_deleted_accounts(_, message: Message):
+@app.on_message(command(["مسح المحظورين"]), group=19)
+async def unban_all(client: Client, message: Message):
+    global banned_users
+    count = len(banned_users)
     chat_id = message.chat.id
-    deleted_users = []
-    banned_users = 0
-    m = await message.reply("Finding ghosts...")
+    failed_count = 0
 
-    async for i in app.iter_chat_members(chat_id):
-        if i.user.is_deleted:
-            deleted_users.append(i.user.id)
-    if len(deleted_users) > 0:
-        for deleted_user in deleted_users:
-            try:
-                await message.chat.ban_member(deleted_user)
-            except Exception:
-                pass
-            banned_users += 1
-        await m.edit(f"Banned {banned_users} Deleted Accounts")
+    for member in banned_users.copy():
+        user_id = member.id
+        try:
+            await client.unban_chat_member(chat_id, user_id)
+            banned_users.remove(member)
+        except Exception:
+            failed_count += 1
+
+    successful_count = count - failed_count
+
+    if successful_count > 0:
+        await message.reply_text(f"↢ تم مسح {successful_count} من المحظورين")
     else:
-        await m.edit("There are no deleted accounts in this chat")
+        await message.reply_text("↢ لا يوجد مستخدمين محظورين ليتم مسحهم")
+
+    if failed_count > 0:
+        await message.reply_text(f"↢ فشل في مسح {failed_count} من المحظورين")
+        
+        
+@app.on_message(command(["الغاء حظر","/unban"]), group=42)
+async def mute(client: Client, message: Message):
+   global banned_users
+   get = await client.get_chat_member(message.chat.id, message.from_user.id)
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
+    await app.unban_chat_member(message.chat.id, message.reply_to_message.from_user.id) 
+    banned_users.remove(user)
+    await app.send_message(message.chat.id, f"✅ ¦ تـم الغاء الحظر بـنجـاح\n {message.reply_to_message.from_user.mention} ")
 
 
-@app.on_message(
-    command(["warn", "dwarn", "تحذير", "انذار"]) & ~filters.private
-)
-@adminsOnly("can_restrict_members")
-async def warn_user(_, message: Message):
-    user_id, reason = await extract_user_and_reason(message)
-    chat_id = message.chat.id
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    if user_id == BOT_USERNAME:
-        return await message.reply_text(
-            "I can't warn myself, i can leave if you want."
-        )
-    if user_id in SUDOERS:
-        return await message.reply_text(
-            "You Wanna Warn The Elevated One?, RECONSIDER!"
-        )
-    if user_id in (await list_admins(chat_id)):
-        return await message.reply_text(
-            "I can't warn an admin, You know the rules, so do i."
-        )
-    user, warns = await asyncio.gather(
-        app.get_users(user_id),
-        get_warn(chat_id, await int_to_alpha(user_id)),
-    )
-    mention = user.mention
-    keyboard = ikb({"🚨  حذف التحذير  🚨": f"unwarn_{user_id}"})
-    if warns:
-        warns = warns["warns"]
-    else:
-        warns = 0
-    if message.command[0][0] == "d":
-        await message.reply_to_message.delete()
-    if warns >= 2:
-        await message.chat.ban_member(user_id)
-        await message.reply_text(
-            f"Number of warns of {mention} exceeded, BANNED!"
-        )
-        await remove_warns(chat_id, await int_to_alpha(user_id))
-    else:
-        warn = {"warns": warns + 1}
-        msg = f"""
-**حذرت :** {mention}
-**يا:** {message.from_user.mention if message.from_user else 'Anon'}
-**السبب:** {reason or 'No Reason Provided.'}
-**التحذيرات المتبقيه:** {warns + 1}/3"""
-        await message.reply_text(msg, reply_markup=keyboard)
-        await add_warn(chat_id, await int_to_alpha(user_id), warn)
+@app.on_message(command(["المحظورين"]))
+async def get_restricted_users(client: Client, message: Message):
+   global banned_users
+   count = len(banned_users)
+   user_ids = [str(user.id) for user in banned_users]
+   response = f"⌔ قائمة المحظورين وعددهم : {count}\n"
+   response += "\n"
+   response += "\n".join(user_ids)
+   await message.reply_text(response)
 
 
-@app.on_callback_query(filters.regex("unwarn_"))
-async def remove_warning(_, cq: CallbackQuery):
-    from_user = cq.from_user
-    chat_id = cq.message.chat.id
-    permissions = await member_permissions(chat_id, from_user.id)
-    permission = "can_restrict_members"
-    if permission not in permissions:
-        return await cq.answer(
-            "You don't have enough permissions to perform this action.\n"
-            + f"Permission needed: {permission}",
-            show_alert=True,
-        )
-    user_id = cq.data.split("_")[1]
-    warns = await get_warn(chat_id, await int_to_alpha(user_id))
-    if warns:
-        warns = warns["warns"]
-    if not warns or warns == 0:
-        return await cq.answer("User has no warnings.")
-    warn = {"warns": warns - 1}
-    await add_warn(chat_id, await int_to_alpha(user_id), warn)
-    text = cq.message.text.markdown
-    text = f"~~{text}~~\n\n"
-    text += f"__Warn removed by {from_user.mention}__"
-    await cq.message.edit(text)
 
 
-# Rmwarns
+muted_users = []
+@app.on_message(command(["كتم"]), group=39)
+async def mute_user(client, message):
+    global muted_users    
+    chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
+        return
+    if message.reply_to_message.from_user.id == 5089553588:
+        await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
+    else:	
+        if message.reply_to_message:
+            user_id = message.reply_to_message.from_user.id
+            if user_id not in muted_users:
+                muted_users.append(user_id)
+                await message.reply_text(f"العضو {user_id} تم كتمه بنجاح.")
+            else:
+                await message.reply_text(f"المستخدم محظور بالفعل")
+        else:
+            await message.reply_text("قم بعمل ريبلاي")
 
-
-@app.on_message(
-    command(["حذف التحذير", "حذف الاندارات"]) & ~filters.private
-)
-@adminsOnly("can_restrict_members")
-async def remove_warnings(_, message: Message):
-    if not message.reply_to_message:
-        return await message.reply_text(
-            "Reply to a message to remove a user's warnings."
-        )
+@app.on_message(command(["الغاء الكتم", "الغاء كتم"]), group=62)
+async def unmute_user(client, message):
+   global muted_users
+   get = await client.get_chat_member(message.chat.id, message.from_user.id)
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:	
     user_id = message.reply_to_message.from_user.id
-    mention = message.reply_to_message.from_user.mention
+    if user_id in muted_users:
+        muted_users.remove(user_id)
+        await message.reply_text(f"تم الغاء كتم المستخدم {user_id}")
+        
+       
+        
+        
+       
+@app.on_message(filters.text)
+async def handle_message(client, message):
+    if message.from_user and message.from_user.id in muted_users:
+        await client.delete_messages(chat_id=message.chat.id, message_ids=message.id)
+
+@app.on_message(command(["المكتومين"]), group=137)
+async def get_rmuted_users(client, message):
+    global muted_users
+    count = len(muted_users)
+    user_ids = [str(user) for user in muted_users]
+    response = f"⌔ قائمة المكتومين وعددهم : {count}\n"
+    response += "\n"
+    response += "\n".join(user_ids)
+    await message.reply_text(response)
+
+
+@app.on_message(command(["مسح المكتومين"]), group=136)
+async def unmute_all(client, message):
+    global muted_users
+    count = len(muted_users)
     chat_id = message.chat.id
-    warns = await get_warn(chat_id, await int_to_alpha(user_id))
-    if warns:
-        warns = warns["warns"]
-    if warns == 0 or not warns:
-        await message.reply_text(f"{mention} have no warnings.")
+    failed_count = 0
+
+    for member in muted_users.copy():
+        user_id = member
+        try:
+            muted_users.remove(member)
+        except Exception:
+            failed_count += 1
+
+    successful_count = count - failed_count
+
+    if successful_count > 0:
+        await message.reply_text(f"↢ تم مسح {successful_count} من المكتومين")
     else:
-        await remove_warns(chat_id, await int_to_alpha(user_id))
-        await message.reply_text(f"Removed warnings of {mention}.")
+        await message.reply_text("↢ لا يوجد مستخدمين مكتومين ليتم مسحهم")
 
+    if failed_count > 0:
+        await message.reply_text(f"↢ فشل في مسح {failed_count} من المكتومين")
 
-# Warns
-
-
-@app.on_message(command(["التحذيرات", "الانذارات"]) & ~filters.private)
-@capture_err
-async def check_warns(_, message: Message):
-    user_id = await extract_user(message)
-    if not user_id:
-        return await message.reply_text("I can't find that user.")
-    warns = await get_warn(message.chat.id, await int_to_alpha(user_id))
-    mention = (await app.get_users(user_id)).mention
-    if warns:
-        warns = warns["warns"]
-    else:
-        return await message.reply_text(f"{mention} has no warnings.")
-    return await message.reply_text(f"{mention} has {warns}/3 warnings.")
-
-
-# Report
-
-
-@app.on_message(
-    (
-            command("ابلاغ")
-            | filters.command(["admins", "admin"], prefixes="@")
-    )
    
-    & ~filters.private
-)
-@capture_err
-async def report_user(_, message):
-    if not message.reply_to_message:
-        return await message.reply_text(
-            "Reply to a message to report that user."
-        )
+@app.on_message(command(["اطردني"]), group=268)
+async def fire_user(client, message):
+    await message.reply_text("اطلع برا اصلا مش عايزينك")
+    await client.ban_chat_member(message.chat.id, message.from_user.id)
 
-    reply = message.reply_to_message
-    reply_id = reply.from_user.id if reply.from_user else reply.sender_chat.id
-    user_id = message.from_user.id if message.from_user else message.sender_chat.id
-    if reply_id == user_id:
-        return await message.reply_text("Why are you reporting yourself ?")
 
-    list_of_admins = await list_admins(message.chat.id)
-    linked_chat = (await app.get_chat(message.chat.id)).linked_chat
-    if linked_chat is not None:
-        if reply_id in list_of_admins or reply_id == message.chat.id or reply_id == linked_chat.id:
-            return await message.reply_text(
-                "Do you know that the user you are replying is an admin ?"
-            )
+
+
+@app.on_message(command(["البوتات"]) & filters.group, group=56555)
+async def list_bots(client: Client, message: Message):
+    chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
+        return
+    bot_usernames = []
+    count = 0 
+    async for member in client.get_chat_members(message.chat.id, filter=ChatMembersFilter.BOTS):
+        if member.user.is_bot:
+            bot_usernames.append("@" + member.user.username)
+            count += 1
+
+    if count > 0:
+        bot_list = "\n".join(bot_usernames)
+        await message.reply_text(f"عدد البوتات في المجموعة: {count} \n يوزرات البوتات: {bot_list}")
     else:
-        if reply_id in list_of_admins or reply_id == message.chat.id:
-            return await message.reply_text(
-                "Do you know that the user you are replying is an admin ?"
-            )
+        await message.reply_text("لا يوجد بوتات في المجموعة.")
+        
 
-    user_mention = reply.from_user.mention if reply.from_user else reply.sender_chat.title
-    text = f"Reported {user_mention} to admins!"
-    admin_data = await app.get_chat_members(
-        chat_id=message.chat.id, filter="administrators"
-    )  # will it giv floods ?
-    for admin in admin_data:
-        if admin.user.is_bot or admin.user.is_deleted:
-            # return bots or deleted admins
-            continue
-        text += f"[\u2063](tg://user?id={admin.user.id})"
 
-    await message.reply_to_message.reply_text(text)
+
+
+
+async def PROMOTE_OWNER(c:Client,m:Message):
+    ChatID = m.chat.id
+    TargetID = m.reply_to_message.from_user.id
+    UserID = m.from_user.id
+    KEYBOARD = InlineKeyboardMarkup([
+    [InlineKeyboardButton("تغيير معلومات المجموعة",
+    callback_data=f"can_change {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("حذف الرسائل",
+    callback_data=f"can_delete {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("حظر المستخدمين",
+    callback_data=f"can_restrict {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("دعوه المستخدمين عبر الرابط",
+    callback_data=f"can_invite {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("تثبيت الرسائل",
+    callback_data=f"can_pin {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("إداره البثوث المباشره",
+    callback_data=f"can_manage_video {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("إضافه مشرفين جدد",
+    callback_data=f"can_promote {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("مسح الرساله",
+	callback_data="delete"),
+	InlineKeyboardButton("المزيد",
+	callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]])
+    
+    await m.reply(f"ابشر عيني 「{m.from_user.mention}」\n لديك قائمه يمكنك التحكم فيها في رفع المستخدم مشرف\nاذا ضغط علي زر 1 ترفع فقط صلاحيه\n ضغطت علي زر 2 يرفع زر 1,2\nضغطت علي زر 3 يرفع زر 1,2,3 وهكذا\nلذللك ضفنالك زر المزيد تصفحه",reply_markup=KEYBOARD)
+
+
+async def PROMOTE(c:Client,m:Message):
+    ChatID = m.chat.id
+    TargetID = m.reply_to_message.from_user.id
+    UserID = m.from_user.id
+    KEYBOARD = InlineKeyboardMarkup([
+    [InlineKeyboardButton("تغيير معلومات المجموعة",
+    callback_data=f"can_change {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("حذف الرسائل",
+    callback_data=f"can_delete {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("حظر المستخدمين",
+    callback_data=f"can_restrict {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("دعوه المستخدمين عبر الرابط",
+    callback_data=f"can_invite {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("تثبيت الرسائل",
+    callback_data=f"can_pin {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("إداره البثوث المباشره",
+    callback_data=f"can_manage_video {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("مسح الرساله",
+	callback_data="delete"),
+	InlineKeyboardButton("المزيد",
+	callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]])
+    
+    await m.reply(f"ابشر عيني 「{m.from_user.mention}」\n لديك قائمه يمكنك التحكم فيها في رفع المستخدم مشرف\nمع العلم اذا ضغط علي زر 1 ترفع فقط صلاحيه\n ضغطت علي زر 2 يرفع زر 1+ 2\nضغطت علي زر 3 يرفع زر 1 + 2 +  3 وهكذا",reply_markup=KEYBOARD)
+
+
+
+
+
+@app.on_message(command(["رفع"]),group=1)
+async def New(c:Client,m:Message):
+	Ra = await m.chat.get_member(m.from_user.id)
+	if Ra.status == ChatMemberStatus.OWNER:
+		if m.reply_to_message and m.reply_to_message.from_user:
+			if m.command[1] == "مشرف":
+				await PROMOTE_OWNER(c,m)
+				
+				
+	elif Ra.status == ChatMemberStatus.ADMINISTRATOR:
+		if m.reply_to_message and m.reply_to_message.from_user:
+			if m.command[1] == "مشرف":
+				await PROMOTE(c,m)
+			
+	elif Ra.status == ChatMemberStatus.MEMBER:
+		if m.reply_to_message and m.reply_to_message.from_user:
+			if m.command[1] == "مشرف":
+				await m.reply(f"عزيزي 「{m.from_user.mention}」\nانت مجرد عضو في هذه المجموعة")
+
+@app.on_callback_query(~filters.regex('^delete$'),group=2)
+async def MoreAndSet(c:Client,m:Message):
+	ChatID = m.message.chat.id
+	TargetID = m.message.reply_to_message.from_user.id
+	UserID = m.from_user.id
+	msg = m.data
+	PromoteList = msg.split(" ")
+	ChatID = m.message.chat.id
+	TargetID = int(PromoteList[2])
+	UserID = int(PromoteList[3])
+	
+	MORE_PROMOTE = InlineKeyboardMarkup([
+    [InlineKeyboardButton("1,2,3,4,5,6,7",
+    callback_data=f"Seven {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("1,2,4,5,6",
+    callback_data=f"Five {ChatID} {TargetID} {UserID}"),
+    InlineKeyboardButton("2,4,5,6",
+    callback_data=f"Four {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("1,3,6",
+    callback_data=f"Three {ChatID} {TargetID} {UserID}"),
+    InlineKeyboardButton("4,6",
+    callback_data=f"Two {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("4",
+    callback_data=f"One {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("مسح الرساله",
+    callback_data="delete")]])
+
+	
+	if m.data == f"MoreAndMore {ChatID} {TargetID} {UserID}":
+		return await m.message.edit_text(f"مرحبا عزيزي\n「{m.from_user.mention}」\nاليك قائمه اختر ما تريد\n1- تغيير معلومات المجموعة\n2- حذف الرسائل\n3- حظر المستخدمين\n4- دعوه المستخدمين عبر الرابط\n5- تثبيت الرسائل\n6- إداره البثوث المباشره\n7- اضافه مشرفين جدد\n",
+		reply_markup=MORE_PROMOTE)
+		
+	if m.data == "delete":
+		await m.message.delete()
+		
+    
+    
+
+
+
+@app.on_callback_query(~filters.regex('^delete$'),group=3)
+async def SetPromote(c:Client,m:Message):
+	msg = m.data
+	PromoteList = msg.split(" ")
+	ChatID = m.message.chat.id
+	TargetID = int(PromoteList[2])
+	UserID = int(PromoteList[3])
+
+	
+	if m.from_user.id !=UserID:
+		await c.answer_callback_query(
+		m.id,
+		text="هذا الأمر لايخصك",
+		show_alert=True)
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "can_change":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text("تم اعطائه صلاحيه تغيير معلومات المجموعه",
+		reply_markup=
+		InlineKeyboardMarkup([
+		[InlineKeyboardButton("حذف الرسائل",
+		callback_data=f"can_delete {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("حظر المستخدمين",
+		callback_data=f"can_restrict {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("دعوه المستخدمين عبر الرابط",
+		callback_data=f"can_invite {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("تثبيت الرسائل",
+		callback_data=f"can_pin {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إداره البثوث المباشره",
+		callback_data=f"can_manage_video {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إضافه مشرفين جدد",
+		callback_data=f"can_promote {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("مسح الرساله",
+		callback_data="delete"),
+		InlineKeyboardButton("المزيد",
+		callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]]))
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "can_delete":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_change_info=True,
+		can_delete_messages=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text("تم اعطائه صلاحيه مسح الرسائل",
+		reply_markup=
+		InlineKeyboardMarkup([
+		[InlineKeyboardButton("حظر المستخدمين",
+		callback_data=f"can_delete {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("دعوه المستخدمين عبر الرابط",
+		callback_data=f"can_invite {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("تثبيت الرسائل",
+		callback_data=f"can_pin {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إداره البثوث المباشره",
+		callback_data=f"can_manage_video {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إضافه مشرفين جدد",
+		callback_data=f"can_promote {ChatID} {TargetID} {UserID}")],
+		
+		[InlineKeyboardButton("مسح الرساله",
+		callback_data="delete"),
+		InlineKeyboardButton("المزيد",
+		callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]]))
+		
+	
+	elif len(PromoteList) == 4 and PromoteList[0] == "can_restrict":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_restrict_members=True,
+		can_delete_messages=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text("تم اعطائه صلاحيه حظر المستخدمين",
+		reply_markup=
+		InlineKeyboardMarkup([
+		[InlineKeyboardButton("دعوه المستخدمين عبر الرابط",
+		callback_data=f"can_invite {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("تثبيت الرسائل",
+		callback_data=f"can_pin {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إداره البثوث المباشره",
+		callback_data=f"can_manage_video {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إضافه مشرفين جدد",
+		callback_data=f"can_promote {ChatID} {TargetID} {UserID}")],
+		
+		[InlineKeyboardButton("مسح الرساله",
+		callback_data="delete"),
+		InlineKeyboardButton("المزيد",
+		callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]]))
+		
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "can_invite":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_invite_users=True,
+		can_restrict_members=True,
+		can_delete_messages=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text("تم اعطائه صلاحيه دعوه المستخدمين",
+		reply_markup=
+		InlineKeyboardMarkup([
+		[InlineKeyboardButton("تثبيت الرسائل",
+		callback_data=f"can_pin {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إداره البثوث المباشره",
+		callback_data=f"can_manage_video {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إضافه مشرفين جدد",
+		callback_data=f"can_promote {ChatID} {TargetID} {UserID}")],
+		
+		[InlineKeyboardButton("مسح الرساله",
+		callback_data="delete"),
+		InlineKeyboardButton("المزيد",
+		callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]]))
+		
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "can_pin":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_pin_messages=True,
+		can_invite_users=True,
+		can_restrict_members=True,
+		can_delete_messages=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text("تم اعطائه صلاحيه تثبيت الرسائل",
+		reply_markup=
+		InlineKeyboardMarkup([
+		[InlineKeyboardButton("إداره البثوث المباشره",
+		callback_data=f"can_manage_video {ChatID} {TargetID} {UserID}")],
+		[InlineKeyboardButton("إضافه مشرفين جدد",
+		callback_data=f"can_promote {ChatID} {TargetID} {UserID}")],
+		
+		[InlineKeyboardButton("مسح الرساله",
+		callback_data="delete"),
+		InlineKeyboardButton("المزيد",
+		callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]]))
+		
+	
+	elif len(PromoteList) == 4 and PromoteList[0] == "can_manage":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_manage_video_chats=True,
+		can_pin_messages=True,
+		can_invite_users=True,
+		can_restrict_members=True,
+		can_delete_messages=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text("تم اعطائه صلاحيه التحكم في المحادثه الصوتية",
+		reply_markup=
+		InlineKeyboardMarkup([
+		[InlineKeyboardButton("إضافه مشرفين جدد",
+		callback_data=f"can_promote {ChatID} {TargetID} {UserID}")],
+		
+		[InlineKeyboardButton("مسح الرساله",
+		callback_data="delete"),
+		InlineKeyboardButton("المزيد",
+		callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]]))
+		
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "can_promote":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_promote_members=True,
+		can_manage_video_chats=True,
+		can_pin_messages=True,
+		can_invite_users=True,
+		can_restrict_members=True,
+		can_delete_messages=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text("تم اعطائه صلاحيه رفع مشرفين جدد",
+		reply_markup=
+		InlineKeyboardMarkup([
+		[InlineKeyboardButton("مسح الرساله",
+		callback_data="delete"),
+		InlineKeyboardButton("المزيد",
+		callback_data=f"MoreAndMore {ChatID} {TargetID} {UserID}")]]))
+		
+		
+		
+@app.on_callback_query(~filters.regex('^delete$'),group=4)
+async def SetMorePromote(c:Client,m:Message):
+	msg = m.data
+	PromoteList = msg.split(" ")
+	ChatID = m.message.chat.id
+	TargetID = int(PromoteList[2])
+	UserID = int(PromoteList[3])
+	
+	MORE_PROMOTE = InlineKeyboardMarkup([
+    [InlineKeyboardButton("1,2,3,4,5,6,7",
+    callback_data=f"Seven {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("1,2,4,5,6",
+    callback_data=f"Five {ChatID} {TargetID} {UserID}"),
+    InlineKeyboardButton("2,4,5,6",
+    callback_data=f"Four {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("1,3,6",
+    callback_data=f"Three {ChatID} {TargetID} {UserID}"),
+    InlineKeyboardButton("4,6",
+    callback_data=f"Two {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("4",
+    callback_data=f"One {ChatID} {TargetID} {UserID}")],
+    [InlineKeyboardButton("مسح الرساله",
+    callback_data="delete")]])
+
+    
+	
+	if m.from_user.id !=UserID:
+		await c.answer_callback_query(
+		m.id,
+		text="هذا الأمر لايخصك",
+		show_alert=True)
+		
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "Seven":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_promote_members=True,
+		can_manage_video_chats=True,
+		can_pin_messages=True,
+		can_invite_users=True,
+		can_restrict_members=True,
+		can_delete_messages=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text(f"مرحبا عزيزي\n「{m.from_user.mention}」\nاليك قائمه اختر ما تريد\n1- تغيير معلومات المجموعة\n2- حذف الرسائل\n3- حظر المستخدمين\n4- دعوه المستخدمين عبر الرابط\n5- تثبيت الرسائل\n6- إداره البثوث المباشره\n7- اضافه مشرفين جدد\n\n\nتم اعطاء المستخدم الصلاحيات الاتيه (1,2,3,4,5,6,7) ",reply_markup=MORE_PROMOTE)
+			
+	elif len(PromoteList) == 4 and PromoteList[0] == "Five":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_manage_video_chats=True,
+		can_pin_messages=True,
+		can_invite_users=True,
+		can_delete_messages=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text(f"مرحبا عزيزي\n「{m.from_user.mention}」\nاليك قائمه اختر ما تريد\n1- تغيير معلومات المجموعة\n2- حذف الرسائل\n3- حظر المستخدمين\n4- دعوه المستخدمين عبر الرابط\n5- تثبيت الرسائل\n6- إداره البثوث المباشره\n7- اضافه مشرفين جدد\n\n\nتم اعطاء المستخدم الصلاحيات الاتيه (1,2,4,5,6) ",reply_markup=MORE_PROMOTE)
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "Four":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_manage_video_chats=True,
+		can_pin_messages=True,
+		can_invite_users=True,
+		can_delete_messages=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text(f"مرحبا عزيزي\n「{m.from_user.mention}」\nاليك قائمه اختر ما تريد\n1- تغيير معلومات المجموعة\n2- حذف الرسائل\n3- حظر المستخدمين\n4- دعوه المستخدمين عبر الرابط\n5- تثبيت الرسائل\n6- إداره البثوث المباشره\n7- اضافه مشرفين جدد\n\n\nتم اعطاء المستخدم الصلاحيات الاتيه (2,4,5,6) ",reply_markup=MORE_PROMOTE)
+		
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "Three":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_manage_video_chats=True,
+		can_restrict_members=True,
+		can_change_info=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text(f"مرحبا عزيزي\n「{m.from_user.mention}」\nاليك قائمه اختر ما تريد\n1- تغيير معلومات المجموعة\n2- حذف الرسائل\n3- حظر المستخدمين\n4- دعوه المستخدمين عبر الرابط\n5- تثبيت الرسائل\n6- إداره البثوث المباشره\n7- اضافه مشرفين جدد\n\n\nتم اعطاء المستخدم الصلاحيات الاتيه (1,3,6) ",reply_markup=MORE_PROMOTE)
+		
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "Two":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_manage_video_chats=True,
+		can_invite_users=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text(f"مرحبا عزيزي\n「{m.from_user.mention}」\nاليك قائمه اختر ما تريد\n1- تغيير معلومات المجموعة\n2- حذف الرسائل\n3- حظر المستخدمين\n4- دعوه المستخدمين عبر الرابط\n5- تثبيت الرسائل\n6- إداره البثوث المباشره\n7- اضافه مشرفين جدد\n\n\nتم اعطاء المستخدم الصلاحيات الاتيه (4,6) ",reply_markup=MORE_PROMOTE)
+		
+		
+	elif len(PromoteList) == 4 and PromoteList[0] == "One":
+		CHATID = int(PromoteList[1])
+		USERID = int(PromoteList[2])
+		try:
+			await app.promote_chat_member(
+		chat_id=CHATID,
+		user_id=USERID,
+		privileges=ChatPrivileges(
+		can_invite_users=True))
+		except Exception as e:
+			return await m.message.edit_text(f"**عزيزي :**\n「{m.from_user.mention}」\nهذا لم يتم رفعه من خلالي\n\n**Error**:\n"+ str(e))
+		await m.message.edit_text(f"مرحبا عزيزي\n「{m.from_user.mention}」\nاليك قائمه اختر ما تريد\n1- تغيير معلومات المجموعة\n2- حذف الرسائل\n3- حظر المستخدمين\n4- دعوه المستخدمين عبر الرابط\n5- تثبيت الرسائل\n6- إداره البثوث المباشره\n7- اضافه مشرفين جدد\n\n\nتم اعطاء المستخدم الصلاحيات الاتيه (4) ",reply_markup=MORE_PROMOTE)
+
+
+@app.on_callback_query(filters.regex("^delete$"),group=5)
+async def DelMessage(c:Client,m:Message):
+	UserID = m.from_user.id
+	if m.from_user.id !=UserID:
+		await c.answer_callback_query(
+		m.id,
+		text="هذا الأمر لايخصك",
+		show_alert=True)
+	else:
+		await m.message.delete()

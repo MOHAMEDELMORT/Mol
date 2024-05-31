@@ -7,7 +7,7 @@ import sys
 from os import getenv
 from strings.filters import command
 import sys
-from config import BOT_ID
+from config import BOT_USERNAME
 from Almortagel.misc import SUDOERS
 from os import getenv
 from pyrogram import filters
@@ -163,7 +163,7 @@ async def kickFunc(_, message: Message):
     user_id, reason = await extract_user_and_reason(message)
     if not user_id:
         return await message.reply_text("I can't find that user.")
-    if user_id == BOT_ID:
+    if user_id == BOT_USERNAME:
         return await message.reply_text(
             "I can't kick myself, i can leave if you want."
         )
@@ -196,7 +196,7 @@ async def banFunc(_, message: Message):
 
     if not user_id:
         return await message.reply_text("I can't find that user.")
-    if user_id == BOT_ID:
+    if user_id == BOT_USERNAME:
         return await message.reply_text(
             "I can't ban myself, i can leave if you want."
         )
@@ -301,8 +301,8 @@ async def promoteFunc(_, message: Message):
     umention = (await app.get_users(user_id)).mention
     if not user_id:
         return await message.reply_text("I can't find that user.")
-    bot = await app.get_chat_member(message.chat.id, BOT_ID)
-    if user_id == BOT_ID:
+    bot = await app.get_chat_member(message.chat.id, BOT_USERNAME)
+    if user_id == BOT_USERNAME:
         return await message.reply_text("I can't promote myself.")
     if not bot.can_promote_members:
         return await message.reply_text("I don't have enough permissions")
@@ -343,7 +343,7 @@ async def demote(_, message: Message):
     user_id = await extract_user(message)
     if not user_id:
         return await message.reply_text("I can't find that user.")
-    if user_id == BOT_ID:
+    if user_id == BOT_USERNAME:
         return await message.reply_text("I can't demote myself.")
     if user_id in SUDOERS:
         return await message.reply_text(
@@ -402,7 +402,7 @@ async def mute(_, message: Message):
     user_id, reason = await extract_user_and_reason(message)
     if not user_id:
         return await message.reply_text("فين الحساب يغبي !")
-    if user_id == BOT_ID:
+    if user_id == BOT_USERNAME:
         return await message.reply_text("عايز تكتم نفسك يحلاوه")
     if user_id in SUDOERS:
         return await message.reply_text(
@@ -499,7 +499,7 @@ async def warn_user(_, message: Message):
     chat_id = message.chat.id
     if not user_id:
         return await message.reply_text("I can't find that user.")
-    if user_id == BOT_ID:
+    if user_id == BOT_USERNAME:
         return await message.reply_text(
             "I can't warn myself, i can leave if you want."
         )

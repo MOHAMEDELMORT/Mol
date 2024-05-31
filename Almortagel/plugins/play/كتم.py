@@ -8,7 +8,7 @@ from os import getenv
 from strings.filters import command
 import sys
 from config import BOT_ID
-from AnonX.misc import SUDOERS
+from Almortagel.misc import SUDOERS
 from os import getenv
 from pyrogram import filters
 from pyrogram.types import (
@@ -18,17 +18,17 @@ from pyrogram.types import (
     Message,
 )
 
-from AnonX import app
-from AnonX.core.errors import capture_err
-from AnonX.core.keyboard import ikb
-from AnonX.utils.dbfunctions import (
+from Almortagel import app
+from Almortagel.core.errors import capture_err
+from Almortagel.core.keyboard import ikb
+from Almortagel.utils.dbfunctions import (
     add_warn,
     get_warn,
     int_to_alpha,
     remove_warns,
     save_filter,
 )
-from AnonX.utils.functions import (
+from Almortagel.utils.functions import (
     extract_user,
     extract_user_and_reason,
     time_converter,

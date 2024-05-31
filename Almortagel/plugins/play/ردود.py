@@ -25,14 +25,14 @@ def is_lock_enabled(chat_id):
     result = cursor.fetchone()
     return result is not None and result[0] == 1
 
-@app.on_message(filters.command("قفل السب") & filters.group)
+@app.on_message(filters.command(["قفل السب"], ""))
 async def enable_lock(client, message):
     chat_id = message.chat.id
     cursor.execute("INSERT OR REPLACE INTO settings (chat_id, lock) VALUES (?, 1)", (chat_id,))
     conn.commit()
     await message.reply("تم تعطيل قفل السب.")
 
-@app.on_message(filters.command("فتح السب") & filters.group)
+@app.on_message(filters.command(["فتح السب"], ""))
 async def disable_lock(client, message):
     chat_id = message.chat.id
     cursor.execute("INSERT OR REPLACE INTO settings (chat_id, lock) VALUES (?, 0)", (chat_id,))
@@ -40,7 +40,7 @@ async def disable_lock(client, message):
     await message.reply("تم تفعيل قفل السب.")
 
 
-@app.on_message(filters.text & filters.group)
+@app.on_message(filters.text)
 async def delete_offensive_text(client, message):
     chat_id = message.chat.id
     if is_lock_enabled(chat_id) and has_offensive_word(message.text):

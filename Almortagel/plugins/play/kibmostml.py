@@ -194,3 +194,47 @@ async def ihd(client: Client, message: Message):
         )
     )
 
+@app.on_message(filters.command(["كتب دينية"], ""))
+async def ihd(client: Client, message: Message):
+    rl = random.randint(2,1959)
+    url = f"https://t.me/kotobeslameah/{rl}"
+    await client.send_document(message.chat.id,url,caption="💙 ¦ تـم اختيـار كتاب لـك",
+    reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        message.from_user.first_name, url=f"https://t.me/{message.from_user.username}")
+                ],
+            ]
+        )
+    )
+
+@app.on_message(filters.command(["احاديث دينية"], ""))
+async def ihd(client: Client, message: Message):
+    rl = random.randint(799,1341)
+    url = f"https://t.me/dmatrix12/{rl}"
+    await client.send_photo(message.chat.id,url,caption="💙 ¦ تـم اختيـار احاديث لـك",
+    reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        message.from_user.first_name, url=f"https://t.me/{message.from_user.username}")
+                ],
+            ]
+        )
+    )
+       
+@app.on_message(filters.command(["خطب دينيه"], ""))
+async def ihd(client: Client, message: Message):
+    rl = random.randint(2,201)
+    url = f"https://t.me/fresdewi/{rl}"
+    await client.send_voice(message.chat.id,url,caption="💙 ¦ تـم اختيـار خطبه لـك",
+    reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        message.from_user.first_name, url=f"https://t.me/{message.from_user.username}")
+                ],
+            ]
+        )
+    )

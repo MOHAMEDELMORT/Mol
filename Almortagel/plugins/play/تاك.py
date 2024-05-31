@@ -1,45 +1,21 @@
-import asyncio
 import os
 import time
-import requests
-import aiohttp
-from pyrogram import filters
-from pyrogram import Client
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
-from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from asyncio import sleep
+from pyrogram import Client, filters
+from pyrogram import enums, filters
+from strings.filters import command
 from Almortagel import app
-from asyncio import gather
-from pyrogram.errors import FloodWait
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.enums import ChatMemberStatus
 
-@app.on_message(filters.command(["المالك", "صاحب الخرابه", "المنشي"],"") & filters.group)
-async def gak_owne(client: Client, message: Message):
-      if len(message.filters.command) >= 2:
-         return 
-      else:
-            chat_id = message.chat.id
-            f = "administrators"
-            async for member in client.iter_chat_members(chat_id, filter=f):
-               if member.status == "creator":
-                 id = member.user.id
-                 key = InlineKeyboardMarkup([[InlineKeyboardButton(member.user.first_name, user_id=id)]])
-                 m = await client.get_chat(id)
-                 if m.photo:
-                       photo = await app.download_media(m.photo.big_file_id)
-                       return await message.reply_photo(photo, caption=f"🧞‍♂️ ¦𝙽𝙰𝙼𝙴 :{m.first_name}\n🎯 ¦𝚄𝚂𝙴𝚁 :@{m.username}\n🎃 ¦𝙸𝙳 :`{m.id}`\n💌 ¦𝙱𝙸𝙾 :{m.bio}\n✨ ¦𝙲𝙷𝙰𝚃: {message.chat.title}\n♻️ ¦𝙸𝙳.𝙲𝙷𝙰𝚃 :`{message.chat.id}`",reply_markup=key)
-                 else:
-                    return await message.reply("• " + member.user.mention)
-                    
-                    
-   
-
-   
-@app.on_message(filters.command(["اسمي", "اسمي اي"]) & filters.group )
-async def vgdg(client: Client, message: Message):
-    await message.reply_text(
-        f"""❤️‍🔥 اسمك »»  {message.from_user.mention()}""") 
-
-        
-
-
+@app.on_message(~filters.private & command(["المالك","المنشئ"]), group=222)
+def owner(app, message):
+  for owner in app.get_chat_members(message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
+    if owner.status == enums.ChatMemberStatus.OWNER:
+      saidi = app.get_users(owner.user.id)
+      ALMORTAGEL = InlineKeyboardMarkup([[InlineKeyboardButton(saidi.first_name, url=f"https://t.me/{saidi.username}")]])
+      for x in app.get_chat_photos(saidi.id, limit=1):
+        photo = x.file_id
+      message.reply_photo(photo,caption=f"𝅄 𓏺 𝙾𝚆𝙽𝙴𝚁 𝖭𝖺𝗆𝖾 : {saidi.first_name}\n𝅄 𓏺 𝙾𝚆𝙽𝙴𝚁 𝚄𝚂𝙴𝚁 : [@{saidi.username}]\n𝅄 𓏺 𝙾𝚆𝙽𝙴𝚁 𝗂𝖽 : {saidi.id}",reply_markup=ALMORTAGEL,quote=True)
 
 

@@ -8,7 +8,7 @@ import config
     command(["مطور البوت"])
 )
 async def maker(client: Client, message: Message):
-    await message.reply_to(
+    await message.reply_text(
         photo="مرحبا بك عزيزي {message.from_user.mention} في قسم المبرمج\nللتحدث مع مطور البوت اضغط علي الازرار بالاسفل👇\n**⩹━★⊷━⌞ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ ⌝━⊶★━⩺**""",
         reply_markup=InlineKeyboardMarkup(
             [

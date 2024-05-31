@@ -5,8 +5,8 @@ from datetime import datetime
 from pyrogram import enums
 from config import OWNER_ID
 from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
-fromAlmortagel import app
-fromAlmortagel.plugins.play.filters import command
+from Almortagel import app
+from Almortagel.plugins.play.filters import command
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import ChatPermissions, ChatPrivileges
@@ -14,10 +14,10 @@ from config import *
 from pyrogram.enums import ChatMembersFilter
 import asyncio
 import requests
-fromAlmortagel import app
+from Almortagel import app
 fromAlmortagel.core.call import Dil
-fromAlmortagel.utils.database import set_loop
-fromAlmortagel.utils.decorators import AdminRightsCheck
+from Almortagel.utils.database import set_loop
+from Almortagel.utils.decorators import AdminRightsCheck
 from datetime import datetime
 from config import BANNED_USERS, PING_IMG_URL, lyrical, START_IMG_URL, MONGO_DB_URI, OWNER_ID
 fromAlmortagel.utils import bot_sys_stats
@@ -34,18 +34,18 @@ import string
 import lyricsgenius as lg
 from pyrogram.types import (InlineKeyboardButton, ChatPermissions, InlineKeyboardMarkup, Message, User)
 from pyrogram import Client, filters
-fromAlmortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
 from typing import Union
 import sys
 import os
 from pyrogram.errors import PeerIdInvalid
 from os import getenv
-fromAlmortagel.misc import SUDOERS
+from Almortagel.misc import SUDOERS
 from pyrogram import filters, Client
 from telegraph import upload_file
 from dotenv import load_dotenv
 fromAlmortagel.utils.database import (set_cmode,get_assistant) 
-fromAlmortagel.utils.decorators.admins import AdminActual
+from Almortagel.utils.decorators.admins import AdminActual
 fromAlmortagel import app
 unmute_permissions = ChatPermissions(
     can_send_messages=True,

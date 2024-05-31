@@ -20,7 +20,7 @@ cursing = []
 mute = []
 #####==> By almortagel <==#####
 @app.on_message(filters.command("تف", "") & filters.group & filters.reply)
-async def almortagel(c, m):
+async def almortagel(client, message):
   ID_BOT = app.id
   first_name = message.reply_to_message.from_user.first_name
   id = message.reply_to_message.from_user.id
@@ -41,7 +41,7 @@ async def almortagel(c, m):
   message.reply_animation("https://t.me/DEVSOLiVEA/13",caption=Text,reply_markup=almortagel)
 
 @app.on_message(filters.command("تخ", "") & filters.group & filters.reply)
-async def almortagel(c, m):
+async def almortagel(client, message):
   ID_BOT = app.id
   first_name = message.reply_to_message.from_user.first_name
   id = message.reply_to_message.from_user.id
@@ -62,7 +62,7 @@ async def almortagel(c, m):
   message.reply_animation("https://t.me/DEVSOLiVEA/14",caption=Text,reply_markup=almortagel)
 
 @app.on_message(filters.command("قفل الدردشه", "") & filters.group)
-async def of_chat(c, m):
+async def of_chat(client, message):
   idchat = message.chat.id
   mention = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
@@ -74,7 +74,7 @@ async def of_chat(c, m):
   return
 
 @app.on_message(filters.command("فتح الدردشه", "") & filters.group)
-async def on_chat(c, m):
+async def on_chat(client, message):
   idchat = message.chat.id
   mention = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
@@ -86,7 +86,7 @@ async def on_chat(c, m):
   return
 
 @app.on_message(filters.command("قفل السب", "") & filters.group)
-async def of_cursing(c, m):
+async def of_cursing(client, message):
   idchat = message.chat.id
   name = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
@@ -110,7 +110,7 @@ async def on_cursing(client, message):
   return
 
 @app.on_message(filters.command("قفل التوجيه", "") & filters.group)
-async def of_forward(c, m):
+async def of_forward(client, message):
   idchat = message.chat.id
   name = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
@@ -122,7 +122,7 @@ async def of_forward(c, m):
   return
 
 @app.on_message(filters.command("فتح التوجيه", "") & filters.group)
-async def on_forward(c, m):
+async def on_forward(client, message):
   idchat = message.chat.id
   name = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
@@ -134,7 +134,7 @@ async def on_forward(c, m):
   return
 
 @app.on_message(filters.text & filters.group)
-async def msg(c, m):
+async def msg(client, message):
   text = message.text
   idchat = message.chat.id
 

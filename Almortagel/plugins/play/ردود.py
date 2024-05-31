@@ -2,8 +2,8 @@ import random
 from config import *
 from Almortagel import app
 from pyrogram import Client, filters
-from pyrogramessage.types import InlineKeyboardButton, InlineKeyboardMarkup
-from pyrogramessage.enums import ChatMemberStatus
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from pyrogram.enums import ChatMemberStatus
 
 
 async def Who(m, user_id):

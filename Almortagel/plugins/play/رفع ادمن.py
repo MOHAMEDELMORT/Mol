@@ -1,270 +1,137 @@
+from pyrogram import Client, filters, types, enums
+from pyrogram.types import ChatMemberUpdated
+from Almortagel import app
 import asyncio
-import re
-from pyrogram import Client, filters
-from datetime import datetime
-from pyrogram import enums
-from config import OWNER_ID
-from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
-from Almortagel import app
-from strings.filters import command
-from pyrogram.enums import ChatMembersFilter
-from pyrogram.enums import ChatMemberStatus
-from pyrogram.types import ChatPermissions, ChatPrivileges
-from config import *
-from pyrogram.enums import ChatMembersFilter
-import asyncio
-import requests
-from Almortagel import app
-from Almortagel.core.call import Dil
-from Almortagel.utils.database import set_loop
-from Almortagel.utils.decorators import AdminRightsCheck
-from datetime import datetime
-from config import BANNED_USERS, PING_IMG_URL, lyrical, START_IMG_URL, MONGO_DB_URI, OWNER_ID
-from Almortagel.utils import bot_sys_stats
-from Almortagel.utils.decorators.language import language
-import random
-import time
-from pyrogram.enums import ChatMembersFilter
-from pyrogram.enums import ChatMemberStatus
-from aiohttp import ClientSession
-from traceback import format_exc
-import config
-import re
-import string
-import lyricsgenius as lg
-from pyrogram.types import (InlineKeyboardButton, ChatPermissions, InlineKeyboardMarkup, Message, User)
-from pyrogram import Client, filters
-from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
-from typing import Union
-import sys
-import os
-from pyrogram.errors import PeerIdInvalid
-from os import getenv
-from Almortagel.misc import SUDOERS
-from pyrogram import filters, Client
-from telegraph import upload_file
-from dotenv import load_dotenv
-from Almortagel.utils.database import (set_cmode,get_assistant) 
-from Almortagel.utils.decorators.admins import AdminActual
-from Almortagel import app
-unmute_permissions = ChatPermissions(
-    can_send_messages=True,
-    can_send_media_messages=True,
-    can_send_polls=True,
-    can_change_info=False,
-    can_invite_users=True,
-    can_pin_messages=False,
-)
-
-mute_permission = ChatPermissions(
-    can_send_messages=False,
-    can_send_media_messages=False, 
-    can_send_other_messages=False,
-    can_send_polls=False,
-    can_add_web_page_previews=False,
-    can_change_info=False,
-    can_pin_messages=False,
-    can_invite_users=True,
-)
-
-welcome_enabled = True
-
-
-def is_owner(_, __, message):
-
-    return message.from_user.id == OWNER_ID
+import json
 
 
 
-chat_locked = False
-mention_locked = False
-video_locked = False
-link_locked = False
-sticker_locked = False
-smsim_locked = False
-forward_locked = False
-reply_locked = False
-photo_locked = False
-saap_locked = False
-rdods_locked = False
+
+ON_TYPES = {True: "✅", False: "❌"}
+Temp = {}
+ChatPrivileges_Types = {
+    'edit_info': False,
+    'delete_message': False,
+    'restrict_members': False,
+    'invite_users': False,
+    'pin_message': False,
+    'Manage_video': False,
+    'promote_members': False, }
 
 
-@app.on_chat_member_updated()
-async def welcome(client, chat_member_updated):
-    if not welcome_enabled:
-        return
-    
-    if chat_member_updated.new_chat_member.status == ChatMemberStatus.BANNED:
-        kicked_by = chat_member_updated.new_chat_member.restricted_by
-        user = chat_member_updated.new_chat_member.user
-        
-        if kicked_by is not None and kicked_by.is_self:
-            messagee = f"• المستخدم {user.username} ({user.first_name}) تم طرده من الدردشة بواسطة البوت"
-        else:
-            if kicked_by is not None:
-                message = f"• المستخدم [{user.first_name}](tg://user?id={user.id}) \n• تم طرده من الدردشة بواسطة [{kicked_by.first_name}](tg://user?id={kicked_by.id})\n• ولقد طردته بسبب هذا"
-                try:
-                    await client.ban_chat_member(chat_member_updated.chat.id, kicked_by.id)
-                except Exception as e:
-                    message += f"\n\nعذرًا، لم استطع حظر الإداري بسبب: {str(e)}"
-            else:
-                message = f"• المستخدم {user.username} ({user.first_name}) تم طرده من الدردشة"
-            
-            
-        
-        await client.send_message(chat_member_updated.chat.id, message)
 
-
-mutorn = {}
-
-def is_mutor(user_id):
-    return user_id in mutorn and mutorn[user_id] > 0
-
-@app.on_message(command(["رفع ادمن"]), group=3197)
-async def mutornn(client, message):
-    global mutorn
-    user_id = message.reply_to_message.from_user.id
-    if user_id in mutorn:
-        mutorn[user_id] += 1
-    else:
-        mutorn[user_id] = 1
-    chat_id = message.chat.id
-    await app.send_message(chat_id, text="تم الرفع ادمن بنجاح")
-
-@app.on_message(command(["تنزيل ادمن"]), group=396)
-async def remove_mutor(client, message):
-    global mutorn
-    user_id = message.reply_to_message.from_user.id
-    if user_id in mutorn and mutorn[user_id] > 0:
-        mutorn[user_id] -= 1
-        chat_id = message.chat.id
-        await app.send_message(chat_id, text="تم الادمن بنجاح")
-    else:
-        chat_id = message.chat.id
-        await app.send_message(chat_id, text="المستخدم ليس لديه صلاحيه")
-
-@app.on_message(command(["قائمة الادمنية", "الادمنيه"]), group=3996)
-async def list_mutors(client, message):
-    global mutorn
-    chat_id = message.chat.id
-    mutors = [str(user_id) for user_id, rank in mutorn.items() if rank > 0]
-    if mutors:
-        mutors_list = "\n".join(mutors)
-        await app.send_message(chat_id, text=f"قائمة الأدمنية:\n{mutors_list}")
-    else:
-        await app.send_message(chat_id, text="لا يوجد أدمنية حالياً")
-
-@app.on_message(command(["مسح الادمنيه"]), group=13681)
-async def mutorndv(client, message):
-    global mutorn
-    count = len(mutorn)
-    chat_id = message.chat.id
-    failed_count = 0
-    for member in list(mutorn.keys()):
-        user_id = member
+# Pyrogrma Filters Create .
+def is_admin():
+    async def func(_, app, message):
+        user_id = message.from_user.id
         try:
-            del mutorn[member]
-        except Exception:
-            failed_count += 1
-    successful_count = count - failed_count
-    if successful_count > 0:
-        await message.reply_text(f"↢ تم مسح {successful_count} من الادمنيه")
-    else:
-        await message.reply_text("↢ لا يوجد ادمنيه ليتم مسحهم")
-    if failed_count > 0:
-        await message.reply_text(f"↢ فشل في مسح {failed_count} من الادمنيه")
+            chat_id = message.chat.id
+        except AttributeError as e:
+            chat_id = message.message.chat.id
+        Res = await app.get_chat_member(chat_id, user_id)
+        return Res.status == enums.ChatMemberStatus.OWNER or Res.status == enums.ChatMemberStatus.ADMINISTRATOR or message.from_user.id != "6816180621"
+
+    return filters.create(func)
 
 
-mallekan = {}
+def is_onCall(data):
+    async def func(flt, _, query):
+        return query.data.split('|')[0] == flt.data
 
-def is_malleka(user_id):
-    return user_id in mallekan and mallekan[user_id] > 0
+    return filters.create(func, data=data)
 
-@app.on_message(command(["رفع مالك"]), group=3191)
-async def mallekann(client, message):
-    global mallekan
-    user_id = message.reply_to_message.from_user.id
-    if user_id in mallekan:
-        mallekan[user_id] += 1
-    else:
-        mallekan[user_id] = 1
-    chat_id = message.chat.id
-    await app.send_message(chat_id, text="تم الرفع مالك بنجاح")
 
-@app.on_message(command(["تنزيل مالك"]), group=390)
-async def remove_malleka(client, message):
-    global mallekan
-    user_id = message.reply_to_message.from_user.id
-    if user_id in mallekan and mallekan[user_id] > 0:
-        mallekan[user_id] -= 1
-        chat_id = message.chat.id
-        await app.send_message(chat_id, text="تم تنزيل مالك بنجاح")
-    else:
-        chat_id = message.chat.id
-        await app.send_message(chat_id, text="المستخدم ليس لديه الصلاحيه")
+# Keyboard UP Admin
+def keyboard(user_id: int):
+    return types.InlineKeyboardMarkup([
+        [
+            types.InlineKeyboardButton(ON_TYPES[False if False in Temp[user_id].values() else True],
+                                       f"up_all_prom|" + json.dumps({'user_id': user_id})),
+            types.InlineKeyboardButton('تثبيت الرسائل', 'None')
+        ], [
+            types.InlineKeyboardButton(ON_TYPES[Temp[user_id]['edit_info']],
+                                       f"up_prom|" + json.dumps({'user_id': user_id, 'promote': 'edit_info'})),
+            types.InlineKeyboardButton('تغير معلومات الجروب', 'None')
+        ], [
+            types.InlineKeyboardButton(ON_TYPES[Temp[user_id]['delete_message']],
+                                       f"up_prom|" + json.dumps({'user_id': user_id, 'promote': 'delete_message'})),
+            types.InlineKeyboardButton('حذف الرسائل', 'None')
+        ], [
+            types.InlineKeyboardButton(ON_TYPES[Temp[user_id]['restrict_members']],
+                                       f"up_prom|" + json.dumps({'user_id': user_id, 'promote': 'restrict_members'})),
+            types.InlineKeyboardButton('حظر المستخدمين', 'None'),
+        ], [
+            types.InlineKeyboardButton(ON_TYPES[Temp[user_id]['pin_message']],
+                                       f"up_prom|" + json.dumps({'user_id': user_id, 'promote': 'pin_message'})),
+            types.InlineKeyboardButton('دعوه المستخدمين', 'None')
+        ], [
+            types.InlineKeyboardButton(ON_TYPES[Temp[user_id]['Manage_video']],
+                                       f"up_prom|" + json.dumps({'user_id': user_id, 'promote': 'Manage_video'})),
+            types.InlineKeyboardButton('اداره البث المباشر', 'None')
+        ], [
+            types.InlineKeyboardButton(ON_TYPES[Temp[user_id]['promote_members']],
+                                       f"up_prom|" + json.dumps({'user_id': user_id, 'promote': 'promote_members'})),
+            types.InlineKeyboardButton('رفع مشرفين', 'None')
+        ], [
+            types.InlineKeyboardButton('اضغط للرفع الي مشرف', f"save|" + json.dumps({'user_id': user_id}))
+        ], [
+            types.InlineKeyboardButton(text='اغلاق', callback_data="close"),
+        ], ])
 
-@app.on_message(command(["قائمة المالكية", "المالكين"]), group=3991)
-async def list_mallekas(client, message):
-    global mallekan
-    chat_id = message.chat.id
-    mallekas = [str(user_id) for user_id, rank in mallekan.items() if rank > 0]
-    if mallekas:
-        mallekas_list = "\n".join(mallekas)
-        await app.send_message(chat_id, text=f"قائمة المالكين:\n{mallekas_list}")
-    else:
-        await app.send_message(chat_id, text="لا يوجد أدمنية حالياً")
 
-@app.on_message(command(["مسح المالكين"]), group=13684)
-async def mallekandv(client, message):
-    global mallekan
-    count = len(mallekan)
-    chat_id = message.chat.id
-    failed_count = 0
-    for member in list(mallekan.keys()):
-        user_id = member
-        try:
-            del mallekan[member]
-        except Exception:
-            failed_count += 1
-    successful_count = count - failed_count
-    if successful_count > 0:
-        await message.reply_text(f"↢ تم مسح {successful_count} من المالكين")
-    else:
-        await message.reply_text("↢ لا يوجد مالكيه ليتم مسحهم")
-    if failed_count > 0:
-        await message.reply_text(f"↢ فشل في مسح {failed_count} من المالكين")
-        
-        
-        
-@app.on_message(command(['رتبتي']), group=2889933100)
-async def ororhe(client: Client, message: Message):
-    me = await client.get_me()
-    bot_username = me.username
-    bot_name = me.first_name
-    italy = message.from_user.mention
-    button = InlineKeyboardButton("Almortagel", url=f"https://t.me/AlmortagelTech")
-    keyboard = InlineKeyboardMarkup([[button]])
-    user_id = message.from_user.id
-    chat_id = message.chat.id
+
+
+
+# /up_admin WIth Group .
+@app.on_message(filters.regex('^/admin$') & filters.group & filters.reply & is_admin())
+async def ON_RPLY(app: Client, Message: types.Message):
+    chat_id, message_id, user_id = Message.chat.id, Message.id, Message.from_user.id
+    member_up_id = Message.reply_to_message.from_user.id
+    Stateus = await app.get_chat_member(chat_id, member_up_id)
+    Temp.update({member_up_id: ChatPrivileges_Types})
+    await app.send_message(chat_id, text='قم بتعيين أدوار إدارية جديدة ثم قم بتعيينه كمشرف•',
+                           reply_markup=keyboard(member_up_id))
+
+
+@app.on_callback_query(is_onCall('up_prom') & is_admin())
+async def Call_Up(app: Client, query: types.CallbackQuery):
+    ONE = {True: False, False: True}
+    JSobj = json.loads(query.data.split('|')[1])
+    Temp[JSobj['user_id']][JSobj['promote']] = ONE[Temp[JSobj['user_id']][JSobj['promote']]]
+    await app.edit_message_text(text='قم بتعيين أدوار إدارية جديدة ثم قم بتعيينه كمشرف•',
+                                reply_markup=keyboard(JSobj['user_id']), chat_id=query.message.chat.id,
+                                message_id=query.message.id)
+
+
+@app.on_callback_query(is_onCall('up_all_prom') & is_admin())
+async def Call_Up(app: Client, query: types.CallbackQuery):
+    JSobj = json.loads(query.data.split('|')[1])
+    for P in Temp[JSobj['user_id']]:
+        Temp[JSobj['user_id']][P] = True
+    await app.edit_message_text(text='قم بتعيين أدوار إدارية جديدة ثم قم بتعيينه كمشرف•',
+                                reply_markup=keyboard(JSobj['user_id']), chat_id=query.message.chat.id,
+                                message_id=query.message.id)
+
+
+@app.on_callback_query(is_onCall('save'))
+async def Call_Up(app: Client, query: types.CallbackQuery):
+    JSobj = json.loads(query.data.split('|')[1])
+    chat_id = query.message.chat.id
     try:
-        member = await client.get_chat_member(chat_id, user_id)
-        if user_id == 5089553588:
-             rank = "رتبتك ⊱ صاحب سورس المرتجل\n༄"
-        elif is_malleka(user_id):    
-             rank = "رتبتك ⊱ مالك في الجروب\n༄"
-        elif user_id == OWNER_ID:
-             rank = "رتبتك ⊱ مطور البوت\n༄"
-        elif is_mutornn(user_id):    
-             rank = "رتبتك ⊱ ادمن\n༄ "     
-        elif ChatMemberStatus.ADMINISTRATOR:
-             rank = "حجي انت عضو حقير\n༄"            
-        elif ChatMemberStatus.OWNER:
-             rank = "رتبتك ⊱ مالك الجروب\n༄"
-        else:
-             rank = "حجي انت عضو حقير\n༄"
-    except Exception as e:
-        print(e)
-        rank = "مش عرفنلو مله ده😒"
-    await message.reply_text(f"{rank}")       
-        
-        
+        await app.promote_chat_member(chat_id, JSobj['user_id']
+                                      , types.ChatPrivileges(
+                can_change_info=Temp[JSobj['user_id']]['edit_info'],
+                can_delete_messages=Temp[JSobj['user_id']]['delete_message'],
+                can_restrict_members=Temp[JSobj['user_id']]['restrict_members'],
+                can_invite_users=Temp[JSobj['user_id']]['invite_users'],
+                can_pin_messages=Temp[JSobj['user_id']]['pin_message'],
+                can_manage_video_chats=Temp[JSobj['user_id']]['Manage_video'],
+                can_promote_members=Temp[JSobj['user_id']]['promote_members']
+            ))
+        await app.edit_message_text(text='✧¦ تم إنشاء المشرف بنجاح•', chat_id=query.message.chat.id,
+                                    message_id=query.message.id)
+    except ChatAdminRequired as Err:
+        await app.edit_message_text(text='✧¦ يجب أن تكون مشرفا في هاذه المجموعه',
+                                    chat_id=query.message.chat.id, message_id=query.message.id)
+    await asyncio.sleep(60)
+    await app.delete_messages(query.message.chat.id, query.message.id)

@@ -8,7 +8,7 @@ from Almortagel import app
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import ChatMemberStatus
 
-@app.on_message(~filters.private & command(["المالك","المنشئ"]), group=222)
+@app.on_message(filters.command(["المالك","المنشئ"], ""))
 def owner(app, message):
   for owner in app.get_chat_members(message.chat.id, filter=enums.ChatMembersFilter.ADMINISTRATORS):
     if owner.status == enums.ChatMemberStatus.OWNER:

@@ -5,12 +5,11 @@ from Almortagel import app
 import config
 
 @app.on_message(
-    command(["المطور", "السورس", "المصنع"])
+    command(["مطور البوت"])
 )
 async def maker(client: Client, message: Message):
-    await message.reply_photo(
-        photo="https://te.legra.ph/file/08cec0a2a844713e1624a.jpg",
-        caption="~ Team freedom \n~ Dav Source",
+    await message.reply_to(
+        photo="مرحبا بك عزيزي {message.from_user.mention} في قسم المبرمج\nللتحدث مع مطور البوت اضغط علي الازرار بالاسفل👇\n**⩹━★⊷━⌞ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ ⌝━⊶★━⩺**""",",
         reply_markup=InlineKeyboardMarkup(
             [
                 [

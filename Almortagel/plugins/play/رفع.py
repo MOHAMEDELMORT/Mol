@@ -7,14 +7,13 @@ import random
 from strings.filters import command
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.errors import FloodWait
+
+
 lokrf = []
 
 @app.on_message(
      command(["قفل الرفع","تعطيل الرفع"])
-     & filters.group
-
-   
-)
+     & filters.group)
 async def iddlock(client:Client, message:Message):
     dev = (OWNER_ID)
     get = await client.get_chat_member(message.chat.id, message.from_user.id)
@@ -37,8 +36,7 @@ async def iddlock(client:Client, message:Message):
 
 @app.on_message(
     command(["فتح الرفع","تفعيل الرفع"])
-    & filters.group
-)
+    & filters.group)
 async def idljjopen(client:Client, message:Message):
     dev = (OWNER_ID)
   

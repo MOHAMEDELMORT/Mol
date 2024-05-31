@@ -15,13 +15,13 @@ from pyrogram.enums import ChatMembersFilter
 import asyncio
 import requests
 from Almortagel import app
-fromAlmortagel.core.call import Dil
+from Almortagel.core.call import Dil
 from Almortagel.utils.database import set_loop
 from Almortagel.utils.decorators import AdminRightsCheck
 from datetime import datetime
 from config import BANNED_USERS, PING_IMG_URL, lyrical, START_IMG_URL, MONGO_DB_URI, OWNER_ID
-fromAlmortagel.utils import bot_sys_stats
-fromAlmortagel.utils.decorators.language import language
+from Almortagel.utils import bot_sys_stats
+from Almortagel.utils.decorators.language import language
 import random
 import time
 from pyrogram.enums import ChatMembersFilter

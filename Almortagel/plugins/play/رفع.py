@@ -1,12 +1,19 @@
-import time
 import asyncio
-from config import OWNER_ID
-from pyrogram import Client, filters
-from Almortagel import app
-import random
+import os
+import time
+import requests
+import aiohttp
+from pyrogram import filters
+from pyrogram import Client
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 from strings.filters import command
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from config import OWNER_ID
+from Almortagel import app
+from asyncio import gather
 from pyrogram.errors import FloodWait
+
+
 
 
 lokrf = []

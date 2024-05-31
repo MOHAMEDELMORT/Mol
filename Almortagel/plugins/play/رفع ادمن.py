@@ -44,9 +44,9 @@ from Almortagel.misc import SUDOERS
 from pyrogram import filters, Client
 from telegraph import upload_file
 from dotenv import load_dotenv
-fromAlmortagel.utils.database import (set_cmode,get_assistant) 
+from Almortagel.utils.database import (set_cmode,get_assistant) 
 from Almortagel.utils.decorators.admins import AdminActual
-fromAlmortagel import app
+from Almortagel import app
 unmute_permissions = ChatPermissions(
     can_send_messages=True,
     can_send_media_messages=True,

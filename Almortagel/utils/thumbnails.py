@@ -139,34 +139,13 @@ async def get_thumb(videoid):
             image4.text((670, 350), text=duration, fill="white", font = font4, align ="left") 
             image4.text((670, 400), text=channel, fill="white", font = font4, align ="left")
             image4.text((670, 450), "DEV : ELMORTAGEL", fill="white", font = font4, align ="left")
-        image4.text(
-            (57, 600),
-            clear(title),
-            (255, 255, 255),
-            font=font,)
-        image4.line(
-            [(55, 660), (1220, 660)],
-            fill="red",
-            width=5,
-            joint="curve",
-        )
-        image4.ellipse(
-            [(918, 648), (942, 672)],
-            outline="red",
-            fill="red",
-            width=15,
-        )
-        image4.text(
-            (36, 685),
-            "00:00",
-            (255, 255, 255),
-            font=arial,
-        )
-        image2 = ImageOps.expand(image2,border=20,fill=make_col())
-        image2 = image2.convert('RGB')
-        image2.save(f"cache/{videoid}.jpg")
-        file = f"cache/{videoid}.jpg"
-        return file
+            image4.line([(55, 660), (1220, 660)],fill="red", width=5, joint="curve")
+            image4.ellipse([(918, 648), (942, 672)], outline="red", fill="red", width=15)
+            image2 = ImageOps.expand(image2,border=20,fill=make_col())
+            image2 = image2.convert('RGB')
+            image2.save(f"cache/{videoid}.jpg")
+            file = f"cache/{videoid}.jpg"
+            return file
     except Exception as e:
         print(e)
         return YOUTUBE_IMG_URL

@@ -10,7 +10,7 @@ from pyrogram.types import *
 from pyrogram.errors import *
 
 #جلسه
-@app.on_message(filters.regex("^صنع جلسه$")& ~filters.channel)
+@app.on_message(filters.command(["صنع جلسه"], ""))
 async def bot(client, message):
     chat = message.chat
     number = await app.ask(chat.id, "من فضلك ارسل لي رقم هاتفك +20155730****** هكذا")

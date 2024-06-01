@@ -139,7 +139,7 @@ async def get_thumb(videoid):
             image4.text((670, 350), text=duration, fill="white", font = font4, align ="left") 
             image4.text((670, 400), text=channel, fill="white", font = font4, align ="left")
             image4.text((670, 450), "DEV : ELMORTAGEL", fill="white", font = font4, align ="left")
-            image4.ellipse([(925, 700), (925, 700)], outline="red", fill="red", width=16)
+            
             image2 = ImageOps.expand(image2,border=20,fill=make_col())
             image2 = image2.convert('RGB')
             image2.save(f"cache/{videoid}.jpg")

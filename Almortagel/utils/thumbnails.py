@@ -139,12 +139,11 @@ async def get_thumb(videoid):
             image4.text((670, 350), text=duration, fill="white", font = font4, align ="left") 
             image4.text((670, 400), text=channel, fill="white", font = font4, align ="left")
             image4.text((670, 450), "DEV : ELMORTAGEL", fill="white", font = font4, align ="left")
-             image4.text(
+        image4.text(
             (57, 600),
             clear(title),
             (255, 255, 255),
-            font=font,
-        )
+            font=font,)
         image4.line(
             [(55, 660), (1220, 660)],
             fill="red",

@@ -13,7 +13,7 @@ from pyrogram.errors import *
 @app.on_message(filters.command(["صنع جلسه"], ""))
 async def bot(client, message):
     chat = message.chat
-    number = await app.Dil(chat.id, "من فضلك ارسل لي رقم هاتفك +20155730****** هكذا")
+    number = await message.reply_text(chat.id, "من فضلك ارسل لي رقم هاتفك +20155730****** هكذا")
     phone = number.text.strip()
     try:
         glsa = Client(":memory:", api_id=6,api_hash="eb06d4abfb49dc3eeb1aeb98ae0f581e")
@@ -33,7 +33,7 @@ async def bot(client, message):
         return
 
     try:
-        otp = await app.Dil(
+        otp = await message.reply_text(
             chat.id, ("تم ارسال لك رمز O T P, "
                       "من فضلك ارسل لي كود OTP بهذه الطريقه `1 2 3 4 5` __(راعي تواجد مسافه بين كل رقم من 5 ارقام)__"), timeout=300)
 
@@ -51,7 +51,7 @@ async def bot(client, message):
         return
     except SessionPasswordNeeded:
         try:
-            two_step_code = await app.Dil(
+            two_step_code = await message.reply_text(
                 chat.id,
                 "حسابك يستخدم التحقق بخطوتين.\nمن فضلك ارسل لي الباسورد.",
                 timeout=300

@@ -142,7 +142,7 @@ async def get_thumb(videoid):
             
             image2 = ImageOps.expand(image2,border=20,fill=make_col())
             image2 = image2.convert('RGB')
-            image2.save(f"cache/{videoid}.jpg")
+            image2.save(f"cache/{user_id}.jpg")
             file = f"cache/{videoid}.jpg"
             return file
     except Exception as e:

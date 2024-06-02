@@ -45,3 +45,4 @@ kvsqlite
 pytz
 enums
 pyromod
+telethon

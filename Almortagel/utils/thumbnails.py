@@ -38,7 +38,7 @@ def truncate(text):
     text2 = text2.strip()     
     return [text1,text2]
 
-async def get_thumb(videoid):
+async def get_thumb(videoid),(user_id):
     try:
         if os.path.isfile(f"cache/{videoid}.jpg"):
             return f"cache/{videoid}.jpg"
@@ -143,7 +143,7 @@ async def get_thumb(videoid):
             image2 = ImageOps.expand(image2,border=20,fill=make_col())
             image2 = image2.convert('RGB')
             image2.save(f"cache/{user_id}.jpg")
-            file = f"cache/{videoid}.jpg"
+            file = f"cache/{user_id}.jpg"
             return file
     except Exception as e:
         print(e)

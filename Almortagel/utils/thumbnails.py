@@ -101,7 +101,7 @@ async def get_thumb(videoid):
         j = 0
         draw.text(
             (5, 5), f"Almortagel Music", (255, 255, 255),
-            font=arial,
+            font=font1,
         )
         draw.text(
             (600, 150),
@@ -137,19 +137,19 @@ async def get_thumb(videoid):
             (600, 450),
             f"Views : {views[:23]}",
             (255, 255, 255),
-            font=arial,
+            font=font1,
         )
         draw.text(
             (600, 500),
             f"Duration : {duration[:23]} Mins",
             (255, 255, 255),
-            font=arial,
+            font=font1,
         )
         draw.text(
             (600, 550),
             f"Channel : {channel}",
             (255, 255, 255),
-            font=arial,
+            font=font1,
         )
         try:
             os.remove(f"cache/thumb{videoid}.jpg")

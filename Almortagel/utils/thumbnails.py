@@ -94,9 +94,9 @@ async def get_thumb(videoid):
         background.paste(logo, (50, 100))
         draw = ImageDraw.Draw(background)
         font1 = ImageFont.truetype('Almortagel/assets/font.ttf', 30)
-            font2 = ImageFont.truetype('Almortagel/assets/font2.ttf', 70)
-            font3 = ImageFont.truetype('Almortagel/assets/font2.ttf', 40)
-            font4 = ImageFont.truetype('Almortagel/assets/font2.ttf', 35)
+        font2 = ImageFont.truetype('Almortagel/assets/font2.ttf', 70)
+        font3 = ImageFont.truetype('Almortagel/assets/font2.ttf', 40)
+        font4 = ImageFont.truetype('Almortagel/assets/font2.ttf', 35)
         para = textwrap.wrap(title, width=32)
         j = 0
         draw.text(

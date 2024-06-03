@@ -10,7 +10,7 @@ from pyrogram.types import (
 
 
 EMOJIS = list("😭🤣😂😅😆😁😄😃😀🥳🤩🤩😍🥰😘😚😙😗😉🤪😜😝😛😋🥲🙂🙃😶😐😑🫣🤭")
-@app.on_message(filters.regex(["الاسرع"], ""))
+@app.on_message(filters.command(["الاسرع"], ""))
 async def game_1(client, message):
    emoji = choice(EMOJIS)
    re = f"^{emoji}$"

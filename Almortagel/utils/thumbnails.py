@@ -74,9 +74,9 @@ async def get_thumb(videoid):
                             f"cache/thumb{videoid}.jpg", mode="wb"
                         )
                         await f.write(await resp.read())
-                       await f.close()
+                        await f.close()
 
-        youtube = Image.open(f"cache/thumb{videoid}.png")
+            youtube = Image.open(f"cache/thumb{videoid}.png")
         image1 = changeImageSize(1280, 720, youtube)
         image2 = image1.convert("RGBA")
         background = image2.filter(filter=ImageFilter.BoxBlur(30))
@@ -93,10 +93,10 @@ async def get_thumb(videoid):
         logo = ImageOps.expand(logo, border=15, fill="white")
         background.paste(logo, (50, 100))
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("assets/font2.ttf", 40)
-        font2 = ImageFont.truetype("assets/font2.ttf", 70)
-        arial = ImageFont.truetype("assets/font2.ttf", 30)
-        name_font = ImageFont.truetype("assets/font.ttf", 30)
+        font = ImageFont.truetype("Almortagel/assets/font2.ttf", 40)
+        font2 = ImageFont.truetype("Almortagel/assets/font2.ttf", 70)
+        arial = ImageFont.truetype("Almortagel/assets/font2.ttf", 30)
+        name_font = ImageFont.truetype("Almortagel/assets/font.ttf", 30)
         para = textwrap.wrap(title, width=32)
         j = 0
         draw.text(

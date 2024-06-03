@@ -115,8 +115,7 @@ FLAGS = [
   "🇴🇲:سلطنة عمان",
   "🇯🇵:اليابان"
 ]
-@app.on_message(filters.regex(["اعلام دول"], ""))
-@app.on_edited_message(filters.regex("^اعلام دول$") & filters.group)
+@app.on_message(filters.command(["اعلام دول"], ""))
 async def game_4(client, message):
    A = choice(FLAGS)
    emo = A.split(":")[0]

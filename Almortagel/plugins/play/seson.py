@@ -10,8 +10,7 @@ from pyrogram.types import (
 
 
 EMOJIS = list("😭🤣😂😅😆😁😄😃😀🥳🤩🤩😍🥰😘😚😙😗😉🤪😜😝😛😋🥲🙂🙃😶😐😑🫣🤭")
-@app.on_message(filters.regex("^الاسرع$") & filters.group)
-@app.on_edited_message(filters.regex("^الاسرع$") & filters.group)
+@app.on_message(filters.regex(["الاسرع"], ""))
 async def game_1(client, message):
    emoji = choice(EMOJIS)
    re = f"^{emoji}$"
@@ -45,8 +44,7 @@ AUT = [
   "https://telegra.ph/file/10f7ddbd1779f6bcc9df8.jpgZAIDوائل جسار"
 ]
 
-@app.on_message(filters.regex("^مشاهير$") & filters.group)
-@app.on_edited_message(filters.regex("^مشاهير$") & filters.group)
+@app.on_message(filters.command(["مشاهير"], ""))
 async def game_2(client, message):
    photoo = choice(AUT)
    photo = photoo.split("ZAID")[0]
@@ -83,8 +81,7 @@ EMO = [
   "💸:فلوس",
   "💻:لاب"
 ]
-@app.on_message(filters.regex("^معاني$") & filters.group)
-@app.on_edited_message(filters.regex("^معاني$") & filters.group)
+@app.on_message(filters.command(["معاني"]))
 async def game_3(client, message):
    A = choice(EMO)
    emo = A.split(":")[0]
@@ -118,7 +115,7 @@ FLAGS = [
   "🇴🇲:سلطنة عمان",
   "🇯🇵:اليابان"
 ]
-@app.on_message(filters.regex("^اعلام دول$") & filters.group)
+@app.on_message(filters.regex(["اعلام دول"], ""))
 @app.on_edited_message(filters.regex("^اعلام دول$") & filters.group)
 async def game_4(client, message):
    A = choice(FLAGS)
@@ -136,8 +133,7 @@ async def game_4(client, message):
    await ASK.reply(
     f"كفو {ASK.from_user.mention} اجابتك صحيحة"
    )
-@app.on_message(filters.regex("^اقوال$") & filters.group)
-@app.on_edited_message(filters.regex("^اقوال$") & filters.group)
+@app.on_message(filters.command(["اقوال"], ""))
 async def game_5(client, message):
    f = "quotes555v"
    t = message.chat.id

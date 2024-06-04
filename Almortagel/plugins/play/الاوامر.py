@@ -45,7 +45,6 @@ async def almortagel_source(client: Client, message: Message):
     
 @app.on_callback_query(filters.regex("gr"))
 async def almortagel_usage(_, callback_query: CallbackQuery):
-    await callback_query.answer()
     await callback_query.message.edit_text(
         text="""**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات
@@ -90,7 +89,6 @@ async def almortagel_usage(_, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("ch"))
 async def almortagel_usage(_, callback_query: CallbackQuery):
-    await callback_query.answer()
     await callback_query.message.edit_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات
@@ -120,7 +118,6 @@ async def almortagel_usage(_, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("adm"))
 async def almortagel_usage(_, callback_query: CallbackQuery):
-    await callback_query.answer()
     await callback_query.message.edit_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن

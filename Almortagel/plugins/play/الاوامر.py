@@ -224,7 +224,7 @@ def Almortagel(c, message):
  اععع اي القرف ده 🤢
 """
   Almortagel = InlineKeyboardMarkup([[InlineKeyboardButton("اضف البوت الي مجموعتك او قناتك 🎸", url=f"https://t.me/{app.username}?startgroup=true"),]])
-  message.reply_animation("https://te.legra.ph/file/7eca3719e7cfa2e6bc9e3.mp4",caption=Text,reply_markup=Almortagel)
+  message.reply_video("https://te.legra.ph/file/7eca3719e7cfa2e6bc9e3.mp4",caption=Text,reply_markup=Almortagel)
 
 @app.on_message(filters.command("تخ", "") & filters.group & filters.reply)
 def Almortagel(c, message):
@@ -245,4 +245,4 @@ def Almortagel(c, message):
  ان لله وان اليه راجعون ⚰😭
 """
   Almortagel = InlineKeyboardMarkup([[InlineKeyboardButton("اضف البوت الي مجموعتك او قناتك 🎸", url=f"https://t.me/{app.username}?startgroup=true"),]])
-  message.reply_animation("https://te.legra.ph/file/163a38872a6c0d44d1c57.mp4",caption=Text,reply_markup=Almortagel)
+  message.reply_video("https://te.legra.ph/file/163a38872a6c0d44d1c57.mp4",caption=Text,reply_markup=Almortagel)

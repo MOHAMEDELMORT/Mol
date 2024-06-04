@@ -89,7 +89,7 @@ async def almortagel_usage(_, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("ch"))
 async def almortagel_usage(_, callback_query: CallbackQuery):
-    await callback_query.message.edit_text(
+    await callback_query.message.reply_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات
 ★¦ شغل + اسم الاغنيه
@@ -118,7 +118,7 @@ async def almortagel_usage(_, callback_query: CallbackQuery):
 
 @app.on_callback_query(filters.regex("adm"))
 async def almortagel_usage(_, callback_query: CallbackQuery):
-    await callback_query.message.edit_text(
+    await callback_query.message.reply_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن
 ★¦ رفع ثانوي

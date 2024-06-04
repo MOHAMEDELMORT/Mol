@@ -206,16 +206,16 @@ async def almortagel_back(_, callback_query: CallbackQuery):
 
 
 @app.on_message(filters.command("تف", "") & filters.group & filters.reply)
-def Almortagel(c, m):
+def Almortagel(c, message):
   ID_BOT = app.id
-  first_name = m.reply_to_message.from_user.first_name
-  id = m.reply_to_message.from_user.id
+  first_name = message.reply_to_message.from_user.first_name
+  id = message.reply_to_message.from_user.id
   if id == OWNER_ID:
-    return m.reply("• لا يمكنك التف علي المطور ❤️✌️")
+    return message.reply("• لا يمكنك التف علي المطور ❤️✌️")
   if id == ID_BOT:
-    return m.reply("• عاوزني اتف علي نفسي يعبيط 😂")
+    return message.reply("• عاوزني اتف علي نفسي يعبيط 😂")
   if id == DEVELOPERS:
-    return m.reply("• لا يمكنك التف علي مطورين السورس 🧑‍✈️")
+    return message.reply("• لا يمكنك التف علي مطورين السورس 🧑‍✈️")
   Text =f"""
 • تم التف علي هذا الشخص
 
@@ -224,19 +224,19 @@ def Almortagel(c, m):
  اععع اي القرف ده 🤢
 """
   Almortagel = InlineKeyboardMarkup([[InlineKeyboardButton("اضف البوت الي مجموعتك او قناتك 🎸", url=f"https://t.me/{app.username}?startgroup=true"),]])
-  m.reply_video("https://te.legra.ph/file/7eca3719e7cfa2e6bc9e3.mp4",caption=Text,reply_markup=Almortagel)
+  message.reply_animation("https://te.legra.ph/file/7eca3719e7cfa2e6bc9e3.mp4",caption=Text,reply_markup=Almortagel)
 
 @app.on_message(filters.command("تخ", "") & filters.group & filters.reply)
-def Almortagel(c, m):
+def Almortagel(c, message):
   ID_BOT = app.id
-  first_name = m.reply_to_message.from_user.first_name
-  id = m.reply_to_message.from_user.id
+  first_name = message.reply_to_message.from_user.first_name
+  id = message.reply_to_message.from_user.id
   if id == OWNER_ID:
-    return m.reply("• لا يمكنك قتل المطور ❤️✌️")
+    return message.reply("• لا يمكنك قتل المطور ❤️✌️")
   if id == ID_BOT:
-    return m.reply("• عاوزني اقتل نفسي 😂")
+    return message.reply("• عاوزني اقتل نفسي 😂")
   if id == DEVELOPERS:
-    return m.reply("• لا يمكنك قتل مطورين السورس 🧑‍✈️")
+    return message.reply("• لا يمكنك قتل مطورين السورس 🧑‍✈️")
   Text =f"""
 • تم قتل هذا الشخص
 
@@ -245,4 +245,4 @@ def Almortagel(c, m):
  ان لله وان اليه راجعون ⚰😭
 """
   Almortagel = InlineKeyboardMarkup([[InlineKeyboardButton("اضف البوت الي مجموعتك او قناتك 🎸", url=f"https://t.me/{app.username}?startgroup=true"),]])
-  m.reply_video("https://te.legra.ph/file/163a38872a6c0d44d1c57.mp4",caption=Text,reply_markup=Almortagel)
+  message.reply_animation("https://te.legra.ph/file/163a38872a6c0d44d1c57.mp4",caption=Text,reply_markup=Almortagel)

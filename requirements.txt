@@ -47,3 +47,4 @@ enums
 pyromod
 telethon
 OpsAi
+gtts

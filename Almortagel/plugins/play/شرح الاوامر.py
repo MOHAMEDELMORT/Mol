@@ -6,7 +6,7 @@ from Almortagel import app
 
 
 
-@app.on_message(filters.regex(r"^(المرتجل)"))
+@app.on_message(filters.command(["مرتجل"], ""))
 async def aiText(_, message: Message):
     data = message.text.split(maxsplit=1)
     if len(data) < 2: return await message.reply("- عايز اي؟", reply_to_message_id=message.id)

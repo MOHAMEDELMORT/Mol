@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from gtts import gTTS
 import os
+from Almortagel import app
 
 
 @app.on_message(filters.command("قول", ""))

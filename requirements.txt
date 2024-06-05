@@ -46,3 +46,4 @@ pytz
 enums
 pyromod
 telethon
+OpsAi

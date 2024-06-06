@@ -1,10 +1,10 @@
 import asyncio
 import random
 import datetime
-from AarohiX import app
+from Almortagel import app
 from pyrogram import Client
 from pyrogram import filters
-from AarohiX.utils.database import get_served_chats
+from Almortagel.utils.database import get_served_chats
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 

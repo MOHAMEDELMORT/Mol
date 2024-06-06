@@ -1,24 +1,55 @@
+import asyncio
 from pyrogram import Client, filters
-from pyrogram.types import Message
-from gtts import gTTS
-import os
+from random import choice
+from strings import get_command
+from strings.filters import command
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import (InlineKeyboardButton,CallbackQuery,
+                            InlineKeyboardMarkup, Message)
 from Almortagel import app
+from typing import Union
+from pyrogram.types import InlineKeyboardButton
+
+RAEAK = ["زينه","حلوه","فخمه","جميله","خوش","انيقه","مو حلوه","بشعه","مو زينه","كلش حلوه","استمر بيها","احبها","غيرها حباب"]
+
+@app.on_message(
+    command(["رأيك","رأيك بصورتي","شون صورتي"])
+    & ~filters.edited
+)
+async def madison(client: Client, message: Message):
+    usr = await client.get_users(message.from_user.id)
+    name = usr.first_name
+    async for photo in client.iter_profile_photos(message.from_user.id, limit=1):
+                    await message.reply_photo(photo.file_id,       caption=f"""صورتك {choice(RAEAK)} 🧸♥️""", 
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        name, url=f"https://t.me/{message.from_user.username}")
+                ],
+            ]
+        ),
+    )
 
 
-@app.on_message(filters.command("قول", ""))
-async def speak(_, message: Message):
-    chat_id = message.chat.id
-    data = message.text.split(maxsplit=1)
-    if len(data) < 2:return await message.reply("اقول اي؟", reply_to_message_id=message.id)
-    wait = await message.reply('استنى بقرأ اللي انت كاتبه..', reply_to_message_id=message.id)
-    if data[1].isascii():
-        language = 'en'
-    else:
-        language = 'ar'
-    audio = gTTS(text=data[1], lang=language)
-    audio.save(f"{message.from_user.username}.mp3")
-	
-    with open(f"{message.from_user.username}.mp3", "rb") as audio:
-        await app.send_voice(chat_id=chat_id, voice=audio, reply_to_message_id=message.id)
-        await wait.delete()
-    os.remove(f"{message.from_user.username}.mp3")
+
+GMALY = ["1","15","89","88","67","13","44","17","35","78","11","12","13","14","15","16","17","10","20","30","35","75","34","66","82","23","19","55","80","63","32","27","89","99","98","79","100","8","3","6","0"]
+
+@app.on_message(
+    command(["نسبه جمالي","جمالي","حلاوتي"])
+    & ~filters.edited
+)
+async def madison(client: Client, message: Message):
+    usr = await client.get_users(message.from_user.id)
+    name = usr.first_name
+    async for photo in client.iter_profile_photos(message.from_user.id, limit=1):
+                    await message.reply_photo(photo.file_id,       caption=f"""نسبه جمالك هيا {choice(GMALY)}% 🙄❤️""", 
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        name, url=f"https://t.me/{message.from_user.username}")
+                ],
+            ]
+        ),
+    )

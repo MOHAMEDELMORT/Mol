@@ -20,11 +20,11 @@ def private_panel(_):
     buttons = [
         [
             InlineKeyboardButton(
-                text=_["S_B_8"],
+                text="العربيه",
                 callback_data=f"arbic",
             ),
             InlineKeyboardButton(
-                text=_["S_B_6"],
+                text="الإنجليزية",
                 callback_data=f"english",
             ),
         ],

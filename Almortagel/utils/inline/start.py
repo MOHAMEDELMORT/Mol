@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardButton
 import config
 from Almortagel import app
 
-OWNER_NAME
+
 def start_panel(_):
     buttons = [
         [

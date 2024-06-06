@@ -3,6 +3,7 @@ from pyrogram.types import InlineKeyboardButton
 
 import config
 from Almortagel import app
+from config import OWNER_NAME
 
 
 def start_panel(_):

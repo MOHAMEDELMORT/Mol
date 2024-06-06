@@ -11,10 +11,7 @@ from pyrogram.types import InlineKeyboardButton
 
 RAEAK = ["زينه","حلوه","فخمه","جميله","خوش","انيقه","مو حلوه","بشعه","مو زينه","كلش حلوه","استمر بيها","احبها","غيرها حباب"]
 
-@app.on_message(
-    command(["رأيك","رأيك بصورتي","شون صورتي"])
-    & ~filters.edited
-)
+@app.on_message(filters.command(["رأيك","رأيك بصورتي","شون صورتي"], ""))
 async def madison(client: Client, message: Message):
     usr = await client.get_users(message.from_user.id)
     name = usr.first_name
@@ -34,10 +31,7 @@ async def madison(client: Client, message: Message):
 
 GMALY = ["1","15","89","88","67","13","44","17","35","78","11","12","13","14","15","16","17","10","20","30","35","75","34","66","82","23","19","55","80","63","32","27","89","99","98","79","100","8","3","6","0"]
 
-@app.on_message(
-    command(["نسبه جمالي","جمالي","حلاوتي"])
-    & ~filters.edited
-)
+@app.on_message(filters.command(["نسبه جمالي","جمالي","حلاوتي"], ""))
 async def madison(client: Client, message: Message):
     usr = await client.get_users(message.from_user.id)
     name = usr.first_name

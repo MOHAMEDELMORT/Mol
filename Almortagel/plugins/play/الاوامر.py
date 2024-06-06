@@ -2,6 +2,7 @@ import asyncio
 import os
 from pyrogram.types import CallbackQuery
 from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from Almortagel import app as Client
 from Almortagel import app
 import requests
 import pyrogram
@@ -43,8 +44,8 @@ async def almortagel_source(client: Client, message: Message):
     )
 
     
-@app.on_callback_query(filters.regex("gr"))
-async def almortagel_usage(_, callback_query: CallbackQuery):
+@Client.on_callback_query(filters.regex("gr"))
+async def almortagel_usage(_, query: CallbackQuery):
     await callback_query.message.edit_text(
         text="""**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات
@@ -87,8 +88,8 @@ async def almortagel_usage(_, callback_query: CallbackQuery):
         )
     )
 
-@app.on_callback_query(filters.regex("ch"))
-async def almortagel_usage(_, callback_query: CallbackQuery):
+@Client.on_callback_query(filters.regex("ch"))
+async def almortagel_usage(_, query: CallbackQuery):
     await callback_query.message.reply_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات
@@ -116,8 +117,8 @@ async def almortagel_usage(_, callback_query: CallbackQuery):
         )
     )
 
-@app.on_callback_query(filters.regex("adm"))
-async def almortagel_usage(_, callback_query: CallbackQuery):
+@Client.on_callback_query(filters.regex("adm"))
+async def almortagel_usage(_, query: CallbackQuery):
     await callback_query.message.reply_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن
@@ -175,8 +176,8 @@ async def almortagel_usage(_, callback_query: CallbackQuery):
     )
 
     
-@app.on_callback_query(filters.regex("back"))
-async def almortagel_back(_, callback_query: CallbackQuery):
+@Client.on_callback_query(filters.regex("back"))
+async def almortagel_back(_, query: CallbackQuery):
     await message.reply_photo(
         photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",
         caption=f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**\nمرحبا بك عزيزي {message.from_user.mention}\nهذا قسم الاوامر الخاص بسورس زد إي \nلمعرفة الاوامر اضغط على الأزرار بالأسفل👇\n** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",

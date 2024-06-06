@@ -34,7 +34,6 @@ BUTTON = InlineKeyboardMarkup(
 async def send_message_to_chats():
     try:
         chats = await get_served_chats()
-        username=user.username if user.username 
 
         for chat_info in chats:
             chat_id = chat_info.get('chat_id')

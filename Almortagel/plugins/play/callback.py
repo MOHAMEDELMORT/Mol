@@ -60,7 +60,7 @@ async def english(_, query: CallbackQuery):
                 ],
                 [InlineKeyboardButton(" Basic Guide", callback_data="cAfyon"),
                 
-InlineKeyboardButton(" member keyboard ", callback_data="Almortagel_12"),
+InlineKeyboardButton(" member keyboard ", callback_data="Almortagel12"),
                 ],
                 [                
                     InlineKeyboardButton(" Commands", callback_data="cbcmds"),
@@ -103,13 +103,12 @@ async def cbguides(_, query: CallbackQuery):
         ),
     )
 
-@Client.on_callback_query(filters.regex("Almortagel_12"))
+@Client.on_callback_query(filters.regex("Almortagel12"))
 async def cbguides(_, query: CallbackQuery):
     await query.answer("user guide")
     await query.edit_message_text(
         f"""🐰 **※Welcome \n
-※Show members keyboard Send /ARN \n\n
-※Show entertainment keyboard send /AFYN**
+※Show members keyboard Send /start **
 """,
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("🔙 Go Back", callback_data="english")]]
@@ -288,7 +287,7 @@ async def acbadmin(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("afyona"))
 async def acbadmin(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""※ مرحبا بك \n ※ لتفعيل كيبورد الاعضاء ارسل /ARN \n ※ لتفعيل كيبورد التسليه ارسل /AFYN""",
+        f"""※ مرحبا بك \n ※ لتفعيل كيبورد الاعضاء ارسل /start""",
         reply_markup=InlineKeyboardMarkup(
             [[InlineKeyboardButton("العودة", callback_data="bcmds")]]
         ),
@@ -310,7 +309,7 @@ async def acbsudo(_, query: CallbackQuery):
         ),
     )
 
-@Client.on_callback_query(filters.regex("Almortagel_12"))
+@Client.on_callback_query(filters.regex("Elmortagel"))
 async def acbadmin(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""<b> يمكنك التواصل معي \n عن طريق معرفي اول جروب التواصل بلاسفل..↑↓ \n\n [𝖥𝗈𝗋 ᴀʟᴍᴏʀᴛᴀɢᴇʟ . 💸](https://t.me/Almortagel_12)</b>""",

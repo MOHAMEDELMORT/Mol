@@ -30,7 +30,7 @@ def private_panel(_):
             ),
         ],
         [
-            InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID),
+            InlineKeyboardButton(text="{OWNER_NAME}", user_id=config.OWNER_ID),
         ],
     ]
     return buttons

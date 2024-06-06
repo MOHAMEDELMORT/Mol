@@ -84,7 +84,11 @@ async def start_pm(client, message: Message, _):
                     text=f"{message.from_user.mention} ᴊᴜsᴛ sᴛᴀʀᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ ᴛᴏ ᴄʜᴇᴄᴋ <b>ᴛʀᴀᴄᴋ ɪɴғᴏʀᴍᴀᴛɪᴏɴ</b>.\n\n<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>\n<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}",
                 )
     else:
-          OWNER = None
+        try:
+            await app.resolve_peer(OWNER_ID[0])
+            OWNER = OWNER_ID[0]
+        except:
+            OWNER = None
         out = private_panel(_, app.username, OWNER)
         boot = await app.get_me()
         photo_id = boot.photo.big_file_id
@@ -97,6 +101,7 @@ async def start_pm(client, message: Message, _):
                 config.LOG_GROUP_ID,
                 f"{message.from_user.mention} has just started Bot.\n\n**USER ID:** {sender_id}\n**USER NAME:** {sender_name}",
             )
+
 
 
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)

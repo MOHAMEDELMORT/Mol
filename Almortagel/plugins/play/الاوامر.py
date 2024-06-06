@@ -7,7 +7,7 @@ from Almortagel import app
 
 
 @Client.on_message(filters.command(["الاوامر"], ""))
-async def almortagel(client: Client, message: Message):
+async def almortagel(client, message):
     await message.reply_photo(
         photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",
         caption=f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**\nمرحبا بك عزيزي {message.from_user.mention}\nهذا قسم الاوامر الخاص بسورس المرتجل \nلمعرفة الاوامر اضغط على الأزرار بالأسفل👇\n** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",

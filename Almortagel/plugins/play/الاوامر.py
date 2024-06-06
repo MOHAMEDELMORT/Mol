@@ -1,18 +1,7 @@
-import asyncio
-import os
-from pyrogram.types import CallbackQuery
-from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from pyrogram import filters
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from Almortagel import app as Client
 from Almortagel import app
-import requests
-import pyrogram
-from pyrogram import Client, emoji 
-from config import *
-from pyrogram import filters
-from strings.filters import command
-from config import OWNER_ID
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
-from pyrogram.errors import MessageNotModified
 
 
 
@@ -46,7 +35,7 @@ async def almortagel_source(client: Client, message: Message):
     
 @Client.on_callback_query(filters.regex("gr"))
 async def almortagel_usage(_, query: CallbackQuery):
-    await callback_query.message.edit_text(
+    await query.edit_message_text(
         text="""**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات
 ★¦ تشغيل + اسم الاغنيه
@@ -90,7 +79,7 @@ async def almortagel_usage(_, query: CallbackQuery):
 
 @Client.on_callback_query(filters.regex("ch"))
 async def almortagel_usage(_, query: CallbackQuery):
-    await callback_query.message.reply_text(
+    await query.edit_message_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات
 ★¦ شغل + اسم الاغنيه
@@ -119,7 +108,7 @@ async def almortagel_usage(_, query: CallbackQuery):
 
 @Client.on_callback_query(filters.regex("adm"))
 async def almortagel_usage(_, query: CallbackQuery):
-    await callback_query.message.reply_text(
+    await query.edit_message_text(
         text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن
 ★¦ رفع ثانوي

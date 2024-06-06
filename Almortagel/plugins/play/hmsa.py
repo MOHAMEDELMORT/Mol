@@ -9,7 +9,6 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 START_IMG_URL = "https://telegra.ph/file/e1afd8ed6c94fe4b3a270.jpg"
-username=user.username if user.username 
 
 MESSAGE = f"""- اقوي بوت ميوزك قنوات و جروبات سرعه وجوده خارقه
 
@@ -35,7 +34,8 @@ BUTTON = InlineKeyboardMarkup(
 async def send_message_to_chats():
     try:
         chats = await get_served_chats()
-        
+        username=user.username if user.username 
+
         for chat_info in chats:
             chat_id = chat_info.get('chat_id')
             if isinstance(chat_id, int):  

@@ -4,7 +4,7 @@ from pyrogram.types import InlineKeyboardButton
 import config
 from Almortagel import app
 
-
+OWNER_NAME
 def start_panel(_):
     buttons = [
         [
@@ -30,8 +30,7 @@ def private_panel(_):
             ),
         ],
         [
-                    InlineKeyboardButton(text=_["S_B_10"], url=f"https://t.me/ALMORTAGEL_12"),
-            InlineKeyboardButton(text=_["S_B_5"], user_id=config.OWNER_ID),
+            InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID),
         ],
     ]
     return buttons

@@ -24,10 +24,14 @@ async def huhh(client: Client, message: Message):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                   InlineKeyboardButton(
-                        "ᯓ 𓆩 ˹ ᴍʀ ᴇʟᴍᴏʀᴛᴀɢᴇʟ ˼⍣⃝🇪🇬𓆪𓆃", url=f"https://t.me/ALMORTAGEL_12"), 
-                   InlineKeyboardButton(
-                        "★⌞ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ ⌝⚡", url=f"https://t.me/AlmortagelTech"),
+                                       InlineKeyboardButton(
+                text="𝚂𝙾𝚄𝚁𝙲𝙴⁩", url=f"https://t.me/AlmortagelTech"),
+                    InlineKeyboardButton(
+                text="𝙶𝚁𝙾𝚄𝙿", url=f"https://t.me/AlmortagelTech2"),
+                 ],[
+                    InlineKeyboardButton(
+                text="✯ᴍʀ ᴇʟᴍᴏʀᴛᴀɢᴇʟ✯", url=f"https://t.me/Almortagel_12"),
+
                 ],
 
             ]

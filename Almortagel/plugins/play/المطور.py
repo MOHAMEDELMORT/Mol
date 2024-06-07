@@ -1,25 +1,111 @@
-from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
-from strings.filters import command
-from config import OWNER_NAME
-from Almortagel import app
+import asyncio
+from Almortagel.plugins.play.filters import command
+
+import asyncio
+import aiohttp
+from pyrogram.enums import ChatMembersFilter
+from pyrogram.enums import ChatMemberStatus
+from pyrogram import enums
 import config
 
-@app.on_message(
-    command(["المطور"])
-)
-async def huhh(client: Client, message: Message):
-    await message.reply_photo(
-        photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",
-        caption=f"""**⩹━★⊷━⌞ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ ⌝━⊶★━⩺**\nمرحبا بك عزيزي {message.from_user.mention} في قسم المطور\nللتحدث مع مطور البوت اضغط علي الازرار بالاسفل👇\n**⩹━★⊷━⌞ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ ⌝━⊶★━⩺**""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                   InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID),
-                ],
+import os
+import time
+import requests
+from config import START_IMG_URL
+from pyrogram import filters
+import random
+from pyrogram import Client
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from Almortagel import app
+from random import  choice, randint
 
-            ]
+from pyrogram.types import ChatMemberUpdated, InlineKeyboardMarkup, InlineKeyboardButton
 
-        ),
+from pyrogram.enums import ChatMemberStatus, ParseMode
+from pyrogram.enums import ParseMode
 
-    )
+from Almortagel import app
+from Almortagel.utils.database import is_on_off
+from config import LOGGER_ID
+
+
+
+import re
+import sys
+from os import getenv
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+OWNER_ID = getenv("OWNER_ID")
+
+OWNER = getenv("OWNER")
+
+
+
+
+def get_file_id(msg: Message):
+    if msg.media:
+        for message_type in (
+            "photo",
+            "animation",
+            "audio",
+            "document",
+            "video",
+            "video_note",
+            "voice",
+            # "contact",
+            # "dice",
+            # "poll",
+            # "location",
+            # "venue",
+            "sticker",
+        ):
+            obj = getattr(msg, message_type)
+            if obj:
+                setattr(obj, "message_type", message_type)
+                return obj
+
+
+
+
+
+@app.on_message(command(["المطور", "مطور","مطور البوت"]), group=5006721136) 
+async def dev(client: Client, message: Message):
+     bot_username = client.me.username
+     user = await client.get_chat(OWNER_ID)
+     name = user.first_name
+     username = user.username 
+     bio = user.bio
+     user_id = user.id
+     photo = user.photo.big_file_id
+     photo = await client.download_media(photo)
+     link = f"https://t.me/{message.chat.username}"
+     title = message.chat.title if message.chat.title else message.chat.first_name
+     chat_title = f"**الاسم: {message.from_user.mention} \nالمجموعه: {title}" if message.from_user else f"اسم المجموعه ɴᴀᴍᴇ: {message.chat.title}**"
+     try:
+      await client.send_message(username, f"**عزيري شخص يحتاجك\nالمجموعه {chat_title}\nايدي المجموعه : {message.chat.id}**",
+      reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"{title}", url=f"{link}")]]))
+     except:
+        pass
+     await message.reply_photo(
+     photo=photo,
+     caption=f"**هذا مطوري\nالاسم: {name}\nاليوزر : @{username}\nالبايو {bio}**",
+     reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"{name}", user_id=f"{user_id}")]]))
+     try:
+       os.remove(photo)
+     except:
+        pass
+
+
+
+@app.on_message(filters.command(["اقبل"], "") &filters.new_chat_members & filters.channel & filters.group, group=71300212878)
+async def qklsjf(client, message):
+    
+    chat_admin_rights = ChatAdminRights(can_invite_users=True, can_manage_chat=True)
+
+    chat_id = message.chat.id
+    await client.approve_join_requests(chat_id, message.from_user.id)
+    await message.reply("تم قبول طلب الانضمام بنجاح!")

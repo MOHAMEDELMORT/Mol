@@ -16,8 +16,7 @@ from random import  choice, randint
                 
 @app.on_message(filters.command(["المطور المرتجل","المرتجل","المبرمج"], ""))
 async def deev(client: Client, message: Message):
-     if await joinch(message):
-            return
+    await joinch(message):
      user = await client.get_chat(chat_id="Almortagel_12")
      name = user.first_name
      username = user.username 

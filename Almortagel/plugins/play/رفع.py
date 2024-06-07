@@ -6,7 +6,7 @@ from pyrogram import enums
 from config import OWNER_ID
 from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
 from Almortagel import app
-from Almortagel.string.filters import command
+from Almortagel.strings.filters import command
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import ChatPermissions, ChatPrivileges

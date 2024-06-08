@@ -36,8 +36,7 @@ InlineKeyboardButton("لتفعيل كيبورد الاعضاء", callback_data="
                     ),
                 ],
                 [
-                    InlineKeyboardButton(
-                        "𝖥𝗈𝗋 ᴀʟᴍᴏʀᴛᴀɢᴇʟ . 💸", url="https://t.me/Almortagel_12"
+                    InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID
                     )
                 ],
             ]
@@ -75,8 +74,7 @@ InlineKeyboardButton(" member keyboard ", callback_data="Almortagel12"),
                     ),
                 ],
                 [
-                    InlineKeyboardButton(
-                        "𝖥𝗈𝗋 ᴀʟᴍᴏʀᴛᴀɢᴇʟ . 💸", url="https://t.me/Almortagel_12"
+                    InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID
                     )
                 ],
             ]
@@ -323,7 +321,7 @@ async def acbadmin(_, query: CallbackQuery):
                     InlineKeyboardButton("البوت", url=f"https://t.me/Almortagel_music_bot"),
                     InlineKeyboardButton("التواصل", url=f"https://t.me/AlmortagelTech2"),
                 ],
-                [InlineKeyboardButton("ᖴ᥆ᖇ. 🐉", url=f"https://t.me/Almortagel_12")],
+                [InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID)],
             ]
         ),
     )

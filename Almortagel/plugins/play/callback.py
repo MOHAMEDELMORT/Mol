@@ -2,6 +2,8 @@ from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from Almortagel import app as Client
 from Almortagel import app
+import config
+from config import OWNER_NAME
 
 
 @Client.on_callback_query(filters.regex("arbic"))

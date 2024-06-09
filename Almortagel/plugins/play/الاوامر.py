@@ -37,7 +37,7 @@ async def almortagel(client: Client, message: Message):
 
 
 
-@Client.on_callback_query(filters.regex("gr") & SUDOERS)
+@Client.on_callback_query(filters.regex("gr"))
 async def gr(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""<b>⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>
@@ -81,7 +81,7 @@ async def gr(_, query: CallbackQuery):
         ),
     )
 
-@Client.on_callback_query(filters.regex("ch") & SUDOERS)
+@Client.on_callback_query(filters.regex("ch"))
 async def ch(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>
@@ -110,7 +110,7 @@ async def ch(_, query: CallbackQuery):
         ),
     )
 
-@Client.on_callback_query(filters.regex("adm") & SUDOERS)
+@Client.on_callback_query(filters.regex("adm"))
 async def adm(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
@@ -168,7 +168,7 @@ async def adm(_, query: CallbackQuery):
     )
 
     
-@Client.on_callback_query(filters.regex("back") & SUDOERS)
+@Client.on_callback_query(filters.regex("back"))
 async def back(_, query: CallbackQuery):
     await message.reply_photo(
         photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",

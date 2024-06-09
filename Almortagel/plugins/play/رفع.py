@@ -6,7 +6,7 @@ from pyrogram import enums
 from config import OWNER_ID
 from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
 from Almortagel import app
-from Almortagel.plugins.play.filters import command
+from strings.filters import command
 from pyrogram.enums import ChatMembersFilter
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.types import ChatPermissions, ChatPrivileges
@@ -120,7 +120,9 @@ mutorn = {}
 def is_mutor(user_id):
     return user_id in mutorn and mutorn[user_id] > 0
 
-@app.on_message(command(["رفع ادمن"]), group=3197)
+@app.on_message(filters.command(["رفع ادمن"], "")
+& filters.group
+)
 async def mutornn(client, message):
     global mutorn
     user_id = message.reply_to_message.from_user.id
@@ -131,7 +133,9 @@ async def mutornn(client, message):
     chat_id = message.chat.id
     await app.send_message(chat_id, text="تم الرفع ادمن بنجاح")
 
-@app.on_message(command(["تنزيل ادمن"]), group=396)
+@app.on_message(filters.command(["تنزيل ادمن"], "")
+& filters.group
+)
 async def remove_mutor(client, message):
     global mutorn
     user_id = message.reply_to_message.from_user.id
@@ -143,7 +147,9 @@ async def remove_mutor(client, message):
         chat_id = message.chat.id
         await app.send_message(chat_id, text="المستخدم ليس لديه صلاحيه")
 
-@app.on_message(command(["قائمة الادمنية", "الادمنيه"]), group=3996)
+@app.on_message(filters.command(["قائمة الادمنية", "الادمنيه"], "")
+& filters.group
+)
 async def list_mutors(client, message):
     global mutorn
     chat_id = message.chat.id
@@ -154,7 +160,9 @@ async def list_mutors(client, message):
     else:
         await app.send_message(chat_id, text="لا يوجد أدمنية حالياً")
 
-@app.on_message(command(["مسح الادمنيه"]), group=13681)
+@app.on_message(filters.command(["مسح الادمنيه"], "")
+& filters.group
+)
 async def mutorndv(client, message):
     global mutorn
     count = len(mutorn)
@@ -180,7 +188,9 @@ mallekan = {}
 def is_malleka(user_id):
     return user_id in mallekan and mallekan[user_id] > 0
 
-@app.on_message(command(["رفع مالك"]), group=3191)
+@app.on_message(filters.command(["رفع مالك"], "")
+& filters.group
+)
 async def mallekann(client, message):
     global mallekan
     user_id = message.reply_to_message.from_user.id
@@ -191,7 +201,9 @@ async def mallekann(client, message):
     chat_id = message.chat.id
     await app.send_message(chat_id, text="تم الرفع مالك بنجاح")
 
-@app.on_message(command(["تنزيل مالك"]), group=390)
+@app.on_message(filters.command(["تنزيل مالك"], "")
+& filters.group
+)
 async def remove_malleka(client, message):
     global mallekan
     user_id = message.reply_to_message.from_user.id
@@ -203,7 +215,9 @@ async def remove_malleka(client, message):
         chat_id = message.chat.id
         await app.send_message(chat_id, text="المستخدم ليس لديه الصلاحيه")
 
-@app.on_message(command(["قائمة المالكية", "المالكين"]), group=3991)
+@app.on_message(filters.command(["قائمة المالكية", "المالكين"], "")
+& filters.group
+)
 async def list_mallekas(client, message):
     global mallekan
     chat_id = message.chat.id
@@ -214,7 +228,9 @@ async def list_mallekas(client, message):
     else:
         await app.send_message(chat_id, text="لا يوجد أدمنية حالياً")
 
-@app.on_message(command(["مسح المالكين"]), group=13684)
+@app.on_message(filters.command(["مسح المالكين"], "")
+& filters.group
+)
 async def mallekandv(client, message):
     global mallekan
     count = len(mallekan)
@@ -236,9 +252,8 @@ async def mallekandv(client, message):
         
         
         
-@app.on_message(
-    command(["رتبتي"])
-    & filters.group
+@app.on_message(filters.command(["رتبتي"], "")
+& filters.group
 )
 async def rotba(client, message):
     dev = (OWNER_ID)

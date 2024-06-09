@@ -5,7 +5,7 @@ import requests
 import pyrogram
 from pyrogram import Client, filters, emoji
 from strings.filters import command
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 from pyrogram.errors import MessageNotModified
 from Almortagel import app as Client
 from Almortagel import app

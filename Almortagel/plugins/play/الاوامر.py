@@ -9,12 +9,12 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardButton, CallbackQuery, InlineKeyboardMarkup, Message
 from typing import Union
 from pyrogram.types import InlineKeyboardButton
-from AarohiX import app
-from AarohiX.misc import HAPP, SUDOERS, XCB
+from Almortagel import app
+from Almortagel.misc import HAPP, SUDOERS, XCB
 from config import OWNER_ID
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-from AarohiX import app as Client
+from Almortagel import app as Client
 
 
 

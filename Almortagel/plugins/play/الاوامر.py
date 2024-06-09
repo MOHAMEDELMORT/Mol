@@ -96,7 +96,7 @@ async def gr(_, query: CallbackQuery):
                     
                 ]
             ]
-        )
+        ),
     )
 
 @Client.on_callback_query(filters.regex("ch") & SUDOERS)
@@ -125,7 +125,7 @@ async def ch(_, query: CallbackQuery):
                     
                 ]
             ]
-        )
+        ),
     )
 
 @Client.on_callback_query(filters.regex("adm") & SUDOERS)
@@ -183,7 +183,7 @@ async def adm(_, query: CallbackQuery):
                     
                 ]
             ]
-        )
+        ),
     )
 
     

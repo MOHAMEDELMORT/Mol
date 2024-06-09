@@ -38,7 +38,7 @@ async def almortagel(client: Client, message: Message):
 @Client.on_callback_query(filters.regex("gr"))
 async def almortagel_usage(_, query: CallbackQuery):
     await query.edit_message_text(
-        text="""**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
+        f"""**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات
 ★¦ تشغيل + اسم الاغنيه
 ★¦ فديو + اسم الاغنيه
@@ -82,7 +82,7 @@ async def almortagel_usage(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("ch"))
 async def almortagel_usage(_, query: CallbackQuery):
     await query.edit_message_text(
-        text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
+        f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات
 ★¦ شغل + اسم الاغنيه
 ★¦ قناه + اسم الاغنيه
@@ -111,7 +111,7 @@ async def almortagel_usage(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("adm"))
 async def almortagel_usage(_, query: CallbackQuery):
     await query.edit_message_text(
-        text="""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
+        f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن
 ★¦ رفع ثانوي
 ★¦ تنزيل ثانوي
@@ -171,7 +171,7 @@ async def almortagel_usage(_, query: CallbackQuery):
 async def almortagel_back(_, query: CallbackQuery):
     await message.reply_photo(
         photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",
-        caption=f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**\nمرحبا بك عزيزي {message.from_user.mention}\nهذا قسم الاوامر الخاص بسورس زد إي \nلمعرفة الاوامر اضغط على الأزرار بالأسفل👇\n** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
+        caption=f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**\nمرحبا بك عزيزي {message.from_user.mention}\nهذا قسم الاوامر الخاص بسورس المرتجل \nلمعرفة الاوامر اضغط على الأزرار بالأسفل👇\n** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [

@@ -53,9 +53,10 @@ from config import OWNER_ID
 from pyrogram import filters
 from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from Almortagel import app as Client
-                                       
-@Client.on_callback_query(filters.regex("gr"))
-async def almortagel_usage(_, query: CallbackQuery):
+  
+                          
+@Client.on_callback_query(filters.regex("gr") & SUDOERS)
+async def gr(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات
@@ -98,8 +99,8 @@ async def almortagel_usage(_, query: CallbackQuery):
         )
     )
 
-@Client.on_callback_query(filters.regex("ch"))
-async def almortagel_usage(_, query: CallbackQuery):
+@Client.on_callback_query(filters.regex("ch") & SUDOERS)
+async def ch(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات
@@ -127,8 +128,8 @@ async def almortagel_usage(_, query: CallbackQuery):
         )
     )
 
-@Client.on_callback_query(filters.regex("adm"))
-async def almortagel_usage(_, query: CallbackQuery):
+@Client.on_callback_query(filters.regex("adm") & SUDOERS)
+async def adm(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
 ★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن
@@ -186,8 +187,8 @@ async def almortagel_usage(_, query: CallbackQuery):
     )
 
     
-@Client.on_callback_query(filters.regex("back"))
-async def almortagel_back(_, query: CallbackQuery):
+@Client.on_callback_query(filters.regex("back") & SUDOERS)
+async def back(_, query: CallbackQuery):
     await message.reply_photo(
         photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",
         caption=f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**\nمرحبا بك عزيزي {message.from_user.mention}\nهذا قسم الاوامر الخاص بسورس المرتجل \nلمعرفة الاوامر اضغط على الأزرار بالأسفل👇\n** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
@@ -201,8 +202,7 @@ async def almortagel_back(_, query: CallbackQuery):
                  ],[
                     InlineKeyboardButton(
                         "اوامر الادمن", callback_data="adm"), 
-                ],[
-                
+                ],[                
                     InlineKeyboardButton(
                         "★ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ⚡", url=f"https://t.me/AlmortagelTech"),
                 ],
@@ -212,48 +212,3 @@ async def almortagel_back(_, query: CallbackQuery):
         ),
 
     )
-
-
-
-
-@app.on_message(filters.command("تف", "") & filters.group & filters.reply)
-def Almortagel(c, message):
-  ID_BOT = app.id
-  first_name = message.reply_to_message.from_user.first_name
-  id = message.reply_to_message.from_user.id
-  if id == OWNER_ID:
-    return message.reply("• لا يمكنك التف علي المطور ❤️✌️")
-  if id == ID_BOT:
-    return message.reply("• عاوزني اتف علي نفسي يعبيط 😂")
-  if id == DEVELOPERS:
-    return message.reply("• لا يمكنك التف علي مطورين السورس 🧑‍✈️")
-  Text =f"""
-• تم التف علي هذا الشخص
-
-※ بواسطة {first_name}
-
- اععع اي القرف ده 🤢
-"""
-  Almortagel = InlineKeyboardMarkup([[InlineKeyboardButton("اضف البوت الي مجموعتك او قناتك 🎸", url=f"https://t.me/{app.username}?startgroup=true"),]])
-  message.reply_video("https://te.legra.ph/file/7eca3719e7cfa2e6bc9e3.mp4",caption=Text,reply_markup=Almortagel)
-
-@app.on_message(filters.command("تخ", "") & filters.group & filters.reply)
-def Almortagel(c, message):
-  ID_BOT = app.id
-  first_name = message.reply_to_message.from_user.first_name
-  id = message.reply_to_message.from_user.id
-  if id == OWNER_ID:
-    return message.reply("• لا يمكنك قتل المطور ❤️✌️")
-  if id == ID_BOT:
-    return message.reply("• عاوزني اقتل نفسي 😂")
-  if id == DEVELOPERS:
-    return message.reply("• لا يمكنك قتل مطورين السورس 🧑‍✈️")
-  Text =f"""
-• تم قتل هذا الشخص
-
-※ بواسطة {first_name}
-
- ان لله وان اليه راجعون ⚰😭
-"""
-  Almortagel = InlineKeyboardMarkup([[InlineKeyboardButton("اضف البوت الي مجموعتك او قناتك 🎸", url=f"https://t.me/{app.username}?startgroup=true"),]])
-  message.reply_video("https://te.legra.ph/file/163a38872a6c0d44d1c57.mp4",caption=Text,reply_markup=Almortagel)

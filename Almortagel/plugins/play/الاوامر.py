@@ -19,17 +19,12 @@ async def almortagel(client: Client, message: Message):
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton(
-                        "اوامر الجروبات", callback_data="gr"),
-                    InlineKeyboardButton(
-                        "اوامر القنوات", callback_data="ch"),  
+                    InlineKeyboardButton("اوامر الجروبات", callback_data="gr"),
+                    InlineKeyboardButton("اوامر القنوات", callback_data="ch"),  
                  ],[
-                    InlineKeyboardButton(
-                        "اوامر الادمن", callback_data="adm"), 
+                    InlineKeyboardButton("اوامر الادمن", callback_data="adm"), 
                 ],[
-                
-                    InlineKeyboardButton(
-                        "★ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ⚡", url=f"https://t.me/VVHH9"),
+                    InlineKeyboardButton("★ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ⚡", url=f"https://t.me/AlmortagelTech"),
                 ],
 
             ]
@@ -41,49 +36,36 @@ async def almortagel(client: Client, message: Message):
     
 
 
-import asyncio
-from pyrogram import Client, filters
-from strings.filters import command
-from pyrogram.types import InlineKeyboardButton, CallbackQuery, InlineKeyboardMarkup, Message
-from typing import Union
-from pyrogram.types import InlineKeyboardButton
-from Almortagel import app
-from Almortagel.misc import HAPP, SUDOERS, XCB
-from config import OWNER_ID
-from pyrogram import filters
-from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
-from Almortagel import app as Client
-  
-                          
+
 @Client.on_callback_query(filters.regex("gr") & SUDOERS)
 async def gr(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
-★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات
-★¦ تشغيل + اسم الاغنيه
-★¦ فديو + اسم الاغنيه
-★¦ #فيديو + اسم الاغنيه
-★¦ #فديو + اسم الاغنيه
-★¦ {NAME_BOT} + اسم الاغنيه
-★¦ /فيديو + اسم الاغنيه
-★¦ /ق شغل + اسم الاغنيه
-★¦ /تشغيل + اسم الاغنيه
-★¦ cvplay + اسم الاغنيه
-★¦ cplay + اسم الاغنيه
-★¦ /vplay + اسم الاغنيه
-★¦ /play + اسم الاغنيه
-★¦ #تشغيل + اسم الاغنيه
-★¦ فيديو + اسم الاغنيه
-★¦ سورة + اسم السورة 
-★¦ cvplayforce + اسم الاغنيه
-★¦ cplayforce + اسم الاغنيه
-★¦ vplayforce + اسم الاغنيه
-★¦ playforce + اسم الاغنيه
-★¦ /cvplay + اسم الاغنيه
-★¦ vplay + اسم الاغنيه
-★¦ play + اسم الاغنيه
+        f"""<b>⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>
+<b>★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات</b>
+<b>★¦ تشغيل + اسم الاغنيه</b>
+★¦ فديو + اسم الاغنيه</b>
+<b>★¦ #فيديو + اسم الاغنيه</b>
+<b>★¦ #فديو + اسم الاغنيه</b>
+<b>★¦ {NAME_BOT} + اسم الاغنيه</b>
+<b>★¦ /فيديو + اسم الاغنيه</b>
+<b>★¦ /ق شغل + اسم الاغنيه</b>
+<b>★¦ /تشغيل + اسم الاغنيه</b>
+<b>★¦ cvplay + اسم الاغنيه</b>
+<b>★¦ cplay + اسم الاغنيه</b>
+<b>★¦ /vplay + اسم الاغنيه</b>
+<b>★¦ /play + اسم الاغنيه</b>
+<b>★¦ #تشغيل + اسم الاغنيه</b>
+<b>★¦ فيديو + اسم الاغنيه</b>
+<b>★¦ سورة + اسم السورة</b> 
+<b>★¦ cvplayforce + اسم الاغنيه</b>
+<b>★¦ cplayforce + اسم الاغنيه</b>
+<b>★¦ vplayforce + اسم الاغنيه</b>
+<b>★¦ playforce + اسم الاغنيه</b>
+<b>★¦ /cvplay + اسم الاغنيه</b>
+<b>★¦ vplay + اسم الاغنيه</b>
+<b>★¦ play + اسم الاغنيه</b>
 
-**⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
+<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -102,16 +84,16 @@ async def gr(_, query: CallbackQuery):
 @Client.on_callback_query(filters.regex("ch") & SUDOERS)
 async def ch(_, query: CallbackQuery):
     await query.edit_message_text(
-        f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
-★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات
-★¦ شغل + اسم الاغنيه
-★¦ قناه + اسم الاغنيه
-★¦ مانو + اسم الاغنيه
-★¦ ق + اسم الاغنيه
-★¦ اغاني + اسم الاغنيه
-★¦ . + اسم الاغنيه
-★¦ / + اسم الاغنيه
-** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
+        f"""<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>
+<b>★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات</b>
+<b>★¦ شغل + اسم الاغنيه</b>
+<b>★¦ قناه + اسم الاغنيه</b>
+<b>★¦ مانو + اسم الاغنيه</b>
+<b>★¦ ق + اسم الاغنيه</b>
+<b>★¦ اغاني + اسم الاغنيه</b>
+<b>★¦ . + اسم الاغنيه</b>
+<b>★¦ / + اسم الاغنيه</b>
+<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
@@ -132,44 +114,43 @@ async def ch(_, query: CallbackQuery):
 async def adm(_, query: CallbackQuery):
     await query.edit_message_text(
         f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
-★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن
-★¦ رفع ثانوي
+<b>★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن</b>
+<b>★¦ رفع ثانوي</b>
 ★¦ تنزيل ثانوي
-★¦ قائمة الثانويين
-★¦ رفع ادمن
-★¦ تنزيل ادمن
-★¦ قائمة الادمن
-★¦ حظر
-★¦ الغاء الحظر
-★¦ المحظورين
-★¦ حظر عام
-★¦ الغاء الحظر العام
-★¦ المحظورين عام
-★¦ اونلاين
-★¦ اذاعه
-★¦ تحديث
-★¦ logger
-★¦ ريلود
-★¦ وقف
-★¦ كمل
-★¦ اسكت
-★¦ اتكلم
-★¦ ايقاف
-★¦ تخطي
-★¦ @all
-★¦ all stop
-★¦ يوتيوب / تنزيل
-★¦ playing
-★¦ القائمه
-★¦ حذف القائمه
-★¦ تحديث
-★¦ الاحصائيات
-★¦ لايف
-★¦ مساعده
-★¦ الاعدادت
-★¦ بينج
-
-** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
+<b>★¦ قائمة الثانويين</b>
+<b>★¦ رفع ادمن</b>
+<b>★¦ تنزيل ادمن</b>
+<b>★¦ قائمة الادمن</b>
+<b>★¦ حظر</b>
+<b>★¦ الغاء الحظر</b>
+<b>★¦ المحظورين</b>
+<b>★¦ حظر عام</b>
+<b>★¦ الغاء الحظر العام</b>
+<b>★¦ المحظورين عام</b>
+<b>★¦ اونلاين</b>
+<b>★¦ اذاعه</b>
+<b>★¦ تحديث</b>
+<b>★¦ logger</b>
+<b>★¦ ريلود</b>
+<b>★¦ وقف</b>
+<b>★¦ كمل</b>
+<b>★¦ اسكت</b>
+<b>★¦ اتكلم</b>
+<b>★¦ ايقاف</b>
+<b>★¦ تخطي</b>
+<b>★¦ @all</b>
+<b>★¦ all stop</b>
+<b>★¦ يوتيوب / تنزيل</b>
+<b>★¦ playing</b>
+<b>★¦ القائمه</b>
+<b>★¦ حذف القائمه</b>
+<b>★¦ تحديث</b>
+<b>★¦ الاحصائيات</b>
+<b>★¦ لايف</b>
+<b>★¦ مساعده</b>
+<b>★¦ الاعدادت</b>
+<b>★¦ بينج</b>
+<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [

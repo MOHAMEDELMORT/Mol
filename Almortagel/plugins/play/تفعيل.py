@@ -8,7 +8,9 @@ from Almortagel import app
 
 
 
-@app.on_message(filters.command("تفعيل", ""))
+@app.on_message(filters.command(["تفعيل"], "")
+& filters.group
+)
 def update_owners(client, message):
     chat_id = str(message.chat.id)
     Toom = message.from_user

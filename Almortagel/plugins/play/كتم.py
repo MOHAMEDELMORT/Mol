@@ -35,8 +35,6 @@ from dotenv import load_dotenv
 from Almortagel.utils.database import (set_cmode,get_assistant) 
 from Almortagel.utils.decorators.admins import AdminActual
 from Almortagel import app
-
-
 unmute_permissions = ChatPermissions(
     can_send_messages=True,
     can_send_media_messages=True,
@@ -59,7 +57,9 @@ mute_permission = ChatPermissions(
 
 
 muttof = []
-@app.on_message(command(["قفل التقيد", "تعطيل التقيد", "تعطيل الحمايه"]), group=419)
+@app.on_message(filters.command(["قفل التقيد", "تعطيل التقيد", "تعطيل الحمايه"], "")
+& filters.group
+)
 async def muttlock(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
@@ -70,7 +70,9 @@ async def muttlock(client, message):
    else:
       return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
 
-@app.on_message(command(["فتح التقيد", "تفعيل التقيد", "تفعيل الحمايه"]), group=424)
+@app.on_message(filters.command(["فتح التقيد", "تفعيل التقيد", "تفعيل الحمايه"], "")
+& filters.group
+)
 async def muttopen(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
@@ -82,11 +84,13 @@ async def muttopen(client, message):
       return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
         
         
-@app.on_message(command(["الغاء تقيد","الغاء لتقيد"]), group=94) 
+@app.on_message(filters.command(["الغاء تقيد","الغاء لتقيد"], "")
+& filters.group
+)
 async def mute(client: Client, message: Message):
    global restricted_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
     if message.chat.id in muttof:
       return   	   	
     await app.restrict_chat_member(
@@ -98,14 +102,16 @@ async def mute(client: Client, message: Message):
 
 
 restricted_users = []
-@app.on_message(command(["تقيد"]), group=62)
+@app.on_message(filters.command(["تقيد"], "")
+& filters.group
+)
 async def mute(client: Client, message: Message):
     global restricted_users
     get = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
+    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
         if message.chat.id in muttof:
             return
-        if message.reply_to_message.from_user.id == 5089553588:
+        if message.reply_to_message.from_user.id == 6424121052:
             await app.send_message(message.chat.id, "عذرا لا يمكنك تقيد المطور")
         else:
             mute_permission = ChatPermissions(can_send_messages=False)
@@ -118,7 +124,9 @@ async def mute(client: Client, message: Message):
             restricted_users.append(restricted_user)
             await app.send_message(message.chat.id, f"✅ ¦ تـم الكتـم بـنجـاح\n {restricted_user.mention} ")
 
-@app.on_message(command(["مسح المقيدين"]), group=40)
+@app.on_message(filters.command(["مسح المقيدين"], "")
+& filters.group
+)
 async def unmute(client: Client, message: Message):
     global restricted_users
     user_id = message.from_user.id
@@ -133,7 +141,7 @@ async def unmute(client: Client, message: Message):
     await message.reply_text(f"↢ تم مسح {count} من المقيديد")
     
 
-@app.on_message(command(["المقيدين"]))
+@app.on_message(filters.command(["المقيدين"]))
 async def get_restr_users(client: Client, message: Message):
    global restricted_users
    count = len(restricted_users)
@@ -146,7 +154,9 @@ async def get_restr_users(client: Client, message: Message):
 
 
 gaaof = []
-@app.on_message(command(["تعطيل الحظر", "تعطيل الطرد", "تعطيل الحمايه"]), group=504)
+@app.on_message(filters.command(["تعطيل الحظر", "تعطيل الطرد", "تعطيل الحمايه"], "")
+& filters.group
+)
 async def gaalock(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
@@ -157,7 +167,9 @@ async def gaalock(client, message):
    else:
       return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
 
-@app.on_message(command(["فتح الطرد", "تفعيل الطرد", "تفعيل الحظر", "تفعيل الحمايه"]), group=412)
+@app.on_message(filters.command(["فتح الطرد", "تفعيل الطرد", "تفعيل الحظر", "تفعيل الحمايه"], "")
+& filters.group
+)
 async def gaaopen(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
@@ -169,15 +181,17 @@ async def gaaopen(client, message):
       return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
         
 banned_users = []
-@app.on_message(command(["حظر", "طرد"]), group=39)
+@app.on_message(filters.command(["حظر", "طرد"], "")
+& filters.group
+) 
 async def mute(client: Client, message: Message):
     global banned_users    
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 6424121052:
         return
     if message.chat.id in gaaof:
         return
-    if message.reply_to_message.from_user.id == 5089553588:
+    if message.reply_to_message.from_user.id == 6424121052:
         await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
     else:
         banned_user = message.reply_to_message.from_user
@@ -185,7 +199,9 @@ async def mute(client: Client, message: Message):
         await app.ban_chat_member(message.chat.id, banned_user.id)
         await app.send_message(message.chat.id, f"✅ ¦ تـم الحظر بـنجـاح\n {banned_user.mention} ")
 
-@app.on_message(command(["مسح المحظورين"]), group=19)
+@app.on_message(filters.command(["مسح المحظورين"], "")
+& filters.group
+)
 async def unban_all(client: Client, message: Message):
     global banned_users
     count = len(banned_users)
@@ -211,17 +227,19 @@ async def unban_all(client: Client, message: Message):
         await message.reply_text(f"↢ فشل في مسح {failed_count} من المحظورين")
         
         
-@app.on_message(command(["الغاء حظر","/unban"]), group=42)
+@app.on_message(filters.command(["الغاء حظر","/unban"], "")
+& filters.group
+)
 async def mute(client: Client, message: Message):
    global banned_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
     await app.unban_chat_member(message.chat.id, message.reply_to_message.from_user.id) 
     banned_users.remove(user)
     await app.send_message(message.chat.id, f"✅ ¦ تـم الغاء الحظر بـنجـاح\n {message.reply_to_message.from_user.mention} ")
 
 
-@app.on_message(command(["المحظورين"]))
+@app.on_message(filters.command(["المحظورين"]))
 async def get_restricted_users(client: Client, message: Message):
    global banned_users
    count = len(banned_users)
@@ -235,13 +253,15 @@ async def get_restricted_users(client: Client, message: Message):
 
 
 muted_users = []
-@app.on_message(command(["كتم"]), group=39)
+@app.on_message(filters.command(["كتم"], "")
+& filters.group
+)
 async def mute_user(client, message):
     global muted_users    
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 6424121052:
         return
-    if message.reply_to_message.from_user.id == 5089553588:
+    if message.reply_to_message.from_user.id == 6424121052:
         await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
     else:	
         if message.reply_to_message:
@@ -254,11 +274,13 @@ async def mute_user(client, message):
         else:
             await message.reply_text("قم بعمل ريبلاي")
 
-@app.on_message(command(["الغاء الكتم", "الغاء كتم"]), group=62)
+@app.on_message(filters.command(["الغاء الكتم", "الغاء كتم"], "")
+& filters.group
+)
 async def unmute_user(client, message):
    global muted_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:	
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:	
     user_id = message.reply_to_message.from_user.id
     if user_id in muted_users:
         muted_users.remove(user_id)
@@ -273,7 +295,9 @@ async def handle_message(client, message):
     if message.from_user and message.from_user.id in muted_users:
         await client.delete_messages(chat_id=message.chat.id, message_ids=message.id)
 
-@app.on_message(command(["المكتومين"]), group=137)
+@app.on_message(filters.command(["المكتومين"], "")
+& filters.group
+)
 async def get_rmuted_users(client, message):
     global muted_users
     count = len(muted_users)
@@ -284,7 +308,9 @@ async def get_rmuted_users(client, message):
     await message.reply_text(response)
 
 
-@app.on_message(command(["مسح المكتومين"]), group=136)
+@app.on_message(filters.command(["مسح المكتومين"], "")
+& filters.group
+)
 async def unmute_all(client, message):
     global muted_users
     count = len(muted_users)
@@ -309,7 +335,9 @@ async def unmute_all(client, message):
         await message.reply_text(f"↢ فشل في مسح {failed_count} من المكتومين")
 
    
-@app.on_message(command(["اطردني"]), group=268)
+@app.on_message(filters.command(["اطردني"], "")
+& filters.group
+)
 async def fire_user(client, message):
     await message.reply_text("اطلع برا اصلا مش عايزينك")
     await client.ban_chat_member(message.chat.id, message.from_user.id)
@@ -317,7 +345,9 @@ async def fire_user(client, message):
 
 
 
-@app.on_message(command(["البوتات"]) & filters.group, group=56555)
+@app.on_message(filters.command(["البوتات"], "")
+& filters.group
+)
 async def list_bots(client: Client, message: Message):
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
     if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
@@ -395,7 +425,9 @@ async def PROMOTE(c:Client,m:Message):
 
 
 
-@app.on_message(command(["رفع"]),group=1)
+@app.on_message(filters.command(["رفع"], "")
+& filters.group
+)
 async def New(c:Client,m:Message):
 	Ra = await m.chat.get_member(m.from_user.id)
 	if Ra.status == ChatMemberStatus.OWNER:

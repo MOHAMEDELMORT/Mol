@@ -5,191 +5,346 @@ import requests
 import pyrogram
 from pyrogram import Client, filters, emoji
 from strings.filters import command
-from pyrogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup
 from pyrogram.errors import MessageNotModified
-from Almortagel import app as Client
 from Almortagel import app
+from config import OWNER_ID, LOGGER_ID
 
 
-@Client.on_message(filters.command(["الاوامر"], ""))
-async def almortagel(client: Client, message: Message):
+@app.on_message(command(["ميوزك", "الميوزك", "الاوامر"]))
+async def zdatsr(client: Client, message: Message):
+    usr = await client.get_users(OWNER_ID)
+    name = usr.first_name
+    usrnam = usr.username
     await message.reply_photo(
-        photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",
-        caption=f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**\nمرحبا بك عزيزي {message.from_user.mention}\nهذا قسم الاوامر الخاص بسورس المرتجل \nلمعرفة الاوامر اضغط على الأزرار بالأسفل👇\n** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
+        photo=f"https://telegra.ph/file/cec7b12365a2dad6d9b8e.jpg",
+        caption=f"""<b>» مرحبـاً بك عـزيـزي </b> {message.from_user.mention} .\n\n<b>» استخـدم الازرار بالاسفـل\n» لـ تصفـح اوامـر بوت المرتجل</b>""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("اوامر الجروبات", callback_data="gr"),
-                    InlineKeyboardButton("اوامر القنوات", callback_data="ch"),  
-                 ],[
-                    InlineKeyboardButton("اوامر الادمن", callback_data="adm"), 
+                    InlineKeyboardButton(
+                        "〔 اوامــر التشغيــل 〕", callback_data="zzzll"),
                 ],[
-                    InlineKeyboardButton("★ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ⚡", url=f"https://t.me/AlmortagelTech"),
+                    InlineKeyboardButton(
+                        "〔 اوامـر القنـاة 〕", callback_data="zzzch"),
+                    InlineKeyboardButton(
+                        "〔 اوامـر الادمـن 〕", callback_data="zzzad"),
+                ],[
+                    InlineKeyboardButton(
+                        "〔 اوامــر المطــور 〕", callback_data="zzzdv"),
+                ],[
+                    InlineKeyboardButton(name, url=f"https://t.me/{usrnam}"),
                 ],
-
             ]
-
         ),
-
     )
-
     
-
-
-
-@Client.on_callback_query(filters.regex("gr"))
-async def gr(_, query: CallbackQuery):
-    await query.edit_message_text(
-        f"""<b>⌯ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>
-<b>★¦ اهلا بك عزيزي في قسم اوامر التشغيل في الجروبات</b>
-<b>★¦ تشغيل + اسم الاغنيه</b>
-★¦ فديو + اسم الاغنيه</b>
-<b>★¦ #فيديو + اسم الاغنيه</b>
-<b>★¦ #فديو + اسم الاغنيه</b>
-<b>★¦ {NAME_BOT} + اسم الاغنيه</b>
-<b>★¦ /فيديو + اسم الاغنيه</b>
-<b>★¦ /ق شغل + اسم الاغنيه</b>
-<b>★¦ /تشغيل + اسم الاغنيه</b>
-<b>★¦ cvplay + اسم الاغنيه</b>
-<b>★¦ cplay + اسم الاغنيه</b>
-<b>★¦ /vplay + اسم الاغنيه</b>
-<b>★¦ /play + اسم الاغنيه</b>
-<b>★¦ #تشغيل + اسم الاغنيه</b>
-<b>★¦ فيديو + اسم الاغنيه</b>
-<b>★¦ سورة + اسم السورة</b> 
-<b>★¦ cvplayforce + اسم الاغنيه</b>
-<b>★¦ cplayforce + اسم الاغنيه</b>
-<b>★¦ vplayforce + اسم الاغنيه</b>
-<b>★¦ playforce + اسم الاغنيه</b>
-<b>★¦ /cvplay + اسم الاغنيه</b>
-<b>★¦ vplay + اسم الاغنيه</b>
-<b>★¦ play + اسم الاغنيه</b>
-
-<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "التالي", callback_data="ch"), 
-                    
-                ],[
-                    InlineKeyboardButton(
-                        "الرئيسية", callback_data="back"), 
-                    
-                ]
-            ]
-        ),
-    )
-
-@Client.on_callback_query(filters.regex("ch"))
-async def ch(_, query: CallbackQuery):
-    await query.edit_message_text(
-        f"""<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>
-<b>★¦ اهلا بك عزيزي في قسم اوامر التشغيل في القنوات</b>
-<b>★¦ شغل + اسم الاغنيه</b>
-<b>★¦ قناه + اسم الاغنيه</b>
-<b>★¦ مانو + اسم الاغنيه</b>
-<b>★¦ ق + اسم الاغنيه</b>
-<b>★¦ اغاني + اسم الاغنيه</b>
-<b>★¦ . + اسم الاغنيه</b>
-<b>★¦ / + اسم الاغنيه</b>
-<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "التالي", callback_data="adm"), 
-                    InlineKeyboardButton(
-                        "العودة", callback_data="gr"), 
-                ],[
-                    InlineKeyboardButton(
-                        "الرئيسية", callback_data="back"), 
-                    
-                ]
-            ]
-        ),
-    )
-
-@Client.on_callback_query(filters.regex("adm"))
-async def adm(_, query: CallbackQuery):
-    await query.edit_message_text(
-        f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**
-<b>★¦ اهلا بك عزيزي في قسم اوامر تشغيل الادمن</b>
-<b>★¦ رفع ثانوي</b>
-★¦ تنزيل ثانوي
-<b>★¦ قائمة الثانويين</b>
-<b>★¦ رفع ادمن</b>
-<b>★¦ تنزيل ادمن</b>
-<b>★¦ قائمة الادمن</b>
-<b>★¦ حظر</b>
-<b>★¦ الغاء الحظر</b>
-<b>★¦ المحظورين</b>
-<b>★¦ حظر عام</b>
-<b>★¦ الغاء الحظر العام</b>
-<b>★¦ المحظورين عام</b>
-<b>★¦ اونلاين</b>
-<b>★¦ اذاعه</b>
-<b>★¦ تحديث</b>
-<b>★¦ logger</b>
-<b>★¦ ريلود</b>
-<b>★¦ وقف</b>
-<b>★¦ كمل</b>
-<b>★¦ اسكت</b>
-<b>★¦ اتكلم</b>
-<b>★¦ ايقاف</b>
-<b>★¦ تخطي</b>
-<b>★¦ @all</b>
-<b>★¦ all stop</b>
-<b>★¦ يوتيوب / تنزيل</b>
-<b>★¦ playing</b>
-<b>★¦ القائمه</b>
-<b>★¦ حذف القائمه</b>
-<b>★¦ تحديث</b>
-<b>★¦ الاحصائيات</b>
-<b>★¦ لايف</b>
-<b>★¦ مساعده</b>
-<b>★¦ الاعدادت</b>
-<b>★¦ بينج</b>
-<b>ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ</b>""",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        "التالي", callback_data="gr"), 
-                    InlineKeyboardButton(
-                        "العودة", callback_data="ch"), 
-                ],[
-                    InlineKeyboardButton(
-                        "الرئيسية", callback_data="back"), 
-                    
-                ]
-            ]
-        ),
-    )
-
     
-@Client.on_callback_query(filters.regex("back"))
-async def back(_, query: CallbackQuery):
-    await message.reply_photo(
-        photo=f"https://telegra.ph/file/14c7948ad180050fe16e4.jpg",
-        caption=f"""** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**\nمرحبا بك عزيزي {message.from_user.mention}\nهذا قسم الاوامر الخاص بسورس المرتجل \nلمعرفة الاوامر اضغط على الأزرار بالأسفل👇\n** ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ**""",
+    
+import asyncio
+from pyrogram import Client, filters
+from strings.filters import command
+from pyrogram.types import InlineKeyboardButton, CallbackQuery, InlineKeyboardMarkup, Message
+from typing import Union
+from pyrogram.types import InlineKeyboardButton
+from Almortagel import app
+from Almortagel.misc import HAPP, SUDOERS, XCB
+from config import OWNER_ID
+from pyrogram import filters
+from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
+from Almortagel import app as Client
+                                       
+ 
+@Client.on_callback_query(filters.regex("zzzback"))
+async def zzzback(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""<b>» مرحبـاً بك عـزيـزي</b>\n<b>» استخـدم الازرار بالاسفـل\n» لـ تصفـح اوامـر بوت المرتجل</b>""",
         reply_markup=InlineKeyboardMarkup(
             [
                 [
                     InlineKeyboardButton(
-                        "اوامر الجروبات", callback_data="gr"),
+                        "〔 اوامــر التشغيــل 〕", callback_data="zzzll"),
+                ],[
                     InlineKeyboardButton(
-                        "اوامر القنوات", callback_data="ch"),  
-                 ],[
+                        "〔 اوامـر القنـاة 〕", callback_data="zzzch"),
                     InlineKeyboardButton(
-                        "اوامر الادمن", callback_data="adm"), 
-                ],[                
+                        "〔 اوامـر الادمـن 〕", callback_data="zzzad"),
+                ],[
                     InlineKeyboardButton(
-                        "★ ѕᴏụʀᴄᴇ ᴀʟᴍᴏʀᴛᴀɢᴇʟ⚡", url=f"https://t.me/AlmortagelTech"),
+                        "〔 اوامــر المطــور 〕", callback_data="zzzdv"),
+                ],[
+                    InlineKeyboardButton(
+                        "〔 مبـرمج السـورس 〕", url="https://t.me/D_Z_J_C"),
                 ],
-
             ]
-
         ),
+    )
 
+
+
+@Client.on_callback_query(filters.regex("zzzdv") & SUDOERS)
+async def mpdtsf(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""<b>» مرحبـاً بك عـزيـزي المطـور </b>\n\n<b>» استخـدم الازرار بالاسفـل\n» لـ تصفـح اوامـر بوت المرتجل</b>""",
+        reply_markup=InlineKeyboardMarkup(
+            [
+                [
+                    InlineKeyboardButton(
+                        "〔 التحـديث 〕", callback_data="zzzup"),
+                ],[
+                    InlineKeyboardButton(
+                        "〔 الـرفــع 〕", callback_data="zzzsu"),
+                    InlineKeyboardButton(
+                        "〔 الـحظــر 〕", callback_data="zzzbn"),
+                ],[
+                    InlineKeyboardButton(
+                        "〔 الاشعــارات & المسـاعــد 〕", callback_data="zzzas"),
+                ],[
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzback"),
+                ],
+            ]
+        ),
+    )
+
+
+
+@Client.on_callback_query(filters.regex("zzzll"))
+async def zzzll(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""
+<b>⎉︙قائمــة اوامــر الـتشغـيـل :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+تشغيل + (اسم السوره / رابط السوره)
+<b>- لــ تـشـغـيل اغـنـيـة فـي الـمكـالـمـة الـصـوتـيـة</b>
+
+فيديو + (اسم المقـطـع / رابط المقـطـع)
+<b>- لــ تـشـغـيل فيـديـو فـي الـمكـالـمـة المـرئيـة</b>
+
+بحث + الاسـم
+<b>- لـ تحميـل الاغانـي والمقـاطـع الصوتيـه مـن اليوتيـوب</b>
+
+""",
+       reply_markup=InlineKeyboardMarkup(
+          [
+               [
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzback"),
+               ],
+          ]
+        ),
+    )
+
+
+
+@Client.on_callback_query(filters.regex("zzzad"))
+async def zzzad(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""
+<b>⎉︙قائمــة اوامــر الادمــن :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+
+الاعدادات
+<b>- لـ عـرض إعـدادات اوضـاع التشغيـل</b>
+
+ايقاف / انهاء / قف
+<b>- لـ إيقـاف تـشغـيـل القرآن فـي المكـالمـة</b>
+
+ق / اسكت
+<b>- لـ إيقـاف تشغيـل القرآن فـي المكالمـة مـؤقتـاً</b>
+
+كمل / ك
+<b>- لـ إسـتـئـنـاف تـشغـيـل القرآن فـي المكـالمـة</b>
+
+تخطي / سكيب
+<b>- لـ تخطـي القرآن وتشغيـل القرآن التاليـه</b>
+
+الاغاني
+<b>- لـ معـرفـة الاغـانـي المـوجـودة فـي قائمـة الانتظـار</b>
+
+بنج
+<b>- لـ عـرض سـرعـة تشغيـل البـوت</b>
+
+رفع ادمن/تنزيل ادمن
+<b>- لـ رفـع/تنزيـل ادمـن فـي البـوت</b>
+
+الادمنيه
+<b>- لـ عـرض قائمـة ادمنيـة البـوت</b>
+""",
+       reply_markup=InlineKeyboardMarkup(
+          [
+               [
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzback"),
+               ],
+          ]
+        ),
+    )
+
+
+
+@Client.on_callback_query(filters.regex("zzzch"))
+async def zzzch(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""
+<b>⎉︙قائمــة اوامــر التشغيــل فـي القنــاة :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+<b>- ارفـع البـوت إشـراف في القنـاة و شغـل مباشـر</b>
+<b>- ارسـل (/channelplay او ربط) + يـوزر القنـاة لـ الربـط</b>
+<b>- ثم استخـدم الاوامــر بالاسفـل لـ التشغيـل</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+تشغيل / ش + اسم السوره
+<b>- لــ تـشـغـيل اغـنـيـة فـي الـمكـالـمـة الـصـوتـيـة</b>
+
+فيديو + اسم المقـطـع
+<b>- لــ تـشـغـيل فيـديـو فـي الـمكـالـمـة المـرئيـة</b>
+
+ايقاف / اخرص / اسكت
+<b>- لـ إيقـاف تـشغـيـل القرآن فـي المكـالمـة</b>
+
+مؤقت / ق
+<b>- لـ إيقـاف تشغيـل القرآن فـي المكالمـة مـؤقتـاً</b>
+
+كمل / استئناف / ك
+<b>- لـ إسـتـئـنـاف تـشغـيـل القرآن فـي المكـالمـة</b>
+
+تخطي / سكيب
+<b>- لـ تخطـي السوره وتشغيـل السوره التاليـه</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+تقديم + عـدد الثـوانـي
+<b>- لـ تقديـم السوره لـ الامـام</b>
+رجوع + عـدد الثـوانـي
+<b>- لـ إرجـاع السوره لـ الخـلف</b>
+""",
+       reply_markup=InlineKeyboardMarkup(
+          [
+               [
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzback"),
+               ],
+          ]
+        ),
+    )
+
+
+
+@Client.on_callback_query(filters.regex("zzzup") & SUDOERS)
+async def zzzup(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""
+<b>⎉︙قائمــة اوامــر المطــور :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+<b>- قائمــة اوامــر التحـديثـات :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+
+السجلات
+<b>- لـ إحضار سجـلات البـوت 📋</b>
+
+تحديث
+<b>- لـ تحديـث البــوت</b>
+
+اعادة تشغيل
+<b>- لـ اعـادة تشغيـل البــوت</b>
+
+""",
+       reply_markup=InlineKeyboardMarkup(
+          [
+               [
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzdv"),
+               ],
+          ]
+        ),
+    )
+
+
+
+@Client.on_callback_query(filters.regex("zzzsu") & SUDOERS)
+async def zzzsu(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""
+<b>⎉︙قائمــة اوامــر المطــور :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+<b>- قائمــة اوامــر الـرفــع :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+
+رفع مطور/تنزيل مطور
+<b>- لـ رفـع/تنزيـل شخـص مطـور فـي ميـوزك البـوت</b>
+
+المطورين
+<b>- لـ عـرض قائمـة مطـورين البـوت</b>
+
+""",
+       reply_markup=InlineKeyboardMarkup(
+          [
+               [
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzdv"),
+               ],
+          ]
+        ),
+    )
+
+
+
+@Client.on_callback_query(filters.regex("zzzbn") & SUDOERS)
+async def zzzbn(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""
+<b>⎉︙قائمــة اوامــر المطــور :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+<b>- قائمــة اوامــر الحظــر :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+
+بلوك/الغاء بلوك/المبلكين
+<b>- لـ حظـر/الغـاء حظـر شخـص من استخـدام ميـوزك البـوت</b>
+
+احظره عام/الغاء حظره عام
+<b>- لـ حظـر/الغـاء حظـر شخـص من استخـدام ميـوزك البـوت عـام</b>
+
+المحظورين عام
+<b>- لـ جلب قائمـة المحظـورين عـام فـي البـوت</b>
+
+حظر مجموعة/سماح
+<b>- لـ حظـر/الغـاء حظـر مجموعـة من استخـدام ميـوزك البـوت</b>
+
+المجموعات المحظورة
+<b>- لـ جلب قائمـة بالمجمـوعـات المحظـورة مـن استـخـدام البـوت</b>
+
+""",
+       reply_markup=InlineKeyboardMarkup(
+          [
+               [
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzdv"),
+               ],
+          ]
+        ),
+    )
+
+
+@Client.on_callback_query(filters.regex("zzzas") & SUDOERS)
+async def zzzas(_, query: CallbackQuery):
+   await query.edit_message_text(
+       f"""
+<b>⎉︙قائمــة اوامــر المطــور :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+<b>- قائمــة اوامــر المســاعــد ✅ :</b>
+ٴ⋆┄─┄─┄─┄─┄─┄─┄─┄⋆
+
+السجل [ تفعيل / تعطيل ]
+<b>- لـ تفعيـل/تعطيـل اشعـارات مجموعـة سجـل البــوت</b>
+
+المغادره التلقائيه تفعيل/تعطيل
+<b>- لـ تفعيـل/تعطيـل المغـادره التلقائيـه لـ الحسـاب المسـاعـد مـن المجمـوعـات عنـد عـدم استـخـدام الميـوزك</b>
+
+""",
+       reply_markup=InlineKeyboardMarkup(
+          [
+               [
+                    InlineKeyboardButton(
+                        "رجـوع", callback_data="zzzdv"),
+               ],
+          ]
+        ),
     )

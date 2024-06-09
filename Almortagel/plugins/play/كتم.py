@@ -90,7 +90,7 @@ async def muttopen(client, message):
 async def mute(client: Client, message: Message):
    global restricted_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
     if message.chat.id in muttof:
       return   	   	
     await app.restrict_chat_member(
@@ -108,10 +108,10 @@ restricted_users = []
 async def mute(client: Client, message: Message):
     global restricted_users
     get = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
+    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
         if message.chat.id in muttof:
             return
-        if message.reply_to_message.from_user.id == 6424121052:
+        if message.reply_to_message.from_user.id == 5089553588:
             await app.send_message(message.chat.id, "عذرا لا يمكنك تقيد المطور")
         else:
             mute_permission = ChatPermissions(can_send_messages=False)
@@ -187,11 +187,11 @@ banned_users = []
 async def mute(client: Client, message: Message):
     global banned_users    
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 6424121052:
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
         return
     if message.chat.id in gaaof:
         return
-    if message.reply_to_message.from_user.id == 6424121052:
+    if message.reply_to_message.from_user.id == 5089553588:
         await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
     else:
         banned_user = message.reply_to_message.from_user
@@ -233,7 +233,7 @@ async def unban_all(client: Client, message: Message):
 async def mute(client: Client, message: Message):
    global banned_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
     await app.unban_chat_member(message.chat.id, message.reply_to_message.from_user.id) 
     banned_users.remove(user)
     await app.send_message(message.chat.id, f"✅ ¦ تـم الغاء الحظر بـنجـاح\n {message.reply_to_message.from_user.mention} ")
@@ -259,9 +259,9 @@ muted_users = []
 async def mute_user(client, message):
     global muted_users    
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 6424121052:
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
         return
-    if message.reply_to_message.from_user.id == 6424121052:
+    if message.reply_to_message.from_user.id == 5089553588:
         await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
     else:	
         if message.reply_to_message:
@@ -280,7 +280,7 @@ async def mute_user(client, message):
 async def unmute_user(client, message):
    global muted_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:	
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:	
     user_id = message.reply_to_message.from_user.id
     if user_id in muted_users:
         muted_users.remove(user_id)

@@ -1,4 +1,5 @@
 import asyncio
+from typing import Union
 from pyrogram import filters
 from pyrogram.types import Message, CallbackQuery, InlineKeyboardButton, InlineKeyboardMarkup
 from Almortagel import app as Client

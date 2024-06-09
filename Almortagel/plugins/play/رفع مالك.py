@@ -1,14 +1,14 @@
 import asyncio
 import requests
-from AarohiX import app
+from Almortagel import app
 from strings.filters import command
-from AarohiX.core.call import Dil
-from AarohiX.utils.database import set_loop
-from AarohiX.utils.decorators import AdminRightsCheck
+from Almortagel.core.call import Dil
+from Almortagel.utils.database import set_loop
+from Almortagel.utils.decorators import AdminRightsCheck
 from datetime import datetime
 from config import BANNED_USERS, PING_IMG_URL, lyrical, START_IMG_URL, MONGO_DB_URI, OWNER_ID
-from AarohiX.utils import bot_sys_stats
-from AarohiX.utils.decorators.language import language
+from Almortagel.utils import bot_sys_stats
+from Almortagel.utils.decorators.language import language
 import random
 import time
 from pyrogram.enums import ChatMembersFilter
@@ -21,20 +21,20 @@ import string
 import lyricsgenius as lg
 from pyrogram.types import (InlineKeyboardButton, ChatPermissions, InlineKeyboardMarkup, Message, User)
 from pyrogram import Client, filters
-from AarohiX import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
+from Almortagel import (Apple, Resso, SoundCloud, Spotify, Telegram, YouTube, app)
 from typing import Union
 import sys
 import os
 from pyrogram.types import ChatPermissions, ChatPrivileges
 from pyrogram.errors import PeerIdInvalid
 from os import getenv
-from AarohiX.misc import SUDOERS
+from Almortagel.misc import SUDOERS
 from pyrogram import filters, Client
 from telegraph import upload_file
 from dotenv import load_dotenv
-from AarohiX.utils.database import (set_cmode,get_assistant) 
-from AarohiX.utils.decorators.admins import AdminActual
-from AarohiX import app
+from Almortagel.utils.database import (set_cmode,get_assistant) 
+from Almortagel.utils.decorators.admins import AdminActual
+from Almortagel import app
 unmute_permissions = ChatPermissions(
     can_send_messages=True,
     can_send_media_messages=True,
@@ -90,7 +90,7 @@ async def muttopen(client, message):
 async def mute(client: Client, message: Message):
    global restricted_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
     if message.chat.id in muttof:
       return   	   	
     await app.restrict_chat_member(
@@ -108,10 +108,10 @@ restricted_users = []
 async def mute(client: Client, message: Message):
     global restricted_users
     get = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
+    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
         if message.chat.id in muttof:
             return
-        if message.reply_to_message.from_user.id == 6424121052:
+        if message.reply_to_message.from_user.id == 5089553588:
             await app.send_message(message.chat.id, "عذرا لا يمكنك تقيد المطور")
         else:
             mute_permission = ChatPermissions(can_send_messages=False)
@@ -187,11 +187,11 @@ banned_users = []
 async def mute(client: Client, message: Message):
     global banned_users    
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 6424121052:
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
         return
     if message.chat.id in gaaof:
         return
-    if message.reply_to_message.from_user.id == 6424121052:
+    if message.reply_to_message.from_user.id == 5089553588:
         await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
     else:
         banned_user = message.reply_to_message.from_user
@@ -233,7 +233,7 @@ async def unban_all(client: Client, message: Message):
 async def mute(client: Client, message: Message):
    global banned_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
     await app.unban_chat_member(message.chat.id, message.reply_to_message.from_user.id) 
     banned_users.remove(user)
     await app.send_message(message.chat.id, f"✅ ¦ تـم الغاء الحظر بـنجـاح\n {message.reply_to_message.from_user.mention} ")
@@ -259,9 +259,9 @@ muted_users = []
 async def mute_user(client, message):
     global muted_users    
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
-    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 6424121052:
+    if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
         return
-    if message.reply_to_message.from_user.id == 6424121052:
+    if message.reply_to_message.from_user.id == 5089553588:
         await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")
     else:	
         if message.reply_to_message:
@@ -280,7 +280,7 @@ async def mute_user(client, message):
 async def unmute_user(client, message):
    global muted_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
-   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 6424121052:	
+   if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:	
     user_id = message.reply_to_message.from_user.id
     if user_id in muted_users:
         muted_users.remove(user_id)

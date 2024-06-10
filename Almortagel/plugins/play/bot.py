@@ -1,6 +1,6 @@
 import asyncio
 import random
-from Almortagel.misc import SUDOERS
+from Almortagel.misc import
 from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
 from pyrogram import filters, Client
 from Almortagel import app

@@ -9,9 +9,9 @@ from config import *
 bot_name = {}
 botname = {}
 
-name = "المرتجل"
+name = "فير"
 
-@app.on_message(filters.command(["تعيين اسم البوت"])& filters.private, group=39)
+@app.on_message(filters.command(["تعيين اسم البوت"])& filters.private)
 async def set_bot_name(client, message):
     global name
     ask = await app.ask(message.chat.id,"ارسل الاسم الجديد", timeout=39)

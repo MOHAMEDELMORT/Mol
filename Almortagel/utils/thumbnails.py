@@ -19,7 +19,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newHeight = int(heightRatio * image.size[1])
     newImage = image.resize((newWidth, newHeight))
     return newImage
-ahmed = ""
+ahmed = "https://telegra.ph/file/14c7948ad180050fe16e4.jpg"
 
 async def get_thumb(videoid, photo):
    try:

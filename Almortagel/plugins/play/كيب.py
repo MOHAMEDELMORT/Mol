@@ -4,6 +4,7 @@ from pyromod import listen
 import time
 import requests
 from Almortagel import app
+from config import API_ID, API_HASH, BOT_TOKEN
 
 api_id = API_ID 
 api_hash = API_HASH 

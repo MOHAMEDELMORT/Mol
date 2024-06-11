@@ -19,7 +19,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newHeight = int(heightRatio * image.size[1])
     newImage = image.resize((newWidth, newHeight))
     return newImage
-ahmed = f"cache/{videoid}.png"
+ahmed = ""
 
 async def get_thumb(videoid, photo):
    try:

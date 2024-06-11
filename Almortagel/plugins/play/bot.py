@@ -1,14 +1,17 @@
 import asyncio
-from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+import random
+from Almortagel.misc import SUDOERS
+from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,CallbackQuery,ChatPrivileges)
 from pyrogram import filters, Client
 from Almortagel import app
+from config import *
 
 bot_name = {}
 botname = {}
 
 name = "المرتجل"
 
-@app.on_message(filters.command(["تعيين اسم البوت"], ""))
+@app.on_message(filters.command(["تعيين اسم البوت"])& filters.private & SUDOERS, group=39)
 async def set_bot_name(client, message):
     global name
     ask = await app.ask(message.chat.id,"ارسل الاسم الجديد", timeout=39)

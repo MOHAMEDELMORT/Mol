@@ -3,6 +3,7 @@ from pyrogram.types import *
 from pyromod import listen
 import time
 import requests
+from Almortagel import app
 
 api_id = API_ID 
 api_hash = API_HASH 

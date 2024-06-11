@@ -1,7 +1,7 @@
 import asyncio
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram import filters, Client
-from AnonXMusic import app
+from Almortagel import app
 
 bot_name = {}
 botname = {}

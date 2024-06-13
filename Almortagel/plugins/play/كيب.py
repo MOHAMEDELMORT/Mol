@@ -12,9 +12,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyb
 
 
 @app.on_message(filters.regex("^/start"), group=39)
-async def start(client, message):
- if not message.chat.type == ChatType.PRIVATE:
-    if await joinch(message):          
+async def start(client, message):      
   username = client.me.username
   if os.path.isfile(f"{username}.jpg"):
     photo = f"{username}.jpg"

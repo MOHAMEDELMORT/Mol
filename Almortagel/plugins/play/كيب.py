@@ -14,30 +14,7 @@ from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyb
 @app.on_message(filters.regex("^/start"), group=39)
 async def start(client, message):
  if not message.chat.type == ChatType.PRIVATE:
-    if await joinch(message):
-            return
-    message.chat.id == message.chat.OWNER_ID:
-   kep = ReplyKeyboardMarkup([
-["السورس","قسم التفعيل والتعطيل"],
-["قسم التعيين","قسم البوت"],
-["قسم المساعد","قسم الاذاعه"],
-["تحديث البوت","الغاء الامر"]], resize_keyboard=True)
-   return await message.reply_text("**• اهلا بك ، عزيزي المطور الاساسي  • .**", reply_markup=kep,quote=True)
- else:
-  kep = ReplyKeyboardMarkup([
-["مطور البوت", "مطور السورس"],
-["السورس","بنج"],
-["رمزيات","استوري"],
-["صور انمي","الاوامر"],
-["تويت", "صراحه"],
-["نكته","احكام"],
-[" لو خيروك","انصحني"],
-["اغنية عشوائية"],
-["اذكار","كتابات"],
-["حروف","بوت"],
-["قران الكريم","استوري قران"],
-["رمزيات بنات","المزيد من الصور"]], resize_keyboard=True)
-  await message.reply_text("**• اهلا بك ، عزيزي العضو السكر  • .**", reply_markup=kep,quote=True)
+    if await joinch(message):          
   username = client.me.username
   if os.path.isfile(f"{username}.jpg"):
     photo = f"{username}.jpg"

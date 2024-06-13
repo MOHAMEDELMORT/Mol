@@ -16,10 +16,7 @@ async def start(client, message):
  if not message.chat.type == ChatType.PRIVATE:
     if await joinch(message):
             return
- bot_username = client.me.username
- dev = await get_dev(bot_username)
- nn = await get_dev_name(client, bot_username)
- if message.chat.id == dev or message.chat.username in OWNER:
+    message.chat.id == message.chat.OWNER_ID:
    kep = ReplyKeyboardMarkup([
 ["السورس","قسم التفعيل والتعطيل"],
 ["قسم التعيين","قسم البوت"],
@@ -47,13 +44,13 @@ async def start(client, message):
   else:
     bot = await client.get_me()
     if not bot.photo:
-       button = [[InlineKeyboardButton(text="ᴇɴɢʟɪѕʜ 🇺🇲", callback_data=f"english"), InlineKeyboardButton(text="عربي 🇪🇬", callback_data=f"arbic")], [InlineKeyboardButton(text=f"{nn}", user_id=f"{dev}")]]
+       button = [[InlineKeyboardButton(text="ᴇɴɢʟɪѕʜ 🇺🇲", callback_data=f"english"), InlineKeyboardButton(text="عربي 🇪🇬", callback_data=f"arbic")], [InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID)]]
        return await client.send_message(message.chat.id, "ѕᴇʟᴇᴄᴛ ʏᴏụʀ ʟᴀɴɢụᴀɢᴇ •", reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(button))
     photo = bot.photo.big_file_id
     photo = await client.download_media(photo)
     username = client.me.username
     photo = await gen_bot(client, username, photo)
-  button = [[InlineKeyboardButton(text="ᴇɴɢʟɪѕʜ 🇺🇲", callback_data=f"english"), InlineKeyboardButton(text="عربي 🇪🇬", callback_data=f"arbic")], [InlineKeyboardButton(text=f"{nn}", user_id=f"{dev}")]]
+  button = [[InlineKeyboardButton(text="ᴇɴɢʟɪѕʜ 🇺🇲", callback_data=f"english"), InlineKeyboardButton(text="عربي 🇪🇬", callback_data=f"arbic")], [InlineKeyboardButton(text=f"{OWNER_NAME}", user_id=config.OWNER_ID)]]
   await client.send_photo(message.chat.id, photo=photo, caption="الرجاء الضغط علي اللغة اذا كانت اللغة العربية او باللغة الانجلزية\n\nᴘʟᴇᴀѕᴇ ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʟᴀɴɢụᴀɢᴇ ɪғ ɪᴛ ɪѕ ᴀʀᴀʙɪᴄ ᴏʀ ᴇɴɢʟɪѕʜ", reply_to_message_id=message.id, reply_markup=InlineKeyboardMarkup(button))
   
 

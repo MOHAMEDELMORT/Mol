@@ -541,4 +541,998 @@ async def get_groups_count(c:Client,m:Message):
                 leng = len(open(f"groups{bot_id}.json","r").readlines())
                 if leng == 0:
                         return await m.reply("**◍ لا توجد مجموعات تم تفعيلها في البوت √**")
-                return await m.reply(f"**◍ ت
+                        return await m.reply(f"**◍ تم تفعيل {leng} مجموعة في بوتك \n√**")
+                        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+@app.on_message(filters.command("^روابط المجموعات$","")&filters.private)
+async def show_links(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                x = 1
+                text = "**Groups links **:\n\n"
+                lenl = len(open(f"links{bot_id}.json","r").readlines())
+                sl = open(f"links{bot_id}.json","r")
+                for link in sl:
+                        text += f"{x} - {link}"
+                        x += 1
+                l = await m.reply("**◍ جاري عرض الروابط √**")
+                time.sleep(.5)
+                if lenl == 0:
+                        return await l.edit("**◍ لا توجد مجموعات تم تفعيلها في البوت √**")
+                return await l.edit(text=text)
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+#-----------------------BanUser---------------------------        
+@app.on_message(filters.command("^نسخه المحظورين$","")&filters.private)
+async def get_copy___band(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                file = open(f"band{bot_id}.json","rb")
+                lenb = len(open(f"band{bot_id}.json","r").readlines())
+                l = await m.reply("**◍ جاري جلب نسخه للمحظورين √**")
+                time.sleep(2)
+                if lenb == 0:
+                        return await l.edit("**◍ لم يتم حظر اي عضو من استخدام البوت √**")
+                await l.delete()
+                await m.reply_document(document=file,caption=f"**Band users {lenb} √")
+                return
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+
+@app.on_message(filters.command("^عدد المحظورين$","")&filters.private)
+async def countofuserBan(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                l = await m.reply("**◍ جاري حساب عدد الاعضاء √**")
+                lens = len(open(f"band{bot_id}.json","r").readlines())
+                time.sleep(.5)
+                if lens == 0:
+                        return await l.edit("**◍ لم يدخل اي عضو للبوت حتي الآن √**")
+                return await l.edit(f"**◍ عدد اعضاء بوتك {lens} √**")
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+
+#----------------SpecialVIIUser-------------------------
+
+@app.on_message(filters.command("عرض المطورين الاساسيين","")|filters.command("عرض الاساسيين","") &filters.private)
+async def ShowMain(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                file = open(f"maindevs{bot_id}.json","r")
+                lens = len(open(f"maindevs{bot_id}.json","r").readlines())
+                l = await m.reply("**◍ جاري عرض المطورين الاساسيين √**")
+                x = 1
+                text = "**Bot Main Users **:\n\n"
+                for su in file:
+                        text += f"{x} - {su}"
+                        x += 1
+                time.sleep(1)
+                if lens == 0:
+                        return await l.edit("**◍ لم يتم رفع مطورين اساسيين في البوت √**")
+                return await l.edit(text=text)
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+
+@app.on_message(filters.command("^نسخه الاساسيين$","")&filters.private)
+async def get_MainSudo(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                file = open(f"maindevs{bot_id}.json","rb")
+                lenb = len(open(f"maindevs{bot_id}.json","r").readlines())
+                l = await m.reply("**◍ جاري جلب نسخه للمطورين الاساسيين√**")
+                time.sleep(2)
+                if lenb == 0:
+                        return await l.edit("**◍ لم تقم برفع اي مطور اساسي في البوت√**")
+                await l.delete()
+                await m.reply_document(document=file,caption=f"**Sudo Main Users {lenb} √")
+                return
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+@app.on_message(filters.command("^عدد الاساسيين$","")&filters.private)
+async def countofDev(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                l = await m.reply("**◍ جاري حساب عدد اساسيين البوت√**")
+                lens = len(open(f"maindevsVII{bot_id}.json","r").readlines())
+                time.sleep(.5)
+                if lens == 0:
+                        return await l.edit("**◍ لم تقم برفع اي مطورين اساسيين في البوت √**")
+                return await l.edit(f"**◍ تم رفع {lens} مطور اساسي في البوت √**")
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+#----------------------SpecialUser-----------------------
+
+@app.on_message(filters.command("^عرض المطورين$","")&filters.private)
+async def __show_sudos(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                file = open(f"sudo{bot_id}.json","r")
+                lens = len(open(f"sudo{bot_id}.json","r").readlines())
+                l = await m.reply("**◍ جاري عرض المطورين √**")
+                x = 1
+                text = "**Bot sudo Users **:\n\n"
+                for su in file:
+                        text += f"{x} - {su}"
+                        x += 1
+                time.sleep(1)
+                if lens == 0:
+                        return await l.edit("**◍ لم يتم رفع مطورين في البوت √**")
+                return await l.edit(text=text)
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+@app.on_message(filters.command("^عدد المطورين$","")&filters.private)
+async def countofsudos(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                l = await m.reply("**◍ جاري حساب عدد مطورين البوت √**")
+                lens = len(open(f"sudo{bot_id}.json","r").readlines())
+                time.sleep(.5)
+                if lens == 0:
+                        return await l.edit("**◍ لم تقم برفع اي مطورين في البوت √**")
+                return await l.edit(f"**◍ تم رفع {lens} مطور في البوت √**")
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+@app.on_message(filters.command("^نسخه المطورين$","")&filters.private)
+async def get_copy_Sudo(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                file = open(f"sudo{bot_id}.json","rb")
+                lenb = len(open(f"sudo{bot_id}.json","r").readlines())
+                l = await m.reply("**◍ جاري جلب نسخه للمطورين√**")
+                time.sleep(2)
+                if lenb == 0:
+                        return await l.edit("**◍ لم تقم برفع اي مطور في البوت √**")
+                await l.delete()
+                await m.reply_document(document=file,caption=f"**Sudo users {lenb} √")
+                return
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")        
+
+#-------------------NormalUser-------------------------
+
+@app.on_message(filters.command("^عرض الاعضاء$","")&filters.private)
+async def show_users(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                users = open(f"Users{bot_id}.json","r")
+                x = 1
+                text = "**Bot Users **: \n\n"
+                for us in users:
+                        text += f"{x} - {us} \n"
+                        x+=1
+                i = await m.reply("**◍ جارى عرض الاعضاء √**")
+                time.sleep(.5)
+                lenm = len(open(f"Users{bot_id}.json","r").readlines())
+                if lenm == 0:
+                        return await i.edit("**◍ لم يقم اي عضو بالدخول للبوت √**")
+                return await i.edit(text=text)
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+@app.on_message(filters.command("^نسخه الاعضاء$","")&filters.private)
+async def __get_users_copy(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                l = await m.reply("**◍ جاري سحب نسخه للاعضاء √**")
+                time.sleep(2)
+                lenu = len(open(f"Users{bot_id}.json","r").readlines())
+                users = open(f"Users{bot_id}.json","rb")
+                if lenu == 0:
+                        return await l.edit("**◍ لم يقم اي عضو بالدخول الي البوت √**")
+                await l.delete()
+                await m.reply_document(document=users,caption=f"**Bot users {lenu} √**")
+                return
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+@app.on_message(filters.command("^عدد الاعضاء$","")&filters.private)
+async def countofusers(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                l = await m.reply("**◍ جاري حساب عدد الاعضاء √**")
+                lens = len(open(f"Users{bot_id}.json","r").readlines())
+                time.sleep(.5)
+                if lens == 0:
+                        return await l.edit("**◍ لم يدخل اي عضو للبوت حتي الآن √**")
+                return await l.edit(f"**◍ عدد اعضاء بوتك {lens} √**")
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+#--------♡-------------Subscribe------------♡----------
+
+@app.on_message(filters.command("اضف قناة اشتراك اجباري","")&filters.private)
+async def AddKey(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                ask = await m.reply('**معرف القناه بدون @**')
+                if ask.text == "الغاء":
+                        await ask.request.delete()
+                        await ask.delete()
+                        await m.reply(f"**تم الالغاء**")
+                        return
+                if '@' in ask.text:
+                        return await m.reply('**المعرف بدون @**')
+                if "ا" in ask.text:
+                        return await m.reply('لم يتم** التعرف**')
+                add_channel(chat_id=ask.text)
+                await m.reply('**تم وضع {} قناة اشتراك √**'.format(ask.text))
+                return
+
+@app.on_message(filters.command("عرض قناة الاشتراك","")&filters.private)
+async def ShowKey(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+            return await m.reply(f"**@{show_channel()} قناه الاشتراك**")
+
+
+@app.on_message(filters.command("حذف قناه الاشتراك","")&filters.private)
+async def DellKey(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                del_channel()
+
+                await m.reply(f"تم حذفها")
+
+#--------------------------------------------------------------
+#-----------------------DevChannel---------------------
+@app.on_message(filters.command("اضافه قناه المطور","")&filters.private)
+async def AddChannel(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                ask = await m.reply('**معرف قناه المطور بدون @**')
+                if ask.text == "الغاء":
+                        await ask.request.delete()
+                        await ask.delete()
+                        await m.reply(f"**تم الالغاء**")
+                        return
+                if '@' in ask.text:
+                        return await m.reply('**المعرف بدون @**')
+                if 'اضافه'in ask.text:
+                        return await m.reply('**لم يتم التعرف**')
+                add_devchannel(chat_id=ask.text)
+                await m.reply('**تم وضع قناه المطور @{} √**'.format(ask.text))
+                return
+
+@app.on_message(filters.command("عرض قناة المطور","")&filters.private)
+async def ShowDevKey(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+            return await m.reply(f"**@{show_devchannel()} قناه المطور**")
+
+
+@app.on_message(filters.command("حذف قناه المطور","")&filters.private)
+async def DellDevKey(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                del_devchannel()
+
+                await m.reply(f"تم حذفها")
+
+
+#--------------------------------------------------------------
+#-----------------------DevUser-------------------------
+@app.on_message(filters.command("اضافه معرف المطور","")&filters.private)
+async def AddDevUser(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                ask = await m.reply('**معرف المطور بدون @**')
+                if ask.text == "الغاء":
+                        await ask.request.delete()
+                        await ask.delete()
+                        await m.reply(f"**تم الالغاء**")
+                        return
+                if '@' in ask.text:
+                        return await m.reply('**المعرف بدون @**')
+                if 'اضافه'in ask.text:
+                        return await m.reply('**لم يتم التعرف**')
+                add_devuser(chat_id=ask.text)
+                await m.reply('**تم وضع معرف المطور @{} √**'.format(ask.text))
+                return
+
+@app.on_message(filters.command("عرض معرف المطور","")&filters.private)
+async def ShowDevUser(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+            return await m.reply(f"**@{show_devuser()} معرف المطور**")
+
+
+@app.on_message(filters.command("حذف معرف المطور","")&filters.private)
+async def DellDevUser(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                del_devuser()
+
+                await m.reply(f"تم حذفها")
+
+#-------------------------------------------------------------
+#---------------------AddOwner------------------------
+
+@app.on_message(filters.command("رفع مالك",prefixes="")&filters.private)
+async def AddOwner(c:Client,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id        
+        user = m.from_user.id
+        if (user) in owner or int(user) == dev_owner:
+
+                ask = await m.reply(chat,"**ارسل ايدي المالك**")
+                if ask.text == "الغاء":
+                        await ask.request.delete()
+                        await m.delete()
+                        await m.reply("**تم الالغاء**")
+                else:
+                        inputText = ask.text
+                        if(not is_main_dev(str(inputText))):
+                                AddMain2 = open(f"maindevsVII{bot_id}.json","a")
+                                AddMain2.write("{}\n".format(inputText))
+                                await m.reply("**تم رفع العضو {} مالك**".format(inputText))
+                                try:
+                                        await app.send_message(int(inputText),"**مرحبا عزيزي تم رفعك مالك البوت**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("قناة السورس",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+                        else:
+                                await m.reply("**هذا العضو مالك من قبل**")
+
+
+#-------------------------------------------------------------
+#------------------------DelOwner-----------------------
+@app.on_message(filters.command("تنزيل مالك",prefixes="")&filters.private)
+async def DelOwner(c:Client,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id        
+        user = m.from_user.id
+        if (user) in owner or int(user) == dev_owner:
+
+                ask = await m.reply(chat,"**ارسل ايدي المالك**")
+                inputText = ask.text
+                if inputText =="الغاء":
+                        await ask.request.delete()
+                        await m.delete()
+                        await m.reply("**تم الالغاء**")
+                else:
+                                with open(f"maindevsVII{bot_id}.json","r") as w:
+                                        lines = w.readlines()
+                                with open(f"maindevsVII{bot_id}.json","w") as w:
+                                        for line in lines:
+                                                if line.strip("\n")!="{}".format(inputText):
+                                                        w.write(line)
+                                await m.reply("**تم حذف {} من المالكين**".format(inputText))
+                                try:
+                                        await app.send_message(int(inputText),"**مرحبا عزيزي تم حذفك من المالكين**",
+                                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("قناة السورس",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+        else:
+                                        if(not is_dev(str(inputText))):
+                                            await m.reply("**ليس مطور مالك في البوت**")
+
+
+#-------------------------------------------------------------
+#------------------------ShowMain---------------------  
+
+@app.on_message(filters.command("المالكين","") &filters.private)
+async def ShowOwner(c:Client,m:Message):
+        user = m.from_user.id
+
+        if(user) in owner or int(user) == dev_owner:
+                file = open(f"maindevsVII{bot_id}.json","r")
+                lens = len(open(f"maindevsVII{bot_id}.json","r").readlines())
+                l = await m.reply("**◍ جاري عرض المطورين الاساسيين √**")
+                x = 1
+                text = "**Bot Owner Users **:\n\n"
+                for su in file:
+                        text += f"{x} - {su}"
+                        x += 1
+                time.sleep(1)
+                if lens == 0:
+                        return await l.edit("**◍ لم يتم رفع مالكين في البوت√**")
+                return await l.edit(text=text)
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")                                        
+
+#-------------------------------------------------------------
+#----------------------DelAllOwner---------------------
+@app.on_message(filters.command("حذف المالكين","")&filters.private)
+async def DelAllOwner(c:Client,m:Message):
+        user = m.from_user.id
+        if (user) in owner or int(user) == dev_owner:
+
+                del_all_mainVII()
+
+                await m.reply(f"تم حذفها")
+
+
+#-------------------------------------------------------------
+#-------------------------AddMain------------------------
+@app.on_message(filters.command("رفع مطور اساسي",prefixes="")&filters.private)
+async def AddMain(c:Client,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id        
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudo or str(user) in mainSudoVII or (user) in owner:
+
+                ask = await m.reply(chat,"**ارسل ايدي المطور الاساسي ")
+                if ask.text == "الغاء":
+                        await ask.request.delete()
+                        await m.delete()
+                        await m.reply("**تم الالغاء**")
+                else:
+                        inputText = ask.text
+                        if(not is_main_dev(str(inputText))):
+                                AddMain2 = open(f"maindevs{bot_id}.json","a")
+                                AddMain2.write("{}\n".format(inputText))
+                                await m.reply("**تم رفع العضو {} مطور اساسي**".format(inputText))
+                                try:
+                                        await app.send_message(int(inputText),"**مرحبا عزيزي تم رفعك مطور اساسي في البوت**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("قناة السورس",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+                        else:
+                                await m.reply("**هذا العضو مطور اساسي من قبل**")
+
+
+#-------------------------------------------------------------
+#-------------------------DelMain-----------------------
+@app.on_message(filters.command("تنزيل مطور اساسي",prefixes="")&filters.private)
+async def DelMain(c:Client,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id        
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                ask = await m.reply(chat,"**ارسل ايدي المطور الاساسي**")
+                inputText = ask.text
+                if inputText =="الغاء":
+                        await ask.delete()
+                        await m.delete()
+                        await m.reply("**تم الالغاء**")
+                else:
+                                with open(f"maindevs{bot_id}.json","r") as w:
+                                        lines = w.readlines()
+                                with open(f"maindevs{bot_id}.json","w") as w:
+                                        for line in lines:
+                                                if line.strip("\n")!="{}".format(inputText):
+                                                        w.write(line)
+                                await m.reply("**تم حذف {} من المطورين الاساسيين**".format(inputText))
+                                try:
+                                        await app.send_message(int(inputText),"**مرحبا عزيزي تم حذفك من المطوريين الاساسيين**",
+                                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("قناة السورس",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+        else:
+                                        if(not is_dev(str(inputText))):
+                                            await m.reply("**ليس مطور اساسي في البوت**")
+
+#-------------------------------------------------------------
+#-----------------------DelAllMain---------------------
+@app.on_message(filters.command("حذف الاساسيين","")&filters.private)
+async def DelAllMain(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                del_all_main()
+
+                await m.reply(f"تم حذفها")
+
+#-------------------------------------------------------------
+#-------------------------AddSudo------------------------
+@app.on_message(filters.command("رفع مطور",prefixes="")&filters.private)
+async def AddSudo(c:Client,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id        
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                ask = await m.reply(chat,"**ارسل ايدي المطور")
+                if ask.text == "الغاء":
+                        await ask.request.delete()
+                        await m.delete()
+                        await m.reply("**تم الالغاء**")
+                else:
+                        inputText = ask.text
+                        if(not is_main_dev(str(inputText))):
+                                AddMain2 = open(f"sudo{bot_id}.json","a")
+                                AddMain2.write("{}\n".format(inputText))
+                                await m.reply("**تم رفع العضو {} مطور**".format(inputText))
+                                try:
+                                        await app.send_message(int(inputText),"**مرحبا عزيزي تم رفعك مطور في البوت**",reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("قناة السورس",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+                        else:
+                                await m.reply("**هذا العضو مطور من قبل**")
+
+
+#-------------------------------------------------------------
+#-------------------------DelSudo-----------------------
+@app.on_message(filters.command("تنزيل مطور",prefixes="")&filters.private)
+async def DelSudo(c:Client,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id        
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        if str(user) in mainSudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                ask = await m.reply(chat,"**ارسل ايدي المطور**")
+                inputText = ask.text
+                if inputText =="الغاء":
+                        await ask.delete()
+                        await m.delete()
+                        await m.reply("**تم الالغاء**")
+                else:
+                                with open(f"sudo{bot_id}.json","r") as w:
+                                        lines = w.readlines()
+                                with open(f"sudo{bot_id}.json","w") as w:
+                                        for line in lines:
+                                                if line.strip("\n")!="{}".format(inputText):
+                                                        w.write(line)
+                                await m.reply("**تم حذف {} من المطورين**".format(inputText))
+                                try:
+                                        await app.send_message(int(inputText),"**مرحبا عزيزي تم حذفك من المطوريين**",
+                                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("قناة السورس",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+        else:
+                                        if(not is_dev(str(inputText))):
+                                            await m.reply("**ليس مطور في البوت**")
+#-------------------------------------------------------------
+#------------------------DelAllSudo---------------------
+@app.on_message(filters.command("حذف المطورين","")&filters.private)
+async def DelAllSudo(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                del_all_sudo()
+
+                await m.reply(f"تم حذفها")
+
+
+#-------------------------------------------------------------
+#------------------------BanUser-------------------------
+
+
+#-------------------------------------------------------------
+#-------------------------DelBanUser--------------------
+
+@app.on_message(filters.command("الغاء حظر عضو",prefixes="")&filters.private)
+async def UnBanUser(c:Client,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner: 
+                await m.delete() 
+                ask = await m.reply(chat,"**ارسل ايدي العضو**")
+                inputText = ask.text
+                if inputText == "الغاء":
+                        await ask.request.delete()
+                        await m.delete()
+                        await m.reply("**تم الغاء الحظر**")
+                else:
+                        if(not is_band(str(inputText))):
+                                await m.reply("**ليس محظور بالفعل**")
+                        else:
+                                with open(f"band{bot_id}","r") as w:
+                                        lines = w.readlines()
+                                with open(f"band{bot_id}","w") as w:
+                                        for line in lines:
+                                                if line.strip("\n")!="{}".format(inputText):
+                                                        w.write(line)
+                                await m.reply("**تم {} حذفه من قائمه الحظر**".format(inputText))
+                                try:
+                                        await app.send_message(int(inputText),"**مرحبا عزيزي تم الغاء حظرك من البوت**",
+                                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("قناة السورس",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+#-------------------------------------------------------------
+#---------------------ShowBanUser--------------------  
+
+@app.on_message(filters.command("عرض المحظورين","")&filters.private)
+async def ShowBan(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                file = open(f"band{bot_id}.json","r")
+                lens = len(open(f"band{bot_id}.json","r").readlines())
+                l = await m.reply("**◍ جاري عرض المحظورين√**")
+                x = 1
+                text = "**Bot Ban Users **:\n\n"
+                for su in file:
+                        text += f"{x} - {su}"
+                        x += 1
+                time.sleep(1)
+                if lens == 0:
+                        return await l.edit("**◍ لم يتم حظر شخص في البوت√**")
+                return await l.edit(text=text)
+        return await m.reply("**◍ انت لست مطور في البوت \n√**")
+
+#-------------------------------------------------------------
+#------------------------DelAllBan---------------------
+
+@app.on_message(filters.command("حذف المحظورين","")&filters.private)
+async def DelAllBan(c:Client,m:Message):
+        user = m.from_user.id
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+
+        if str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+
+                del_all_ban()
+
+                await m.reply(f"تم حذفها")
+
+
+#--------------------------AllBroadCast--------------------        
+@app.on_message(filters.command("اذاعه للكل",prefixes=""))
+async def AllCommand__(c,m):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه**")
+                else:
+                        users = open(f"Users{bot_id}.json","r")
+                        groups = open(f"groups{bot_id}.json","r")
+                        bans = open(f"band{bot_id}.json","r")
+
+                        for user in users:
+                                try:
+                                        await ask.copy(int(user),
+                                        inputText,
+                                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Source channel",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+
+                        for group in groups:
+                                try:
+                                        await ask.copy(int(group),
+                                        inputText,
+                                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Source channel",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+
+                        for ban in bans:
+                                try:
+                                        await ask.copy(int(ban),
+                                        inputText,
+                                        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Source channel",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+
+                        x1 = len(open(f"Users{bot_id}.json","r").readlines())
+                        x2 = len(open(f"band{bot_id}.json","r").readlines())
+                        x3 = len(open(f"groups{bot_id}.json","r").readlines())
+
+
+                        await app.send_message(chat,
+                        f"**تم الاذاعه الي** : \n\n {x1} من الأعضاء \n {x2} من المحظورين \n {x3} من المجموعات")
+
+
+#---------------------Not Togeh----------------------------------
+@app.on_message(filters.command("اذاعه الاعضاء",prefixes=""))
+async def memcommands__(c,m:Message):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه**")
+
+                else:
+                        users = open(f"Users{bot_id}.json","r")
+
+                        for user in users:
+                                try:
+                                        await ask.copy(int(user),
+                                        inputText, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Source channel",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+
+                        us = len(open(f"Users{bot_id}.json","r").readlines())
+                        await app.send_message(chat,f"**تم الاذاعه الي **: \n {us} من الاعضاء")
+
+@app.on_message(filters.command("اذاعه المحظورين",prefixes=""))
+async def memcommands__(c,m):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه**")
+
+                else:
+                        band = open(f"band{bot_id}.json","r")
+
+                        for user in band:
+                                try:
+                                        await ask.copy(int(user),
+                                        inputText, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Source channel",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+
+                        bn = len(open(f"band{bot_id}.json","r").readlines())
+                        await app.send_message(chat,f"**تم الاذاعه الي **: \n {bn} من المحظورين")
+
+
+@app.on_message(filters.command("اذاعه المجموعات",prefixes=""))
+async def memcommands__(c,m):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه**")
+
+                else:
+                        group = open(f"groups{bot_id}.json","r")
+
+                        for user in group:
+                                try:
+                                        await ask.copy(int(user),
+                                        inputText, reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("Source channel",
+url=f"https://t.me/{show_devchannel()}")]])
+                                        )
+                                except:
+                                        pass
+
+                        gr = len(open(f"groups{bot_id}.json","r").readlines())
+                        await app.send_message(chat,f"**تم الاذاعه الي **: \n {gr} من الجروبات")
+
+#---------------AllBroadCastTogeh----------        
+
+@app.on_message(filters.command("توجيه للكل",prefixes=""))
+async def AllCommand__(c,m):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه**")
+                else:
+                        users = open(f"Users{bot_id}.json","r")
+                        groups = open(f"groups{bot_id}.json","r")
+                        bans = open(f"band{bot_id}.json","r")
+
+                        for user in users:
+                                try:
+                                        await ask.forward(int(user)
+                                        )
+                                except:
+                                        pass
+
+                        for group in groups:
+                                try:
+                                        await ask.forward(int(group)
+                                        )
+                                except:
+                                        pass
+
+                        for ban in bans:
+                                try:
+                                        await ask.forward(int(ban)
+                                        )
+                                except:
+                                        pass
+
+                        x1 = len(open(f"Users{bot_id}.json","r").readlines())
+                        x2 = len(open(f"band{bot_id}.json","r").readlines())
+                        x3 = len(open(f"groups{bot_id}.json","r").readlines())
+
+
+                        await app.send_message(chat,f"**تم الاذاعه بالتوجيه الي** : \n\n {x1} من الأعضاء \n {x2} من المحظورين \n {x3} من المجموعات")
+
+#---------------------------YupTogeh---------------------------
+@app.on_message(filters.command("توجيه الاعضاء",prefixes=""))
+async def memcommands__(c,m):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه بالتوجيه**")
+
+                else:
+                        users = open(f"Users{bot_id}.json","r")
+
+                        for user in users:
+                                try:
+                                        await ask.forward (int(user)
+                                        )
+                                except:
+                                        pass
+
+                        us = len(open(f"Users{bot_id}.json","r").readlines())
+                        await app.send_message(chat,f"**تم الاذاعه بالتوجيه الي **:\n {us} من الاعضاء")
+
+@app.on_message(filters.command("توجيه محظورين",prefixes=""))
+async def memcommands__(c,m):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه بالتوجيه**")
+
+                else:
+                        band = open(f"band{bot_id}.json","r")
+
+                        for user in band:
+                                try:
+                                        await ask.copy(int(user)
+                                        )
+                                except:
+                                        pass
+
+                        bn = len(open(f"band{bot_id}.json","r").readlines())
+                        await app.send_message(chat,f"**تم الاذاعه بالتوجيه الي **: \n {bn} من المحظورين")
+
+@app.on_message(filters.command("توجيه المجموعات",prefixes=""))
+async def memcommands__(c,m):
+        user = m.from_user.id
+        chat = m.chat.id
+        mainSudo = open(f"maindevs{bot_id}.json","r").read()
+        mainSudoVII = open(f"maindevsVII{bot_id}.json","r").read()
+        sudo = open(f"sudo{bot_id}.json","r").read()
+
+        if str(user) in mainSudo or str(user) in sudo or str(user) in mainSudoVII or (user) in owner or int(user) == dev_owner:
+                await m.delete()
+                ask = await m.reply(chat,"**• ارسل الإذاعة الآن ( صورة، ملصق، نص، متحركة، جهة اتصال، ملف )**")
+                inputText = ask.text 
+
+                if inputText == "الغاء":
+                        await m.reply("**تم الغاء الاذاعه**")
+
+                else:
+                        group = open(f"groups{bot_id}.json","r")
+
+                        for user in group:
+                                try:
+                                        await ask.copy(int(user)
+                                        )
+                                except:
+                                        pass
+
+                        gr = len(open(f"groups{bot_id}.json","r").readlines())
+                        await app.send_message(chat,f"**تم الاذاعه بالتوجيه الي **: \n {gr} من المحظورين")
+
+
+

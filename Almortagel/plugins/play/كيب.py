@@ -5,11 +5,12 @@ from pyrogram import filters
 from config import BANNED_USERS
 from Almortagel import (Apple, Resso, Spotify, Telegram, YouTube, app)
 from typing import Union
+from pyrogram.enums import ChatType
 from pyrogram.types import InlineKeyboardButton
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove, Message, ChatJoinRequest
 
 
-@app.on_message(filters.command(["/start","رجوع للقائمة الرئيسيه"], ""))
+@app.on_message(filters.regex("^/start"), group=39)
 async def start(client, message):
  if not message.chat.type == enums.ChatType.PRIVATE:
     if await joinch(message):
@@ -40,8 +41,8 @@ async def start(client, message):
 ["رمزيات بنات","المزيد من الصور"]], resize_keyboard=True)
   await message.reply_text("**• اهلا بك ، عزيزي العضو السكر  • .**", reply_markup=kep,quote=True)
   username = client.me.username
-  if os.path.isfile(f"{username}.png"):
-    photo = f"{username}.png"
+  if os.path.isfile(f"{username}.jpg"):
+    photo = f"{username}.jpg"
   else:
     bot = await client.get_me()
     if not bot.photo:

@@ -34,10 +34,7 @@ async def start_pm(client, message: Message, _):
         if name[0:4] == "help":
             keyboard = first_page(_)
             return await message.reply_photo(
-                photo = bot.photo.big_file_id
-    photo = await client.download_media(photo)
-    username = client.me.username
-    photo = await get_bot(client, username, photo),
+                photo=config.START_IMG_URL,
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
@@ -89,10 +86,7 @@ async def start_pm(client, message: Message, _):
     else:
         out = private_panel(_)
         await message.reply_photo(
-            photo = bot.photo.big_file_id
-    photo = await client.download_media(photo)
-    username = client.me.username
-    photo = await get_bot(client, username, photo),
+            photo=config.START_IMG_URL,
             caption=_["start_2"].format(message.from_user.mention, app.mention),
             reply_markup=InlineKeyboardMarkup(out),
         )
@@ -109,10 +103,7 @@ async def start_gp(client, message: Message, _):
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     await message.reply_photo(
-        photo = bot.photo.big_file_id
-    photo = await client.download_media(photo)
-    username = client.me.username
-    photo = await get_bot(client, username, photo),
+        photo=config.START_IMG_URL,
         caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
         reply_markup=InlineKeyboardMarkup(out),
     )
@@ -147,10 +138,7 @@ async def welcome(client, message: Message):
 
                 out = start_panel(_)
                 await message.reply_photo(
-                    photo = bot.photo.big_file_id
-    photo = await client.download_media(photo)
-    username = client.me.username
-    photo = await get_bot(client, username, photo),
+                    photo=config.START_IMG_URL,
                     caption=_["start_3"].format(
                         message.from_user.first_name,
                         app.mention,

@@ -56,12 +56,12 @@ mute_permission = ChatPermissions(
 )
 
 
-muttof = []
+mutttof = []
 @app.on_message(filters.command(["قفل التقيد", "تعطيل التقيد", "تعطيل الحمايه"], "") & filters.group)
 async def muttlock(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-      if message.chat.id in muttof:
+      if message.chat.id in mutttof:
         return await message.reply_text("تم معطل من قبل🔒")
       muttof.append(message.chat.id)
       return await message.reply_text("تم تعطيل التقيد بنجاح ✅🔒")
@@ -72,7 +72,7 @@ async def muttlock(client, message):
 async def muttopen(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-      if not message.chat.id in muttof:
+      if not message.chat.id in mutttof:
         return await message.reply_text("التقيد مفعل من قبل ✅")
       muttof.remove(message.chat.id)
       return await message.reply_text("تم فتح التقيد بنجاح ✅🔓")
@@ -85,7 +85,7 @@ async def mute(client: Client, message: Message):
    global restricted_users
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
-    if message.chat.id in muttof:
+    if message.chat.id in mutttof:
       return   	   	
     await app.restrict_chat_member(
                        chat_id=message.chat.id,
@@ -101,7 +101,7 @@ async def mute(client: Client, message: Message):
     global restricted_users
     get = await client.get_chat_member(message.chat.id, message.from_user.id)
     if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] or message.from_user.id == 5089553588:
-        if message.chat.id in muttof:
+        if message.chat.id in mutttof:
             return
         if message.reply_to_message.from_user.id == 5089553588:
             await app.send_message(message.chat.id, "عذرا لا يمكنك تقيد المطور")
@@ -143,12 +143,12 @@ async def get_restr_users(client: Client, message: Message):
 
 
 
-gaaof = []
+gaaaof = []
 @app.on_message(command(["تعطيل الحظر", "تعطيل الطرد", "تعطيل الحمايه"]), group=504)
 async def gaalock(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-      if message.chat.id in gaaof:
+      if message.chat.id in gaaaof:
         return await message.reply_text("تم معطل من قبل🔒")
       gaaof.append(message.chat.id)
       return await message.reply_text("تم تعطيل الطرد و الحظر بنجاح ✅🔒")
@@ -159,7 +159,7 @@ async def gaalock(client, message):
 async def gaaopen(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-      if not message.chat.id in gaaof:
+      if not message.chat.id in gaaaof:
         return await message.reply_text("الطرد و الحظر مفعل من قبل ✅")
       gaaof.remove(message.chat.id)
       return await message.reply_text("تم فتح الطرد و الحظر بنجاح ✅🔓")
@@ -173,7 +173,7 @@ async def mute(client: Client, message: Message):
     chat_member = await client.get_chat_member(message.chat.id, message.from_user.id)
     if chat_member.status not in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR] and message.from_user.id != 5089553588:
         return
-    if message.chat.id in gaaof:
+    if message.chat.id in gaaaof:
         return
     if message.reply_to_message.from_user.id == 5089553588:
         await app.send_message(message.chat.id, "عذرا لا يمكنك طرد المطور")

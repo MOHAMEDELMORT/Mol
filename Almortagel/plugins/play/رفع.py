@@ -236,10 +236,7 @@ async def mallekandv(client, message):
         
         
         
-@app.on_message(
-    filters.command(["رتبتي"], "")
-    & filters.group
-)
+@app.on_message(filters.command(["رتبتي"], ""))
 async def rotba(client, message):
     dev = (OWNER_ID)
     ze = (5089553588)

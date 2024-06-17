@@ -68,7 +68,7 @@ async def muttlock(client, message):
    else:
       return await message.reply_text("لازم تكون ادمن يشخه علشان اسمع كلامك")
 
-@app.on_message(fiters.command(["فتح التقيد", "تفعيل التقيد", "تفعيل الحمايه"], "") &filters.group)
+@app.on_message(fiters.command(["فتح التقيد", "تفعيل التقيد", "تفعيل الحمايه"], "") & filters.group)
 async def muttopen(client, message):
    get = await client.get_chat_member(message.chat.id, message.from_user.id)
    if get.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:

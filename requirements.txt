@@ -49,3 +49,4 @@ pyromod
 telethon
 OpsAi
 gtts
+redis

@@ -42,7 +42,7 @@ youtube-search
 youtube-search-python
 wget
 kvsqlite 
-datetime
+DateTime
 pytz
 enums
 pyromod

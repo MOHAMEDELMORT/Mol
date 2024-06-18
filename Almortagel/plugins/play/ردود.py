@@ -91,7 +91,7 @@ async def of_cursing(client, message):
   name = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
   if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-   if not message.from_user.id == OWNER_BOT:
+   if not message.from_user.id == OWNER_ID:
     return message.reply("يجب انت تكون ادمن للقيام بذلك 💎.")
   cursing.append(idchat)
   message.reply(f"• تم قفل السب بالكتم\n• بواسطة : {name}",quote=True)
@@ -103,7 +103,7 @@ async def on_cursing(client, message):
   name = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
   if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-   if not message.from_user.id == OWNER_BOT:
+   if not message.from_user.id == OWNER_ID:
     return message.reply("يجب انت تكون ادمن للقيام بذلك 💎.")
   cursing.remove(idchat)
   message.reply(f"• تم فتح السب بالكتم\n• بواسطة : {name}",quote=True)
@@ -115,7 +115,7 @@ async def of_forward(client, message):
   name = message.from_user.mention
   a = client.get_chat_member(message.chat.id, message.from_user.id)
   if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-   if not message.from_user.id == OWNER_BOT:
+   if not message.from_user.id == OWNER_ID:
     return message.reply("يجب انت تكون ادمن للقيام بذلك 💎.")
   forward.append(idchat)
   message.reply(f"• تم قفل التوجيه بالكتم\n• بواسطة : {name}",quote=True)
@@ -146,7 +146,7 @@ async def msg(client, message):
     if idchat in cursing:
       a = client.get_chat_member(idchat, message.from_user.id)
       if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-       if not message.from_user.id == OWNER_BOT:
+       if not message.from_user.id == OWNER_ID:
          message.delete()
          mute.append(message.from_user.id)
          Text =f"""
@@ -159,7 +159,7 @@ async def msg(client, message):
     if idchat in forward:
       a = client.get_chat_member(idchat, message.from_user.id)
       if not a.status in [ChatMemberStatus.OWNER, ChatMemberStatus.ADMINISTRATOR]:
-       if not message.from_user.id == OWNER_BOT:
+       if not message.from_user.id == OWNER_ID:
          message.delete()
          mute.append(message.from_user.id)
          Text =f"""

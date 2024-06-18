@@ -182,7 +182,7 @@ mallekan = {}
 def is_malleka(user_id):
     return user_id in mallekan and mallekan[user_id] > 0
 
-@app.on_message(command(["رفع مالك"], "") & filters.group)
+@app.on_message(filters.command(["رفع مالك"], "") & filters.group)
 async def mallekann(client, message):
     global mallekan
     user_id = message.reply_to_message.from_user.id
@@ -193,7 +193,7 @@ async def mallekann(client, message):
     chat_id = message.chat.id
     await app.send_message(chat_id, text="تم الرفع مالك بنجاح")
 
-@app.on_message(command(["تنزيل مالك"], "") & filters.group)
+@app.on_message(filters.command(["تنزيل مالك"], "") & filters.group)
 async def remove_malleka(client, message):
     global mallekan
     user_id = message.reply_to_message.from_user.id
@@ -216,7 +216,7 @@ async def list_mallekas(client, message):
     else:
         await app.send_message(chat_id, text="لا يوجد أدمنية حالياً")
 
-@app.on_message(command(["مسح المالكين"], "") & filters.group)
+@app.on_message(filters.command(["مسح المالكين"], "") & filters.group)
 async def mallekandv(client, message):
     global mallekan
     count = len(mallekan)

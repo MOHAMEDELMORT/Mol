@@ -1,5 +1,5 @@
 import asyncio
-from config import BOT_TOKEN, OWNER_ID, 
+from config import BOT_TOKEN, OWNER_ID 
 from pyrogram import Client, filters, idle
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, BotCommand
 from kvsqlite.sync import Client as DB
@@ -7,8 +7,8 @@ from datetime import date
 from pyrogram.errors import FloodWait 
 botdb = DB('botdb.sqlite')
 
-token = config.BOT_TOKEN
-ownerID = config.OWNER_ID
+token = "BOT_TOKEN"
+ownerID = "OWNER_ID"
 
 bot = Client(
   'bot'+token.split(":")[0],

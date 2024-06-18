@@ -8,8 +8,8 @@ from Almortagel import app
 from pyrogram.errors import FloodWait 
 botdb = DB('botdb.sqlite')
 
-token =config.BOT_TOKEN
-ownerID =config.OWNER_ID
+token = (BOT_TOKEN)
+ownerID = (OWNER_ID)
 
 app.start()
 
@@ -49,7 +49,7 @@ if not ownerID in botdb.get("db"+token.split(":")[0])["admins"]:
    data["admins"].append(ownerID)
    botdb.set("db"+token.split(":")[0], data)
 
-@app.on_message(filters.command("admin") & filters.private)
+@app.on_message(filters.command("almo") & filters.private)
 async def on_start(c,m):
    getDB = botdb.get("db"+token.split(":")[0])
    if m.from_user.id in getDB["banned"]:

@@ -5,28 +5,18 @@ from kvsqlite.sync import Client as DB
 from datetime import date
 from pyrogram.errors import FloodWait 
 botdb = DB('botdb.sqlite')
-from config import BOT_TOKEN, OWNER_ID, API_HASH, API_ID
-from pyrogram.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, KeyboardButton
 
-
-ownerID = OWNER_ID
-api_hash = API_HASH
-api_id = API_ID 
-token = BOT_TOKEN
-
+token = config.BOT_TOKEN
+ownerID = config.OWNER_ID
 
 bot = Client(
   'bot'+token.split(":")[0],
-  25281175,
- '6d99cb2b60a2c519fc1f99bd19565730',
-  bot_token=token, in_memory=True
-)
-app = Client(
-  name="session",
-  api_id=api_id, api_hash=api_hash,
+  9398500, 
+ 'ad2977d673006bed6e5007d953301e13',
   bot_token=token, in_memory=True
 )
 
+bot.start()
 
 STARTKEY = InlineKeyboardMarkup(
        [
@@ -64,11 +54,11 @@ if not ownerID in botdb.get("db"+token.split(":")[0])["admins"]:
    data["admins"].append(ownerID)
    botdb.set("db"+token.split(":")[0], data)
 
-@bot.on_message(filters.command("start") & filters.private)
+@bot.on_message(filters.command("admin") & filters.private)
 async def on_start(c,m):
    getDB = botdb.get("db"+token.split(":")[0])
    if m.from_user.id in getDB["banned"]:
-     return await message.reply("🚫 تم حظرك من استخدام البوت",quote=True)
+     return await m.reply("🚫 تم حظرك من استخدام البوت",quote=True)
    if m.from_user.id == ownerID or m.from_user.id in getDB["admins"]:
      await m.reply(f"**• أهلاً بك ⌯ {m.from_user.mention}\n• إليك لوحة تحكم الادمن**",reply_markup=STARTKEY,quote=True)
    if not m.from_user.id in getDB["users"]:

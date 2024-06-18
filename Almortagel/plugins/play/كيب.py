@@ -1,4 +1,5 @@
-import asyncio 
+import asyncio
+from config import BOT_TOKEN, OWNER_ID, 
 from pyrogram import Client, filters, idle
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, BotCommand
 from kvsqlite.sync import Client as DB

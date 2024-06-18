@@ -8,8 +8,8 @@ from Almortagel import app
 from pyrogram.errors import FloodWait 
 botdb = DB('botdb.sqlite')
 
-token = BOT_TOKEN
-ownerID = OWNER_ID
+token = config.BOT_TOKEN
+ownerID = config.OWNER_ID
 
 app.start()
 

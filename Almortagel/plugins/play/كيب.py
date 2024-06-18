@@ -7,8 +7,8 @@ from datetime import date
 from pyrogram.errors import FloodWait 
 botdb = DB('botdb.sqlite')
 
-token = "BOT_TOKEN"
-ownerID = "OWNER_ID"
+token = BOT_TOKEN
+ownerID = OWNER_ID
 
 bot = Client(
   'bot'+token.split(":")[0],

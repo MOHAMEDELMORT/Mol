@@ -8,10 +8,11 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, WebAppInf
 
 
 
+
 @app.on_message(filters.command(["اذاعه القران"], ""))
 async def start(client, message):
     A = 'https://livequran.vercel.app'
-await client.send_photo(message.chat.id,"https://telegra.ph/file/3bf13cf1fde9b2c71f241.jpg",
+    await client.send_photo(message.chat.id,"https://telegra.ph/file/3bf13cf1fde9b2c71f241.jpg",
 caption="اذاعة القران الكريم",reply_markup=InlineKeyboardMarkup(
             [
                 [

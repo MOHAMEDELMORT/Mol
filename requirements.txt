@@ -42,7 +42,7 @@ youtube-search
 youtube-search-python
 wget
 kvsqlite 
-DateTime
+datetime
 pytz
 enums
 pyromod
@@ -50,3 +50,4 @@ telethon
 OpsAi
 gtts
 redis
+sqlite3

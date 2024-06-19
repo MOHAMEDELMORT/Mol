@@ -2,6 +2,7 @@ import os
 from pyrogram import (Client ,filters)
 from datetime import (date)
 from pyrogram.types import (Message,InlineKeyboardButton,InlineKeyboardMarkup,ReplyKeyboardMarkup,ForceReply,CallbackQuery)
+from config import OWNER_ID
 from Almortagel import Dil
 from Almortagel import app
 import sqlite3,os,time

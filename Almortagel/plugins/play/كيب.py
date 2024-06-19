@@ -1,7 +1,7 @@
 import asyncio
 from config import BOT_TOKEN, OWNER_ID 
 from pyrogram import Client, filters, idle
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, BotCommand, ReplyKeyboardMarkup, Message
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, BotCommand, ReplyKeyboardMarkup, CallbackQuery, Message
 from kvsqlite.sync import Client as DB
 from datetime import date
 from Almortagel import app

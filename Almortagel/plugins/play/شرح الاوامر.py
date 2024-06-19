@@ -1,4 +1,4 @@
-from OpsAi import Ai
+import OpsAi
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from Almortagel import app

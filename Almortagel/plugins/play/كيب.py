@@ -8,335 +8,204 @@ from Almortagel import app
 from pyrogram.errors import FloodWait 
 botdb = DB('botdb.sqlite')
 
-token = (BOT_TOKEN)
-ownerID = (OWNER_ID)
-
-app.start()
-
-STARTKEY = InlineKeyboardMarkup(
-       [
-         [
-           InlineKeyboardButton("≈ إذاعة للمستخدمين ≈", callback_data="broadcast")
-         ],
-         [
-           InlineKeyboardButton("≈ الاحصائيات ≈", callback_data="stats"),
-           InlineKeyboardButton("≈ الأدمنية ≈", callback_data="adminstats"),
-           InlineKeyboardButton("≈ المحظورين ≈", callback_data="bannedstats"),
-         ],
-         [
-           InlineKeyboardButton("≈ كشف مستخدم ≈",callback_data="whois"),
-           InlineKeyboardButton("≈ حظر مستخدم ≈",callback_data="ban"),
-         ],
-         [
-           InlineKeyboardButton("≈ الغاء حظر مستخدم ≈",callback_data="unban"),
-         ],
-         [
-           InlineKeyboardButton("≈ رفع ادمن ≈",callback_data="addadmin"),
-           InlineKeyboardButton("≈ تنزيل ادمن ≈",callback_data="remadmin"),
-         ]
-       ]
-     )
-if not botdb.get("db"+token.split(":")[0]):
-   data = {
-     "users":[],
-     "admins":[],
-     "banned":[],
-   }
-   botdb.set("db"+token.split(":")[0], data)
-
-if not ownerID in botdb.get("db"+token.split(":")[0])["admins"]:
-   data = botdb.get("db"+token.split(":")[0])
-   data["admins"].append(ownerID)
-   botdb.set("db"+token.split(":")[0], data)
+REB = ReplyKeyboardMarkup([
+	[("تفعيل التواصل"),("تعطيل التواصل")],
+	[("الاحصائيات"),("اذاعه للكل")],
+	[("الغاء حظر عضو"),("حظر عضو")],
+	[("الغاء")]],
+	resize_keyboard=True)
 
 @app.on_message(filters.command("almo") & filters.private)
-async def on_start(c,m):
-   getDB = botdb.get("db"+token.split(":")[0])
-   if m.from_user.id in getDB["banned"]:
-     return await m.reply("🚫 تم حظرك من استخدام البوت",quote=True)
-   if m.from_user.id == ownerID or m.from_user.id in getDB["admins"]:
-     await m.reply(f"**• أهلاً بك ⌯ {m.from_user.mention}\n• إليك لوحة تحكم الادمن**",reply_markup=STARTKEY,quote=True)
-   if not m.from_user.id in getDB["users"]:
-      data = getDB
-      data["users"].append(m.from_user.id)
-      botdb.set("db"+token.split(":")[0], data)
-      for admin in data["admins"]:
-         text = f"– New user stats the bot :"
-         username = "@"+m.from_user.username if m.from_user.username else "None"
-         text += f"\n\n𖡋 𝐔𝐒𝐄 ⌯  {username}"
-         text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {m.from_user.mention}"
-         text += f"\n𖡋 𝐈𝐃 ⌯  `{m.from_user.id}`"
-         text += f"\n𖡋 𝐃𝐀𝐓𝐄 ⌯  **{date.today()}**"
-         try: await c.send_message(admin, text, reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton (m.from_user.first_name,user_id=m.from_user.id)]]))
-         except: pass
-   data = {"name":m.from_user.first_name[:25], "username":m.from_user.username, "mention":m.from_user.mention(m.from_user.first_name[:25]),"id":m.from_user.id}
-   botdb.set(f"USER:{m.from_user.id}",data)
+async def START(c:Client,m:Message):
+	UserName = m.from_user.username
+	UserName = "@"+UserName if UserName else "There in no username"
+	db.execute("SELECT * FROM USERS WHERE user_id = ?", (m.from_user.id,))
+	result = db.fetchone()
+	
+	if m.from_user.id == OWNER_ID:
+		await m.reply("اليك لوحه المطور",reply_markup=REB,quote=True)
+	elif CHECK_BAND(user_id=m.from_user.id):
+		await m.reply("**تم حظرك من استخدام البوت**",quote=True)
+	elif result:
+		await m.reply(f"""
+		مرحبا {m.from_user.mention}
+	
+	في بوت التواصل الخاص بي
+	ارسل رسالتك وسيتم الرد عليك قريبا
+		""",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("Dev",user_id=OWNER_ID)]]),quote= True)
+	else:
+		db.execute("INSERT INTO USERS(user_id) VALUES(?)", (m.from_user.id,))
+		con.commit()
+		try:
+			await app.send_message(OWNER_ID,f"""
+		<u>«**New User**»</u>
+		
+	➣ Name : {m.from_user.first_name}
+	➣ User Name : {UserName}
+	➣ User Id : `{m.from_user.id}`
+	➣ Link : [Link Profile](tg://user?id=m.from.user.id)
+	➣ Data : **{date.today()}**
+		""",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton (m.from_user.first_name,user_id=m.from_user.id)],[InlineKeyboardButton("حظر هذا العضو",callback_data=f"Ban:{m.from_user.id}")]]))
+		except:pass
+		await m.reply(f"""
+		مرحبا {m.from_user.mention}
+	
+	في بوت التواصل الخاص بي
+	ارسل رسالتك وسيتم الرد عليك قريبا
+		""",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("Dev",user_id=OWNER_ID)]]),quote= True)
+		
+
+	
+@app.on_message(filters.command("تفعيل التواصل","") & filters.user(OWNER_ID) & filters.private)
+async def OnTw(c:Client,m:Message):
+	db.execute("SELECT * FROM TWSEL WHERE chat_id = ?", (m.chat.id,))
+	result = db.fetchone()
+	if result:
+		await m.reply(f"مطوري {m.from_user.mention}\nتم تفعيل التواصل من قبل",quote=True)
+	else:
+		db.execute("INSERT INTO TWSEL(chat_id) VALUES(?)", (m.chat.id,))
+		con.commit()
+		await m.reply(f"مطوري {m.from_user.mention}\nتم تفعيل التواصل",quote=True)
+
+@app.on_message(filters.command("تعطيل التواصل","") & filters.user(OWNER_ID) & filters.private)
+async def OffTw(c:Client,m:Message):
+	db.execute("SELECT * FROM TWSEL WHERE chat_id = ?", (m.chat.id,))
+	result = db.fetchone()
+	
+	if result is not None:
+		db.execute("DELETE FROM TWSEL WHERE chat_id = ?", (m.chat.id,))
+		con.commit()
+		await m.reply(f"مطوري {m.from_user.mention}\nتم تعطيل التواصل",quote=True)
+	else:
+		await m.reply(f"مطوري {m.from_user.mention}\nتم تعطيل التواصل من قبل",quote=True)
 
 
-@app.on_message(filters.private & ~filters.service)
-async def on_messages(c,m):       
-   if botdb.get(f"broad:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      text = "**— جاري إرسال الإذاعة إلى المستخدمين**\n"
-      reply = await m.reply(text,quote=True)
-      count=0
-      users=botdb.get("db"+token.split(":")[0])["users"]
-      for user in users:
-        try:
-          await m.copy(user)
-          count+=1
-          await reply.edit(text+f"**— تم ارسال الإذاعة الى [ {count}/{len(users)} ] مستخدم**")
-        except FloodWait as x:
-          await asyncio.sleep(x.value)
-        except Exception:
-          pass
-      return True
-   
-   if m.text and botdb.get(f"whois:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      getUser=botdb.get(f"USER:{m.text[:15]}")
-      if not getUser:
-        return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
-      else:
-         name=getUser["name"]
-         id=getUser["id"]
-         mention=getUser["mention"]
-         username="@"+getUser["username"] if getUser["username"] else "None"
-         language=botdb.get(f"LANG:{id}")
-         text = f"𖡋 𝐔𝐒𝐄 ⌯  {username}"
-         text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
-         text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-         text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
-         text += f"\n𖡋 𝐀𝐂𝐂 𝑳𝐈𝐍𝐊 ⌯  **{mention}**"
-         return await m.reply(text,quote=True)
-   
-   if m.text and botdb.get(f"ban:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      getUser=botdb.get(f"USER:{m.text[:15]}")
-      if not getUser:
-        return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
-      else:
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
-          return await m.reply(f"– لا يمكنك حظر ⌯ {getUser['mention']} ⌯ لأنه ادمن",quote=True)
-        else:
-          if getUser["id"] in botdb.get("db"+token.split(":")[0])["banned"]:
-            return await m.reply(f"– لا يمكنك حظر ⌯ {getUser['mention']} ⌯ لأنه محظور مسبقاً",quote=True)
-          name=getUser["mention"]
-          id=getUser["id"]
-          username="@"+getUser["username"] if getUser["username"] else "None"
-          language=botdb.get(f"LANG:{id}")
-          text = f"- This user added to blacklist:\n\n"
-          text += f"𖡋 𝐔𝐒𝐄 ⌯  {username}"
-          text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
-          text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
-          text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
-          data["banned"].append(id)
-          botdb.set("db"+token.split(":")[0],data)
-          return await m.reply(text,quote=True)
-   
-   if m.text and botdb.get(f"unban:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      getUser=botdb.get(f"USER:{m.text[:15]}")
-      if not getUser:
-        return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
-      else:
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
-          return await m.reply(f"– لا يمكنك الغاء حظر ⌯ {getUser['mention']} ⌯ لأنه ادمن",quote=True)
-        else:
-          if not getUser["id"] in botdb.get("db"+token.split(":")[0])["banned"]:
-            return await m.reply(f"– لا يمكنك الغاء حظر ⌯ {getUser['mention']} ⌯ لأنه غير محظور مسبقاً",quote=True)
-          name=getUser["mention"]
-          id=getUser["id"]
-          username="@"+getUser["username"] if getUser["username"] else "None"
-          language=botdb.get(f"LANG:{id}")
-          text = f"- This user deleted from blacklist:\n\n"
-          text += f"𖡋 𝐔𝐒𝐄 ⌯  {username}"
-          text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
-          text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
-          text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
-          data["banned"].remove(id)
-          botdb.set("db"+token.split(":")[0],data)
-          return await m.reply(text,quote=True)
-   
-   if m.text and botdb.get(f"add:{m.from_user.id}") and m.from_user.id == ownerID:
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      getUser=botdb.get(f"USER:{m.text[:15]}")
-      if not getUser:
-        return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
-      else:
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
-          return await m.reply(f"– لا يمكنك رفع ⌯ {getUser['mention']} ⌯ لأنه ادمن مسبقاً",quote=True)
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["banned"]:
-          return await m.reply(f"– لا يمكنك رفع ⌯ {getUser['mention']} ⌯ لأنه محظور",quote=True)
-        else:          
-          name=getUser["mention"]
-          id=getUser["id"]
-          username="@"+getUser["username"] if getUser["username"] else "None"
-          language=botdb.get(f"LANG:{id}")
-          text = f"- This user added to admins list:\n\n"
-          text += f"𖡋 𝐔𝐒𝐄 ⌯  {username}"
-          text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
-          text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
-          text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
-          data["admins"].append(id)
-          botdb.set("db"+token.split(":")[0],data)
-          return await m.reply(text,quote=True)
-   
-   if m.text and botdb.get(f"rem:{m.from_user.id}") and m.from_user.id == ownerID:
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      getUser=botdb.get(f"USER:{m.text[:15]}")
-      if not getUser:
-        return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
-      else:
-        if not getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
-          return await m.reply(f"– لا يمكنك تنزيل ⌯ {getUser['mention']} ⌯ لأنه مو ادمن",quote=True)
-        if getUser["id"] == ownerID:
-          return await m.reply(f"– لا يمكنك تنزيل ⌯ {getUser['mention']} ⌯ لأنه مالك البوت",quote=True)
-        else:
-          name=getUser["mention"]
-          id=getUser["id"]
-          username="@"+getUser["username"] if getUser["username"] else "None"
-          language=botdb.get(f"LANG:{id}")
-          text = f"- This user deleted from admins list:\n\n"
-          text += f"𖡋 𝐔𝐒𝐄 ⌯  {username}"
-          text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
-          text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
-          text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
-          data["admins"].remove(id)
-          botdb.set("db"+token.split(":")[0],data)
-          return await m.reply(text,quote=True)
+@app.on_message(filters.command("الاحصائيات","") & filters.user(OWNER_ID) & filters.private)
+async def StatTw(c:Client,m:Message):
+	Wait = await m.reply("Wait a second")
+	time.sleep(.5)
+	Users = GET_USERS()
+	with open("Users.txt","w") as file:
+		for User in Users:
+			file.write(str(User)+"\n")
+	READ = open("Users.txt","rb")
+	Users = GET_BAN_USERS()
+	with open("Ban_Users.txt","w") as file:
+		for User in Users:
+			file.write(str(User)+"\n")
+	READ2 = open("Ban_Users.txt","rb")
+	await Wait.delete()
+	try:	
+		await m.reply_document(READ,caption="**<u>➣ User Stats  </u>**")
+		os.remove("Users.txt")
+	except:os.remove("Users.txt")
+	try:	
+		await m.reply_document(READ2,caption="**<u>➣ Ban User Stats  </u>**")
+		os.remove("Ban_Users.txt")
+	except:os.remove("Ban_Users.txt")
 
-@app.on_callback_query()
-async def on_Callback(c,m):      
-   if m.data == "broadcast" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      await m.edit_message_text("• أرسل الإذاعة الآن ( صورة ، نص ، ملصق ، ملف ، صوت )\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
-      botdb.set(f"broad:{m.from_user.id}",True)
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      
-   if m.data == "whois" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      await m.edit_message_text("• ارسل الآن ايدي المستخدم للكشف عنه\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
-      botdb.set(f"whois:{m.from_user.id}",True)
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      
-   if m.data == "ban" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      await m.edit_message_text("• ارسل الآن ايدي المستخدم لحظره\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
-      botdb.set(f"ban:{m.from_user.id}",True)
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-   
-   if m.data == "unban" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      await m.edit_message_text("• ارسل الآن ايدي المستخدم لرفع حظره\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
-      botdb.set(f"unban:{m.from_user.id}",True)
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-   
-   if m.data == "addadmin" and m.from_user.id == ownerID:
-      await m.edit_message_text("• ارسل الآن ايدي المستخدم لرفعه ادمن\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
-      botdb.set(f"add:{m.from_user.id}",True)
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-   
-   if m.data == "remadmin" and m.from_user.id == ownerID:
-      await m.edit_message_text("• ارسل الآن ايدي المستخدم لرفعه ادمن\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
-      botdb.set(f"rem:{m.from_user.id}",True)
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
 
-   if m.data == "back" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      #await m.answer("• تم الرجوع بنجاح والغاء كل شي ",show_alert=True)
-      await m.edit_message_text(f"**• أهلاً بك ⌯ {m.from_user.mention}\n• إليك لوحة تحكم الادمن**",reply_markup=STARTKEY)
-      botdb.delete(f"broad:{m.from_user.id}")
-      botdb.delete(f"whois:{m.from_user.id}")
-      botdb.delete(f"ban:{m.from_user.id}")
-      botdb.delete(f"add:{m.from_user.id}")
-      botdb.delete(f"rem:{m.from_user.id}")
-      botdb.delete(f"unban:{m.from_user.id}")
-      
-   if m.data == "stats" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      users = len(botdb.get("db"+token.split(":")[0])["users"])
-      await m.answer(f"• احصائيات البوت ⌯ {users}", show_alert=True,cache_time=10)
-      
-   if m.data == "adminstats" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      admins = len(botdb.get("db"+token.split(":")[0])["admins"])
-      await m.answer(f"• احصائيات الادمنية ⌯ {admins}\n• سيتم ارسال بيانات كل آدمن", show_alert=True,cache_time=60)
-      text = "- الادمنية:\n\n"
-      count = 1
-      for admin in botdb.get("db"+token.split(":")[0])["admins"]:
-         if count==101: break
-         getUser = botdb.get(f"USER:{admin}")
-         mention=getUser["mention"]
-         id=getUser["id"]
-         text += f"{count}) {mention} ~ (`{id}`)\n"
-         count+=1
-      text+="\n\n—"
-      await m.message.reply(text,quote=True)
-   
-   if m.data == "bannedstats" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      bans = botdb.get("db"+token.split(":")[0])["banned"]
-      if not bans:  return await m.answer("• لا يوجد محظورين", show_alert=True,cache_time=60)
-      await m.answer(f"• احصائيات المحظورين ⌯ {len(bans)}\n• سيتم ارسال بيانات كل المحظورين", show_alert=True,cache_time=60)
-      text = "- المحظورين:\n\n"
-      count = 1
-      for banned in bans:
-         if count==101: break
-         getUser = botdb.get(f"USER:{banned}")
-         mention=getUser["mention"]
-         id=getUser["id"]
-         text += f"{count}) {mention} ~ (`{id}`)\n"
-         count+=1
-      text+="\n\n—"
-      await m.message.reply(text,quote=True)
+@app.on_message(filters.command("اذاعه للكل","") & filters.user(OWNER_ID) & filters.private)
+async def Broad(c:Client,m:Message):
+	db.execute("SELECT * FROM USERS")
+	users = len(db.fetchall())
+	con.commit()
+	if users < 1:
+		await m.reply("➣**<u>لا يوجد مستخدمين ليتم الاذاعه لهم</u>**")
+	else:
+		Msg = await m.chat.ask("**ارسل الان نص الاذاعه**\nللالغاء ارسل `الغاء` اضغط للنسخ",
+		reply_markup=ForceReply())
+		if Msg.text == "الغاء":
+			return await m.reply("**تم الغاء الاذاعه**",reply_markup=REB)
+		REP = await m.reply("**انتظر يتم الاذاعه الان**")
+		for user in GET_USERS():
+			try:
+				await Msg.copy(int(user))
+			except:pass
+		await REP.delete()
+		await m.reply(f"➣\n**<u> تم الاذاعه الي {users} من الاعضاء</u>**",reply_markup=REB)
+
+
+@app.on_message(filters.command("حظر عضو","") & filters.user(OWNER_ID) & filters.private)
+async def Ban(c:Client,m:Message):
+	Msg = await m.chat.ask("**ارسل الان ايدي العضو المراد حظره**",reply_markup=ForceReply())
+	if Msg.text == "الغاء":
+		return await m.reply("**تم الغاء الامر**",reply_markup=REB)
+	if Msg.text == m.from_user.id:
+		return await m.reply("**لا يمكنك حظر نفسك**")
+	try:
+		if CHECK_BAND(user_id=Msg.text):
+			return await m.reply("**هذا المستخدم محظور من قبل**",reply_markup=REB)
+	except ValueError:
+		return await m.reply("**ارسل ايدي صالح للاستخدام في التلجرام**",reply_markup=REB)
+	try:
+		ADD_BAN(user_id=int(Msg.text))
+		return await m.reply(f"**تم حظر {Msg.text} من البوت",reply_markup=REB)
+	except ValueError:
+		return await m.reply("**ارسل ايدي صالح للاستخدام في التلجرام**",reply_markup=REB)
+	
+@app.on_message(filters.command("الغاء حظر عضو","") & filters.user(OWNER_ID) & filters.private)
+async def UnBan(c:Client,m:Message):
+	Msg = await m.chat.ask("**ارسل الان ايدي العضو المراد الغاء حظره**",reply_markup=ForceReply())
+	if Msg.text == "الغاء":
+		return await m.reply("**تم الغاء الامر**",reply_markup=REB)
+	if Msg.text == m.from_user.id:
+		return await m.reply("**لا يمكنك الغاء حظر نفسك**")
+	try:
+		if not CHECK_BAND(user_id=Msg.text):
+			return await m.reply("**هذا المستخدم لم يتم حظره من قبل**",reply_markup=REB)
+	except ValueError:
+		return await m.reply("**ارسل ايدي صالح للاستخدام في التلجرام**",reply_markup=REB)
+	try:
+		DEL_BAN(user_id=int(Msg.text))
+		return await m.reply(f"**تم الغاء حظر {Msg.text} من البوت",reply_markup=REB)
+	except ValueError:
+		return await m.reply("**ارسل ايدي صالح للاستخدام في التلجرام**",reply_markup=REB)
+	try:
+		await app.send_message(Msg.text,f"**مرحبا {Msg.text} تم الغاء حظرك من البوت بنجاح")
+	except:pass
+
+
+@app.on_message(filters.private & ~filters.command("start") & ~filters.user(OWNER_ID))
+async def Private(c:Client,m:Message):
+	db.execute("SELECT * FROM TWSEL WHERE chat_id = ?", (m.chat.id,))
+	result = db.fetchone()
+	
+	if CHECK_BAND(user_id=m.from_user.id):
+		await m.reply("**تم حظرك من استخدام البوت**",quote=True)
+	elif result is None:
+		await m.reply("**عذرا التواصل معطل من قبل مطور البوت**",quote=True)
+	else:
+		await app.copy_message(chat_id=OWNER_ID,
+		from_chat_id=m.chat.id,message_id=m.id,
+		reply_markup=InlineKeyboardMarkup([[
+		InlineKeyboardButton (m.from_user.first_name,
+		user_id=m.from_user.id)],[
+		InlineKeyboardButton("الرد علي العضو",
+		callback_data=f"Reply:{m.from_user.id}")],[
+		InlineKeyboardButton("حظر هذا العضو",
+		callback_data=f"Ban:{m.from_user.id}")]
+		]))
+		await m.reply("**تم استلام رسالتك انتظر الرد**",quote=True)
+
+@app.on_callback_query(filters.regex(f"Ban:") & ~filters.regex(f"Reply:"))
+async def BanInli(c: Client, query: CallbackQuery):
+	ID = int(query.data.split(":")[1])
+	KEY = InlineKeyboardMarkup([[
+	InlineKeyboardButton ("الدخول للعضو المحظور",user_id=ID)]])
+	ADD_BAN(user_id=ID)
+	try:
+		await query.message.edit_text(f"**تم حظر `{ID}` من البوت**",reply_markup=KEY)
+	except:pass
+
+@app.on_callback_query(~filters.regex(f"Ban:") & filters.regex(f"Reply:"))
+async def Reply(c: Client, query: CallbackQuery):
+	ID = int(query.data.split(":")[1])
+	
+	a = await query.message.chat.ask("** ارسل الان مضون الرساله لارسلها للشخص**")
+	
+	try:
+		await app.send_message(chat_id=ID, text=str(a.text))
+		await query.message.reply("**تم ارسال رسالتك**",quote=True)
+	except Exception as e:
+			await query.message.reply("**يسمح فقط بارسال نص فقط ولا يمسح باي شي ثاني\n\nError:**\n"+str(e))

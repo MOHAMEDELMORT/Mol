@@ -45,9 +45,4 @@ kvsqlite
 datetime
 pytz
 enums
-pyromod
-OpsAi
-gtts
-redis
-OpsAi
-sqlite3
+

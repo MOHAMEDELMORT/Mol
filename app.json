@@ -1,5 +1,5 @@
 {
-    "name": "احدث نسخة من سورس فريدوم!!",
+    "name": "احدث نسخة من سورس المرتجل!!",
     "description": " يمكنك تشغيل الملفات الصوتية في مباشرتا في القنوات والمجموعات .",
     "logo": "https://te.legra.ph/file/4807752a011965b771900.jpg",
     "keywords": [
@@ -27,6 +27,11 @@
         "value": "",
         "required": true
       },
+      "OWNER_NAME": {
+        "description": "~ اكتب اسم مالك البوت .",
+        "value": "",
+        "required": true
+      }, 
       "MONGO_DB_URI": {
         "description": "~ اتركها كما هي .",
         "value": "mongodb+srv://veez:mega@cluster0.heqnd.mongodb.net/veez?retryWrites=true&w=majority",

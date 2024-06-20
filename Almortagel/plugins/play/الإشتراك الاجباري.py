@@ -1,6 +1,6 @@
 import config
-
-from pyrogram import Client, filters, app
+from Almortagel import app
+from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from pyrogram.errors import ChatAdminRequired, UserNotParticipant, ChatWriteForbidden
 

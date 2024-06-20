@@ -1,3 +1,9 @@
+import asyncio
+from pyrogram import Client, filters ,enums
+from pyrogram.types import *
+from Almortagel import app
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.enums import ParseMode, ChatMemberStatus
 import random
 from pyrogram import Client, filters, idle
 from pyromod import listen
@@ -79,7 +85,7 @@ async def get_rtba(chat_id: int, user_id: int) -> bool:
     else: return True
 ###########
 
-@Client.on_message(filters.regex("^اضف رد$") & filters.group)
+@app.on_message(filters.command(["اضف رد"], ""))
 async def adf_rd(app,message):
     get = await get_rtba(message.chat.id, message.from_user.id)
     if not get: return await message.reply("• هذا االأمر لا يخصك")
@@ -94,7 +100,7 @@ async def adf_rd(app,message):
     if a: return await ask2.reply("تم اضافة الرد بنجاح")
     else: return await ask2.reply("حدث خطأ")
 
-@Client.on_message(filters.regex("^مسح رد$") & filters.group)
+@app.on_message(filters.command(["مسح رد"], ""))
 async def delete_rd(app,message):
    get = await get_rtba(message.chat.id, message.from_user.id)
    if not get: return await message.reply("• هذا االأمر لا يخصك")
@@ -108,7 +114,7 @@ async def delete_rd(app,message):
    await ask.reply("• تم مسح الرد")
 
 
-@Client.on_message(filters.regex("^مسح الردود$") & filters.group)
+@app.on_message(filters.command(["مسح الردود"], ""))
 async def delrdood(app,message):
    get = await get_rtba(message.chat.id, message.from_user.id)
    if not get: return await message.reply("• هذا االأمر لا يخصك")
@@ -118,7 +124,7 @@ async def delrdood(app,message):
    else: return await message.reply("• لاتوجد ردود هنا")
 
 
-@Client.on_message(filters.regex("^الردود$") & filters.group)
+@app.on_message(filters.command(["الردود"], ""))
 async def get_rdodd(app,message):
     get = await get_rtba(message.chat.id, message.from_user.id)
     if not get: return await message.reply("• هذا االأمر لا يخصك")
@@ -126,7 +132,7 @@ async def get_rdodd(app,message):
     if not a: return await message.reply("• لا توجد ردود هنا")
     else: return await message.reply(a)
 
-@Client.on_message(filters.text & filters.group, group=1)
+@app.on_message(filters.text & filters.group, group=1)
 async def gettt_rd(app, message):
    a = get_rd(message.text, message.chat.id)
    if a: return await app.copy_message(message.chat.id, log, a, reply_to_message_id=message.id)
@@ -135,13 +141,13 @@ async def gettt_rd(app, message):
 ####################
 OFFPV = []
 
-@Client.on_message(filters.command([": تفعيل التواصل :", ": تعطيل التواصل :"], ""))
+@app.on_message(filters.command(["تفعيل التواصل", "تعطيل التواصل"], ""))
 async def byyye(client, message):
     user = message.from_user.username
     dev = await get_dev(client.me.username)
     if user in OWNER_ID or message.from_user.id == dev:
         text = message.text
-        if text == ": تفعيل التواصل :":
+        if text == "تفعيل التواصل":
           if not client.me.username in OFFPV:
              await message.reply_text("**التواصل مفعل من قبل .**")
           try:
@@ -150,7 +156,7 @@ async def byyye(client, message):
             return
           except:
              pass
-        if text == ": تعطيل التواصل :":
+        if text == "تعطيل التواصل":
           if client.me.username in OFFPV:
              await message.reply_text("**التواصل معطل من قبل .**")
           try:
@@ -161,7 +167,7 @@ async def byyye(client, message):
              pass
 
 
-@Client.on_message(filters.private)
+@app.on_message(filters.private)
 async def botoot(client: Client, message: Message):
  if not client.me.username in OFFPV:
   if await joinch(message):

@@ -46,7 +46,6 @@ datetime
 pytz
 enums
 pyromod
-telethon
 OpsAi
 gtts
 redis

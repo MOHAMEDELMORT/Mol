@@ -1,4 +1,5 @@
 from config import MURTAGEL
+from Almortagel import app
 
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message

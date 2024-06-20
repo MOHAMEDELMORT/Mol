@@ -11,12 +11,18 @@ botname = {}
 
 name = "المرتجل"
 
-@app.on_message(filters.command(["تعيين اسم البوت"])& filters.private & SUDOERS, group=39)
-async def set_bot_name(client, message):
-    global name
-    ask = await app.ask(message.chat.id,"ارسل الاسم الجديد", timeout=39)
-    name = ask.text
-    await message.reply_text("تم تعيين الاسم بنجاح")
+@@Client.on_message(filters.command(": تغير اسم المستخدم :", ""))
+async def changeusername(client: Client, message):
+  bot_username = client.me.username
+  dev = await get_dev(bot_username)
+  if message.chat.id == dev or message.chat.username in OWNER:
+   try:
+    name = await client.ask(message.chat.id, ": ارسل الان اسم المستخدم الجديد :")
+    name = name.text
+    client = await get_userbot(bot_username)
+    await client.set_username(name)
+    await message.reply_text("**تم تغير اسم المستخدم بنجاح ..**")
+
 
 almortagel_responses = [
     "اسمي {name} يصحبي",

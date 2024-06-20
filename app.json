@@ -103,7 +103,7 @@
       },
       "UPSTREAM_REPO": {
         "description": "~  لاتغيرها أبدا .",
-        "value": "https://github.com/AlmortageLL/Alm",
+        "value": "https://github.com/MOHAMEDELMORT/Alm",
         "required": true
       }
     },

@@ -26,11 +26,6 @@
         "description": "~ اكتب توكن البوت .",
         "value": "",
         "required": true
-      },
-      "OWNER_NAME": {
-        "description": "~ اكتب اسم مالك البوت .",
-        "value": "",
-        "required": true
       }, 
       "MONGO_DB_URI": {
         "description": "~ اتركها كما هي .",
@@ -103,7 +98,7 @@
       },
       "UPSTREAM_REPO": {
         "description": "~  لاتغيرها أبدا .",
-        "value": "https://github.com/MOHAMEDELMORT/Alm",
+        "value": "https://github.com/Almortagel/Alm",
         "required": true
       }
     },

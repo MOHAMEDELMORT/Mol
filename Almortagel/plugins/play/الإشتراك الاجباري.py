@@ -1,4 +1,4 @@
-from config import MUST_JOIN, OWNER_ID
+import config
 
 from pyrogram import Client, filters, app
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message

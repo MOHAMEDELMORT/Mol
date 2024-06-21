@@ -19,7 +19,6 @@ MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "المرتجل")
 
 BOT_ID = getenv("BOT_ID", "Almortagel_music_bot")
 
-
 OWNER_NAME = getenv("OWNER_NAME", "DEVALMORTAGEL")
 
 MONGO_DB_URI = getenv("MONGO_DB_URI", "")

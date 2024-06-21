@@ -19,7 +19,6 @@ MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME", "المرتجل")
 
 BOT_ID = getenv("BOT_ID", "Almortagel_music_bot")
 
-MUST_JOIN = int(getenv("MUST_JOIN", "AlmortagelTech"))
 
 OWNER_NAME = getenv("OWNER_NAME", "DEVALMORTAGEL")
 
